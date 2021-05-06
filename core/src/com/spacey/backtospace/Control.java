@@ -24,10 +24,10 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean  processed_click;
     public Vector2  mouse_click_pos = new Vector2();
     public Vector2  map_click_pos = new Vector2();
-
+    
     // DEBUG
     public boolean debug;
-
+    
     // SCREEN
     int screen_width;
     int screen_height;
@@ -43,7 +43,7 @@ public class Control extends InputAdapter implements InputProcessor {
         mouse_click_pos.set(screenX, screen_height - screenY);
         map_click_pos.set(get_map_coords(mouse_click_pos));
     }
-
+        
     public Vector2 get_map_coords(Vector2 mouse_coords){
         Vector3 v3 = new Vector3(mouse_coords.x, screen_height - mouse_coords.y, 0);
         this.camera.unproject(v3);
@@ -106,40 +106,44 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean keyTyped(char character) {
         return false;
     }
-
+    
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(pointer == 0 && button == 0){
-            LMB = true;
+            LMB = true; 
         } else if (pointer == 0 && button == 0){
-            RMB = true;
+            RMB = true; 
         }
-
+    
         setMouseClickedPos(screenX, screenY);
         return false;
     }
-
+    
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(pointer == 0 && button == 0){
-            LMB = false;
+            LMB = false; 
             processed_click = false;
         } else if (pointer == 0 && button == 0){
-            RMB = false;
+            RMB = false; 
         }
-
+    
         setMouseClickedPos(screenX, screenY);
         return false;
     }
-
+    
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         setMouseClickedPos(screenX, screenY);
         return false;
     }
-
+    
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    public boolean scrolled(int amount) {
         return false;
     }
 

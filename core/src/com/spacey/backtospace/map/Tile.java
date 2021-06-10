@@ -8,8 +8,6 @@ public class Tile extends Entity {
     public int size;
     public int row;
     public int col;
-    public String code;
-    public Texture secondary_texture;
     public Texture texture;
     public TILETYPE type;
     
@@ -19,14 +17,13 @@ public class Tile extends Entity {
         pos.y = y*size;
         this.size = size;
         this.texture = texture;
-        this.col = (int) x;
-        this.row = (int) y;
+        this.row = (int) x;
+        this.col = (int) y;
         this.type = type;
-        this.code = "";
     }
 
     public String details(){
-        return "x: " + pos.x + " y: " + pos.y + " row: " + row + " col: " + col + " code: " + code + " type: " + type.toString();
+        return "x: " + pos.x + " y: " + pos.y + " row: " + row + " col: " + col + " type: " + type.toString();
     }
 
     public boolean is_grass() {
@@ -42,10 +39,7 @@ public class Tile extends Entity {
     }
     
     public boolean is_passable() {
-        return !is_water() && !is_cliff();
+        return !is_water();
     }
     
-    public boolean is_not_passable() {
-        return !is_passable();
-    }
 }

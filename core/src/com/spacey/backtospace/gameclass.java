@@ -1,13 +1,11 @@
 package com.spacey.backtospace;
 
-import java.util.ArrayList;
 import com.spacey.backtospace.map.Tile;
-import com.spacey.backtospace.map.Island;
+import com.spacey.backtospace.map.Map;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class gameclass extends ApplicationAdapter {
@@ -25,7 +23,7 @@ public class gameclass extends ApplicationAdapter {
     int speed = 1;
     
     // Island
-    Island island;
+    Map map;
 
     @Override
     public void create () {
@@ -45,8 +43,12 @@ public class gameclass extends ApplicationAdapter {
         // Used to capture Keyboard Input
         control = new Control(displayW, displayH, camera);
         Gdx.input.setInputProcessor(control);
+
+        camera.position.x = 45;
+        camera.position.y = 45;
+        camera.update();
         
-        island = new Island();
+        map = new Map();
     }
 
     @Override
@@ -67,18 +69,16 @@ public class gameclass extends ApplicationAdapter {
         camera.position.x += direction_x * speed;
         camera.position.y += direction_y * speed;
         camera.update();
-        
+        //Gdx.app.log("POS", String.valueOf(camera.position));
+
         // GAME DRAW
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        
+
         batch.begin();
         // Draw all tiles in the chunk / chunk rows
-        for(ArrayList<Tile> row : island.chunk.tiles){
-            for(Tile tile : row){
+        for(Tile tile : map.tiles){
                 batch.draw(tile.texture, tile.pos.x, tile.pos.y, tile.size, tile.size);
-                if (tile.secondary_texture != null) batch.draw(tile.secondary_texture, tile.pos.x, tile.pos.y, tile.size, tile.size);
-            }
         }
         batch.end();
     }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class gameclass extends ApplicationAdapter {
+public class GameClass extends ApplicationAdapter {
     OrthographicCamera camera;
     Control control;
     SpriteBatch batch;
@@ -21,13 +21,21 @@ public class gameclass extends ApplicationAdapter {
     // For Movement
     int direction_x, direction_y;
     int speed = 1;
+
+    float stateTime;
+
+    int i;
     
     // Island
     Map map;
 
+    Player player;
+
     @Override
     public void create () {
         batch = new SpriteBatch();
+
+        i=0;
         
         // CAMERA
         displayW = Gdx.graphics.getWidth();
@@ -38,24 +46,27 @@ public class gameclass extends ApplicationAdapter {
         int w = (int) (displayW/(displayH/ (displayH/Math.floor(displayH/160))));
         
         camera = new OrthographicCamera(w,h);
-        camera.zoom = .4f;
+        camera.zoom = .65f; //.65f
         
         // Used to capture Keyboard Input
         control = new Control(displayW, displayH, camera);
         Gdx.input.setInputProcessor(control);
 
-        camera.position.x = 45;
+        camera.position.x = 45; //start somewhat in the middle of the map
         camera.position.y = 45;
         camera.update();
         
         map = new Map();
+        player = new Player();
     }
 
     @Override
     public void render () {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+        stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
+
         // GAME LOGIC
         // Reset the direction values
         direction_x=0;
@@ -69,6 +80,9 @@ public class gameclass extends ApplicationAdapter {
         camera.position.x += direction_x * speed;
         camera.position.y += direction_y * speed;
         camera.update();
+
+        player.pos.x = camera.position.x;
+        player.pos.y = camera.position.y;
         //Gdx.app.log("POS", String.valueOf(camera.position));
 
         // GAME DRAW
@@ -76,10 +90,8 @@ public class gameclass extends ApplicationAdapter {
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         batch.begin();
-        // Draw all tiles in the chunk / chunk rows
-        for(Tile tile : map.tiles){
-                batch.draw(tile.texture, tile.pos.x, tile.pos.y, tile.size, tile.size);
-        }
+        for(Tile tile : map.tiles) tile.draw(batch);
+        player.drawAnimation(batch, stateTime);
         batch.end();
     }
 	

@@ -5,10 +5,8 @@ import com.spacey.backtospace.Entity;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Tile extends Entity {
-    public int size;
     public int row;
     public int col;
-    public Texture texture;
     public TILETYPE type;
     
     public Tile(float x, float y, int size, TILETYPE type, Texture texture){
@@ -16,6 +14,8 @@ public class Tile extends Entity {
         pos.x = x*size;
         pos.y = y*size;
         this.size = size;
+        width = size;
+        height = size;
         this.texture = texture;
         this.row = (int) x;
         this.col = (int) y;
@@ -33,11 +33,7 @@ public class Tile extends Entity {
     public boolean is_water() {
         return type == TILETYPE.WATER;
     }
-    
-    public boolean is_cliff() {
-        return type == TILETYPE.CLIFF;
-    }
-    
+
     public boolean is_passable() {
         return !is_water();
     }

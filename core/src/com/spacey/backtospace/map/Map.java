@@ -27,8 +27,8 @@ public class Map {
     
     public Map(){
         tiles = new ArrayList<Tile>();
-        height = 10;
-        width = 10;
+        height = 50;
+        width = 50;
         setup_images();
         setup_tiles();
     }
@@ -57,12 +57,11 @@ public class Map {
     }
 
     private boolean is_border(int x, int y) {
-        if (y == 0 || x == 0 || x == width-1 || y == height-1) return true;
-        return false;
+        return y == 0 || x == 0 || x == width - 1 || y == height - 1;
     }
 
     private void setup_images(){
-        // Source https://opengameart.org/content/micro-tileset-overworld-and-dungeon
+        // Source  https://opengameart.org/content/micro-tileset-overworld-and-dungeon
         // Example
         // http://opengameart.org/sites/default/files/styles/watermarked/public/Render_0.png
         grass_01 = new Texture("8x8/grass/grass_01.png");

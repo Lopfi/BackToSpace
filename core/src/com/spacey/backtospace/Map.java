@@ -40,7 +40,7 @@ public class Map {
     public void draw(SpriteBatch batch, boolean debug) {
         for(Tile tile : tiles) {
             tile.draw(batch);
-            if (debug) batch.draw(devGrid, tile.pos.x, tile.pos.y, 8, 8);
+            if (debug) batch.draw(devGrid, tile.pos.x, tile.pos.y, tile.width, tile.height);
         }
     }
     
@@ -101,10 +101,6 @@ public class Map {
                     Box2DHelper.createBody(box2D.world, tile.width, tile.height, tile.pos, BodyDef.BodyType.StaticBody);
                 }
         }
-    }
-
-    private void drawDevGrid() {
-
     }
 
     public void dispose() {

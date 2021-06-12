@@ -1,37 +1,25 @@
 package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Player;
-import com.spacey.backtospace.Helper.Button;
 import com.spacey.backtospace.Helper.Control;
-import com.spacey.backtospace.box2d.Box2DWorld;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Map;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
+
 
 public class GameScreen extends ScreenAdapter {
+
     GameClass game;
-    public GameScreen(GameClass game) {
-        this.game = game;
-    }
+
     OrthographicCamera camera;
     Control control;
-    SpriteBatch batch;
-
-    //Inventory [empty = 0 // fuel = 1 // fire = 2 // hammer = 3 //...]
-    public int[] inv = {2, 1, 3};
 
     // Display Size
     private int displayW;
@@ -41,26 +29,26 @@ public class GameScreen extends ScreenAdapter {
 
     Map map;
     Player player;
-    Box2DWorld box2D;
-    Button button;
 
-    private BitmapFont font; // for writing
+    SpriteBatch batch;
+
+    public GameScreen(GameClass game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
-
         // CAMERA
         displayW = Gdx.graphics.getWidth();
         displayH = Gdx.graphics.getHeight();
-        
+
         // For 800x600 we will get 266*200
         int h = (int) (displayH/Math.floor(displayH/160));
         int w = (int) (displayW/(displayH/ (displayH/Math.floor(displayH/160))));
-        
+
         camera = new OrthographicCamera(w,h);
         camera.zoom = .65f; //.65f
-        
+
         // Used to capture Keyboard Input
         control = new Control(displayW, displayH, camera);
         Gdx.input.setInputProcessor(control);
@@ -69,21 +57,9 @@ public class GameScreen extends ScreenAdapter {
         camera.position.y = 45;
         camera.update();
 
-        box2D = new Box2DWorld();
-        button = new Button();
-        map = new Map(box2D);
-        player = new Player(new Vector3(5, 5, 0), box2D);
-
-        /*Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keyCode) {
-
-                if (keyCode == Input.Keys.ESCAPE || keyCode == Input.Keys.Q || keyCode == Input.Keys.F4) {
-                    game.setScreen(new SettingsScreen(game));
-                }
-                return true;
-            }
-        });*/
+        batch = new SpriteBatch();
+        map = new Map(game.box2d);
+        player = new Player(new Vector3(5, 5, 0), game.box2d);
     }
 
     @Override
@@ -93,10 +69,6 @@ public class GameScreen extends ScreenAdapter {
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         player.update(control);
-
-        if(control.slot1) inv[0] = 0;
-        if(control.slot2) inv[1] = 0;
-        if(control.slot3) inv[2] = 0;
 
         if(control.esc){
             game.setScreen(new SettingsScreen(game));
@@ -113,40 +85,16 @@ public class GameScreen extends ScreenAdapter {
         map.draw(batch, control.debug);
         player.drawAnimation(batch, stateTime);
 
-        //Developer Mode draw x/y camera position
         if (control.debug){
-            font = new BitmapFont();
-            font.setColor(Color.RED);
-            font.getData().setScale(1, 1);
-            font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+            game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
         }
-        for (int i = 0; i < 3; i++) {
-            String img;
-            if (inv[i] == 1){
-                img = "buttons/Ifuel.png";
-            } else if (inv[i] == 2){
-                img = "buttons/Ifire.png";
-            } else if (inv[i] == 3){
-                img = "buttons/Ihammer.png";
-            } else {
-                img = "buttons/Iempty.png";
-            }//del this command thx
-            //button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
-            button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
-            button.draw(batch);
-        }
-
-        button.setButton("buttons/Bpause-klein.png", 10, 5, (Math.round(camera.position.x)-10)+3*10, Math.round(camera.position.y-58));
-        button.draw(batch);//idk how to calc the last one i googled like 15min but i dont care now
-
         batch.end();
-
-        box2D.tick(camera, control);
+        game.box2d.tick(camera, control);
     }
 
     @Override
     public void hide() {
-        //Gdx.input.setInputProcessor(null);
-        batch.dispose();
+        Gdx.input.setInputProcessor(null);
+        game.box2d.world.destroyBody(player.body);
     }
 }

@@ -1,11 +1,14 @@
 package com.spacey.backtospace;
+
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DWorld;
 import com.spacey.backtospace.screens.TitleScreen;
+import com.spacey.backtospace.Helper.Datasave;
 
 public class GameClass extends Game {
     public SpriteBatch batch;
@@ -28,4 +31,11 @@ public class GameClass extends Game {
         shapeRenderer.dispose();
         font.dispose();
     }
+    /*Datasave safer;
+    safer = new Datasave();
+    safer.write("key", "hey");
+    safer.save();
+
+    String yourdata = safer.readString("key");*/
+
 }

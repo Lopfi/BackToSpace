@@ -26,16 +26,16 @@ public class Tile extends Entity {
         return "x: " + pos.x + " y: " + pos.y + " row: " + row + " col: " + col + " type: " + type.toString();
     }
 
-    public boolean is_grass() {
-        return type == TILETYPE.GRASS;
+    public boolean is_ground() {
+        return type == TILETYPE.GROUND;
     }
     
-    public boolean is_water() {
-        return type == TILETYPE.WATER;
+    public boolean is_border() {
+        return type == TILETYPE.BORDER;
     }
 
-    public boolean is_passable() {
-        return !is_water();
+    public boolean isNotPassable() {
+        return is_border();
     }
     
 }

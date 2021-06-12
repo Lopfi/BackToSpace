@@ -2,9 +2,14 @@ package com.spacey.backtospace;
 public class Enums {
     
     public enum TILETYPE {
-        GRASS,
-        WATER,
-        CLIFF
+        GROUND,
+        BORDER
+    }
+
+    public enum ENTITYTYPE {
+        PLAYER,
+        ITEM,
+        TILE
     }
 
 }

@@ -1,5 +1,7 @@
 package com.spacey.backtospace;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.box2d.Box2DWorld;
@@ -16,6 +18,9 @@ public class GameClass extends ApplicationAdapter {
     Control control;
     SpriteBatch batch;
 
+    //Inventory [empty = 0 // fuel = 1 // fire = 2 // hammer = 3 //...]
+    public int[] inv = {2, 1, 3};
+
     // Display Size
     private int displayW;
     private int displayH;
@@ -25,6 +30,9 @@ public class GameClass extends ApplicationAdapter {
     Map map;
     Player player;
     Box2DWorld box2D;
+    Button button;
+
+    private BitmapFont font; // for writing
 
     @Override
     public void create () {
@@ -50,6 +58,7 @@ public class GameClass extends ApplicationAdapter {
         camera.update();
 
         box2D = new Box2DWorld();
+        button = new Button();
         map = new Map(box2D);
         player = new Player(new Vector3(5, 5, 0), box2D);
     }
@@ -92,6 +101,7 @@ public class GameClass extends ApplicationAdapter {
             } else {
                 img = "buttons/Iempty.png";
             }//del this command thx
+            //button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
             button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
             button.draw(batch);
         }

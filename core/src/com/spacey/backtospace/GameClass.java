@@ -143,7 +143,7 @@ public class GameClass extends ApplicationAdapter {
                 img = "buttons/Ihammer.png";
             } else {
                 img = "buttons/Iempty.png";
-            }
+            }//del this command thx
             button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
             button.draw(batch);
         }

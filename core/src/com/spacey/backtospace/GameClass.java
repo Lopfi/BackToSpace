@@ -22,9 +22,6 @@ public class GameClass extends ApplicationAdapter {
     private int displayW;
     private int displayH;
 
-    //YOU WANT DEVMODE? YESS!!
-    public boolean devmode = true;
-
     // For Movement
     int direction_x, direction_y;
     int speed = 1;
@@ -64,7 +61,7 @@ public class GameClass extends ApplicationAdapter {
         camera.position.y = 45;
         camera.update();
         
-        map = new Map(devmode);
+        map = new Map(control.debug);
         player = new Player();
         button = new Button();
     }
@@ -130,7 +127,7 @@ public class GameClass extends ApplicationAdapter {
         player.drawAnimation(batch, stateTime);
 
         //Developer Mode draw x/y camera position
-        if (devmode){
+        if (control.debug){
         font = new BitmapFont();
         font.setColor(Color.RED);
         font.getData().setScale(1, 1);

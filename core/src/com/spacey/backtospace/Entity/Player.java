@@ -11,11 +11,13 @@ import com.spacey.backtospace.box2d.Box2DWorld;
 public class Player extends Entity {
 
     private int speed;
+    public Inventory inventory;
 
     public Player(Vector3 pos, Box2DWorld box2d) {
         super();
         texture = new Texture("slimeKing.png");
         animation = Animations.createAnimation(texture, 2, 2);
+        inventory = new Inventory(3);
         height = 20;
         width = 16;
         speed = 30;

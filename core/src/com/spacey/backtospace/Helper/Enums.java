@@ -12,4 +12,12 @@ public class Enums {
         TILE
     }
 
+    public enum ITEMTYPE {
+        WOOD,
+        STONE,
+        ENGINE,
+        HAMMER,
+        FUEL
+    }
+
 }

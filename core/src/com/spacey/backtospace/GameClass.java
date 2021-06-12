@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Player;
-import com.spacey.backtospace.Helper.Button;
+import com.spacey.backtospace.Entity.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DWorld;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -57,8 +57,10 @@ public class GameClass extends ApplicationAdapter {
         camera.position.y = 45;
         camera.update();
 
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().setScale(0.5f);
         box2D = new Box2DWorld();
-        button = new Button();
         map = new Map(box2D);
         player = new Player(new Vector3(5, 5, 0), box2D);
     }
@@ -74,11 +76,9 @@ public class GameClass extends ApplicationAdapter {
         if(control.esc){
             //change to pause menu
         }
-        if(control.slot1) inv[0] = 0;
-        if(control.slot2) inv[1] = 0;
-        if(control.slot3) inv[2] = 0;
 
         camera.position.lerp(player.pos, .1f);
+        camera.position.set(player.pos);
         camera.update();
 
         //Gdx.app.log("POS", String.valueOf(camera.position));
@@ -92,30 +92,8 @@ public class GameClass extends ApplicationAdapter {
 
         //Developer Mode draw x/y camera position
         if (control.debug){
-            font = new BitmapFont();
-            font.setColor(Color.RED);
-            font.getData().setScale(1, 1);
             font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
         }
-        for (int i = 0; i < 3; i++) {
-            String img;
-            if (inv[i] == 1){
-                img = "buttons/Ifuel.png";
-            } else if (inv[i] == 2){
-                img = "buttons/Ifire.png";
-            } else if (inv[i] == 3){
-                img = "buttons/Ihammer.png";
-            } else {
-                img = "buttons/Iempty.png";
-            }//del this command thx
-            //button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
-            button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
-            button.draw(batch);
-        }
-
-        button.setButton("buttons/Bpause-klein.png", 10, 5, (Math.round(camera.position.x)-10)+3*10, Math.round(camera.position.y-58));
-        button.draw(batch);//idk how to calc the last one i googled like 15min but i dont care now
-
         batch.end();
 
         box2D.tick(camera, control);

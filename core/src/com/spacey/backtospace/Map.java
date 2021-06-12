@@ -29,7 +29,7 @@ public class Map {
         tiles = new ArrayList<Tile>();
         height = 50;
         width = 50;
-        setup_images();
+        loadImages();
         setup_tiles();
         generateHitboxes(box2d);
     }
@@ -68,7 +68,7 @@ public class Map {
         return y == 0 || x == 0 || x == width - 1 || y == height - 1;
     }
 
-    private void setup_images(){
+    private void loadImages(){
         // Source  https://opengameart.org/content/micro-tileset-overworld-and-dungeon
         // Example
         // http://opengameart.org/sites/default/files/styles/watermarked/public/Render_0.png

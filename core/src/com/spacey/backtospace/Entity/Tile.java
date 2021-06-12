@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Tile extends Entity {
     public int row;
     public int col;
-    public TILETYPE type;
+    private final TILETYPE type;
     
     public Tile(float x, float y, int size, TILETYPE type, Texture texture){
         super();
@@ -25,16 +25,8 @@ public class Tile extends Entity {
         return "x: " + pos.x + " y: " + pos.y + " row: " + row + " col: " + col + " type: " + type.toString();
     }
 
-    public boolean is_ground() {
-        return type == TILETYPE.GROUND;
-    }
-    
-    public boolean is_border() {
-        return type == TILETYPE.BORDER;
-    }
-
     public boolean isNotPassable() {
-        return is_border();
+        return type == TILETYPE.BORDER;
     }
     
 }

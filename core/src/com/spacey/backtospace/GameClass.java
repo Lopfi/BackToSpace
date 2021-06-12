@@ -73,6 +73,31 @@ public class GameClass extends ApplicationAdapter {
         batch.begin();
         for(Tile tile : map.tiles) tile.draw(batch);
         player.drawAnimation(batch, stateTime);
+
+        //Developer Mode draw x/y camera position
+        if (control.debug){
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().setScale(1, 1);
+        font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+        }
+        for (int i = 0; i < 3; i++) {
+            String img;
+            if (inv[i] == 1){
+                img = "buttons/Ifuel.png";
+            } else if (inv[i] == 2){
+                img = "buttons/Ifire.png";
+            } else if (inv[i] == 3){
+                img = "buttons/Ihammer.png";
+            } else {
+                img = "buttons/Iempty.png";
+            }//del this command thx
+            button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
+            button.draw(batch);
+        }
+        button.setButton("buttons/Bpause-klein.png", 10, 5, (Math.round(camera.position.x)-10)+3*10, Math.round(camera.position.y-58));
+        button.draw(batch);//idk how to calc the last one i googled like 15min but i dont care now
+
         batch.end();
 
         box2D.tick(camera, control);

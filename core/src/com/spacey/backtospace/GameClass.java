@@ -13,6 +13,9 @@ public class GameClass extends ApplicationAdapter {
     Control control;
     SpriteBatch batch;
 
+    //Inventory [empty = 0 // fuel = 1 // fire = 2 //...]
+    public int[] inv = {2, 1, 0};
+
     // Display Size
     private int displayW;
     private int displayH;
@@ -30,6 +33,7 @@ public class GameClass extends ApplicationAdapter {
     Map map;
 
     Player player;
+    Button button;
 
     @Override
     public void create () {
@@ -58,6 +62,7 @@ public class GameClass extends ApplicationAdapter {
         
         map = new Map();
         player = new Player();
+        button = new Button();
     }
 
     @Override
@@ -76,6 +81,31 @@ public class GameClass extends ApplicationAdapter {
         if(control.up)    direction_y = 1 ;
         if(control.left)  direction_x = -1;
         if(control.right) direction_x = 1;
+        if(control.LMB) {
+            int x = Math.round(control.mouse_click_pos.x);
+            int y = Math.round(control.mouse_click_pos.y);
+            int normx = 700;
+            int normy = 405;
+            if (Math.abs((Math.abs(x)-normx)) >= Math.abs((Math.abs(y)-normy))){
+                if(x < 675){
+                    direction_x = -1;
+                } else if(x > 688){
+                    direction_x = 1;
+                }
+            } else {
+                if(y > 400){
+                    direction_y = 1 ;
+                } else if (y < 420) {
+                    direction_y = -1 ;
+                }
+            }
+        }
+        if(control.esc){
+            //change to pause menu
+        }
+        if(control.slot1 || control.slot2 || control.slot3){
+        //do something with slots
+        }
             
         camera.position.x += direction_x * speed;
         camera.position.y += direction_y * speed;
@@ -92,6 +122,22 @@ public class GameClass extends ApplicationAdapter {
         batch.begin();
         for(Tile tile : map.tiles) tile.draw(batch);
         player.drawAnimation(batch, stateTime);
+
+        for (int i = 0; i < 3; i++) {
+            String img;
+            if (inv[i] == 1){
+                img = "buttons/Ifuel.png";
+            } else if (inv[i] == 2){
+                img = "buttons/Ifire.png";
+            } else {
+                img = "buttons/Iempty.png";
+            }
+            button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
+            button.draw(batch);
+        }
+        button.setButton("buttons/Bpause-klein.png", 10, 5, (Math.round(camera.position.x)-10)+3*10, Math.round(camera.position.y-58));
+        button.draw(batch);//idk how to calc the last one i googled like 15min but i dont care now
+
         batch.end();
     }
 	

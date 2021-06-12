@@ -12,6 +12,12 @@ public class Control extends InputAdapter implements InputProcessor {
     // CAMERA
     OrthographicCamera camera;
 
+    //INVENTORY
+    public boolean slot1;
+    public boolean slot2;
+    public boolean slot3;
+    public boolean esc;
+
     // DIRECTIONS
     public boolean up;
     public boolean down;
@@ -53,6 +59,19 @@ public class Control extends InputAdapter implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
+            case Keys.ESCAPE:
+            case Keys.F4:
+                esc = true;
+                break;
+            case Keys.NUM_1:
+                slot1 = true;
+                break;
+            case Keys.NUM_2:
+                slot2 = true;
+                break;
+            case Keys.NUM_3:
+                slot3 = true;
+                break;
             case Keys.DOWN:
             case Keys.S:
                 down = true;

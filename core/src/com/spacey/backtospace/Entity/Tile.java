@@ -1,7 +1,6 @@
-package com.spacey.backtospace.map;
+package com.spacey.backtospace.Entity;
 
-import com.spacey.backtospace.Enums.TILETYPE;
-import com.spacey.backtospace.Entity;
+import com.spacey.backtospace.Helper.Enums.TILETYPE;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Tile extends Entity {

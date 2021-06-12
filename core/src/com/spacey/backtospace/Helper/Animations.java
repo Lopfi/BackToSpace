@@ -1,4 +1,4 @@
-package com.spacey.backtospace;
+package com.spacey.backtospace.Helper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

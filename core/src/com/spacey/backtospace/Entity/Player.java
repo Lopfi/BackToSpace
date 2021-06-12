@@ -1,15 +1,14 @@
-package com.spacey.backtospace;
+package com.spacey.backtospace.Entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.spacey.backtospace.Helper.Animations;
+import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DHelper;
 import com.spacey.backtospace.box2d.Box2DWorld;
 
-public class Player extends Entity{
+public class Player extends Entity {
 
     private int speed;
 

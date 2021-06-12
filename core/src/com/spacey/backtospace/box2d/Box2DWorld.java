@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.spacey.backtospace.Control;
+import com.spacey.backtospace.Helper.Control;
 
 public class Box2DWorld {
     public World world;

@@ -1,11 +1,11 @@
-package com.spacey.backtospace.map;
+package com.spacey.backtospace;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.spacey.backtospace.Enums.TILETYPE;
+import com.spacey.backtospace.Entity.Tile;
+import com.spacey.backtospace.Helper.Enums.TILETYPE;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.spacey.backtospace.box2d.Box2DHelper;

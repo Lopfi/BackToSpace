@@ -1,4 +1,4 @@
-package com.spacey.backtospace;
+package com.spacey.backtospace.Helper;
 public class Enums {
     
     public enum TILETYPE {

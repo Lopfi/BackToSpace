@@ -2,10 +2,11 @@ package com.spacey.backtospace;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
+import com.spacey.backtospace.Entity.Player;
+import com.spacey.backtospace.Helper.Button;
+import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DWorld;
-import com.spacey.backtospace.map.Map;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -91,10 +92,10 @@ public class GameClass extends ApplicationAdapter {
 
         //Developer Mode draw x/y camera position
         if (control.debug){
-        font = new BitmapFont();
-        font.setColor(Color.RED);
-        font.getData().setScale(1, 1);
-        font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+            font = new BitmapFont();
+            font.setColor(Color.RED);
+            font.getData().setScale(1, 1);
+            font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
         }
         for (int i = 0; i < 3; i++) {
             String img;
@@ -111,6 +112,7 @@ public class GameClass extends ApplicationAdapter {
             button.setButton(img, 10, 10, (Math.round(camera.position.x)-10)+i*10, Math.round(camera.position.y-58));
             button.draw(batch);
         }
+
         button.setButton("buttons/Bpause-klein.png", 10, 5, (Math.round(camera.position.x)-10)+3*10, Math.round(camera.position.y-58));
         button.draw(batch);//idk how to calc the last one i googled like 15min but i dont care now
 

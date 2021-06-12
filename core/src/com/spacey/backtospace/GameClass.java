@@ -9,18 +9,21 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+//import com.badlogic.gdx.math.Rectangle;
 public class GameClass extends ApplicationAdapter {
     OrthographicCamera camera;
     Control control;
     SpriteBatch batch;
 
-    //Inventory [empty = 0 // fuel = 1 // fire = 2 //...]
-    public int[] inv = {2, 1, 0};
+    //Inventory [empty = 0 // fuel = 1 // fire = 2 // hammer = 3 //...]
+    public int[] inv = {2, 1, 3};
 
     // Display Size
     private int displayW;
     private int displayH;
 
+    //YOU WANT DEVMODE? YESS!!
+    public boolean devmode = true;
 
     // For Movement
     int direction_x, direction_y;
@@ -61,7 +64,7 @@ public class GameClass extends ApplicationAdapter {
         camera.position.y = 45;
         camera.update();
         
-        map = new Map();
+        map = new Map(devmode);
         player = new Player();
         button = new Button();
     }
@@ -78,10 +81,6 @@ public class GameClass extends ApplicationAdapter {
         direction_x=0;
         direction_y=0;
             
-        if(control.down)  direction_y = -1 ;
-        if(control.up)    direction_y = 1 ;
-        if(control.left)  direction_x = -1;
-        if(control.right) direction_x = 1;
         if(control.LMB) {
             int x = Math.round(control.mouse_click_pos.x);
             int y = Math.round(control.mouse_click_pos.y);
@@ -100,14 +99,20 @@ public class GameClass extends ApplicationAdapter {
                     direction_y = -1 ;
                 }
             }
+        } else {//use keys only if mouse is not clicked else u get double speed
+            if(control.down)  direction_y = -1 ;
+            if(control.up)    direction_y = 1 ;
+            if(control.left)  direction_x = -1;
+            if(control.right) direction_x = 1;
         }
+
         if(control.esc){
             //change to pause menu
         }
-        if(control.slot1 || control.slot2 || control.slot3){
-        //do something with slots
-        }
-            
+        if(control.slot1) inv[0] = 0;
+        if(control.slot2) inv[1] = 0;
+        if(control.slot3) inv[2] = 0;
+
         camera.position.x += direction_x * speed;
         camera.position.y += direction_y * speed;
         camera.update();
@@ -125,17 +130,20 @@ public class GameClass extends ApplicationAdapter {
         player.drawAnimation(batch, stateTime);
 
         //Developer Mode draw x/y camera position
+        if (devmode){
         font = new BitmapFont();
         font.setColor(Color.RED);
         font.getData().setScale(1, 1);
-        font.draw(batch, "x:"+camera.position.x+" y:"+camera.position.y, camera.position.x - 50, camera.position.y -20);
-
+        font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+        }
         for (int i = 0; i < 3; i++) {
             String img;
             if (inv[i] == 1){
                 img = "buttons/Ifuel.png";
             } else if (inv[i] == 2){
                 img = "buttons/Ifire.png";
+            } else if (inv[i] == 3){
+                img = "buttons/Ihammer.png";
             } else {
                 img = "buttons/Iempty.png";
             }

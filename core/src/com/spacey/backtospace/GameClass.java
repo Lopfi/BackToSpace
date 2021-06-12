@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.box2d.Box2DWorld;
-import com.spacey.backtospace.map.Tile;
 import com.spacey.backtospace.map.Map;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -87,7 +86,7 @@ public class GameClass extends ApplicationAdapter {
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         batch.begin();
-        for(Tile tile : map.tiles) tile.draw(batch);
+        map.draw(batch, control.debug);
         player.drawAnimation(batch, stateTime);
 
         //Developer Mode draw x/y camera position

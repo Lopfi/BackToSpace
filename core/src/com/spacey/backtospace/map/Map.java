@@ -2,6 +2,8 @@ package com.spacey.backtospace.map;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.Enums.TILETYPE;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +15,7 @@ public class Map {
     // TILES
     Texture grass_01, grass_02, grass_03, grass_04;
     Texture water_01, water_02, water_03, water_04;
+    Texture devGrid;
 
     Texture[] ground;
     Texture[] border;
@@ -20,7 +23,7 @@ public class Map {
     int height;
     int width;
 
-    public ArrayList<Tile> tiles;
+    private ArrayList<Tile> tiles;
     
     public Map(Box2DWorld box2d){
         tiles = new ArrayList<Tile>();
@@ -29,6 +32,13 @@ public class Map {
         setup_images();
         setup_tiles();
         generateHitboxes(box2d);
+    }
+
+    public void draw(SpriteBatch batch, boolean debug) {
+        for(Tile tile : tiles) {
+            tile.draw(batch);
+            if (debug) batch.draw(devGrid, tile.pos.x, tile.pos.y, 8, 8);
+        }
     }
     
     private void setup_tiles(){
@@ -72,6 +82,8 @@ public class Map {
         water_03 = new Texture("8x8/water/water_03.png");
         water_04 = new Texture("8x8/water/water_04.png");
 
+        devGrid = new Texture("dev-grid.png");
+
         ground = new Texture[]{grass_01, grass_02, grass_03, grass_04};
         border = new Texture[]{water_01, water_02, water_03, water_04};
     }
@@ -82,6 +94,10 @@ public class Map {
                     Box2DHelper.createBody(box2D.world, tile.size, tile.size, tile.pos, BodyDef.BodyType.StaticBody);
                 }
         }
+    }
+
+    private void drawDevGrid() {
+
     }
 
     public void dispose() {

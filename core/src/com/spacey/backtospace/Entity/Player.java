@@ -59,4 +59,8 @@ public class Player extends Entity {
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - height/4;
     }
+
+    void dispose() {
+        texture.dispose();
+    }
 }

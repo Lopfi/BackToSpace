@@ -71,6 +71,13 @@ public class GameClass extends ApplicationAdapter {
 
         player.update(control);
 
+        if(control.esc){
+            //change to pause menu
+        }
+        if(control.slot1) inv[0] = 0;
+        if(control.slot2) inv[1] = 0;
+        if(control.slot3) inv[2] = 0;
+
         camera.position.lerp(player.pos, .1f);
         camera.update();
 

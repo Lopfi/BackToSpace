@@ -1,20 +1,21 @@
 package com.spacey.backtospace.Helper;
 
 import com.badlogic.gdx.Gdx;
-import com.spacey.backtospace.GameClass;
-
-public class Datasave extends GameClass{
+public class Datasave {
 
 com.badlogic.gdx.Preferences prefs = Gdx.app.getPreferences("GameData");
 
 public void write(String key, String data){
     prefs.putString(key, data);
+    prefs.flush();
 }
 public void write(String key, Boolean data){
     prefs.putBoolean(key, data);
+    prefs.flush();
 }
 public void write(String key, Integer data){
     prefs.putInteger(key, data);
+    prefs.flush();
 }    
 public String readString(String key){
     String Sdata = prefs.getString(key);
@@ -28,7 +29,9 @@ public Integer readInteger(String key){
     Integer Idata = prefs.getInteger(key);
     return Idata;
 }
-public void safe(){
+
+public void clear(){
+    prefs.clear();
     prefs.flush();
 }
 

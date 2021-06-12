@@ -33,9 +33,8 @@ public class GameClass extends Game {
     }
     /*Datasave safer;
     safer = new Datasave();
-    safer.write("key", "hey");
-    safer.save();
 
+    safer.write("key", "hey");
     String yourdata = safer.readString("key");*/
 
 }

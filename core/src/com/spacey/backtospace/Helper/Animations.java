@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animations {
 
-    public static Animation<TextureRegion> createAnimation(Texture texture, int cols, int rows) {
+    public static Animation<TextureRegion> createAnimation(Texture texture, int cols, int rows, float frameDuration) {
 
         TextureRegion[][] tmp = TextureRegion.split(texture,
                 texture.getWidth() / cols,
@@ -22,6 +22,6 @@ public class Animations {
         }
 
         // Initialize the Animation with the frame interval and array of frames
-        return new Animation<TextureRegion>(0.15f, frames);
+        return new Animation<TextureRegion>(frameDuration, frames);
     }
 }

@@ -15,14 +15,13 @@ public class Player extends Entity {
 
     public Player(Vector3 pos, Box2DWorld box2d) {
         super();
-        texture = new Texture("slimeKing.png");
-        animation = Animations.createAnimation(texture, 2, 2);
+        texture = new Texture("Spaceman_walk.png");
+        animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3);
-        height = 20;
-        width = 16;
-        speed = 30;
-
-        body = Box2DHelper.createBody(box2d.world, width, height/2, pos, BodyDef.BodyType.DynamicBody);
+        height = texture.getWidth();
+        width = texture.getHeight();
+        speed = 60;
+        body = Box2DHelper.createBody(box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody);
     }
 
     public void update(Control control) {
@@ -32,9 +31,9 @@ public class Player extends Entity {
         if(control.LMB) {
             int x = Math.round(control.mouse_click_pos.x);
             int y = Math.round(control.mouse_click_pos.y);
-            int normx = 700;
-            int normy = 405;
-            if (Math.abs((Math.abs(x) - normx)) >= Math.abs((Math.abs(y) - normy))) {
+            int normX = 700;
+            int normY = 405;
+            if (Math.abs((Math.abs(x) - normX)) >= Math.abs((Math.abs(y) - normY))) {
                 if (x < 675) {
                     dirX = -1;
                 } else if (x > 688) {

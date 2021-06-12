@@ -34,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(GameClass game) {
         this.game = game;
+        game.font.getData().setScale(0.5f);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
         int w = (int) (displayW/(displayH/ (displayH/Math.floor(displayH/160))));
 
         camera = new OrthographicCamera(w,h);
-        camera.zoom = .65f; //.65f
+        camera.zoom = 2f; //.65f
 
         // Used to capture Keyboard Input
         control = new Control(displayW, displayH, camera);
@@ -59,7 +60,7 @@ public class GameScreen extends ScreenAdapter {
 
         batch = new SpriteBatch();
         map = new Map(game.box2d);
-        player = new Player(new Vector3(5, 5, 0), game.box2d);
+        player = new Player(new Vector3(100, 100, 0), game.box2d);
     }
 
     @Override
@@ -96,5 +97,6 @@ public class GameScreen extends ScreenAdapter {
     public void hide() {
         Gdx.input.setInputProcessor(null);
         game.box2d.world.destroyBody(player.body);
+        game.font.getData().setScale(1f);
     }
 }

@@ -13,8 +13,8 @@ import com.spacey.backtospace.box2d.Box2DWorld;
 
 public class Map {
     // TILES
-    Texture grass_01, grass_02, grass_03, grass_04;
-    Texture water_01, water_02, water_03, water_04;
+    Texture ground0, ground1, ground2, ground3;
+    Texture border0, border1, border2, border3, border4, border5, border6, border7;
     Texture devGrid;
 
     Texture[] ground;
@@ -23,12 +23,15 @@ public class Map {
     int height;
     int width;
 
+    final int borderWidth;
+
     private ArrayList<Tile> tiles;
     
     public Map(Box2DWorld box2d){
-        tiles = new ArrayList<Tile>();
         height = 50;
         width = 50;
+        borderWidth = 5;
+        tiles = new ArrayList<>();
         loadImages();
         setup_tiles();
         generateHitboxes(box2d);
@@ -45,53 +48,57 @@ public class Map {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Tile tile;
-                if (is_border(x,y)) tile = new Tile(x, y,8, TILETYPE.BORDER, random_water());
-                else tile = new Tile(x,y, 8, TILETYPE.GROUND, random_grass());
+                if (is_border(x,y)) tile = new Tile(x, y, TILETYPE.BORDER, random_border());
+                else tile = new Tile(x, y, TILETYPE.GROUND, random_ground());
                 tiles.add(tile);
             }
         }
     }
     
-    private Texture random_grass(){
+    private Texture random_ground(){
         int random = MathUtils.random(20);
         if (random >= ground.length) return ground[0];
         return ground[random];
     }
 
-    private Texture random_water(){
+    private Texture random_border(){
         int random = MathUtils.random(20);
         if (random >= border.length) return border[0];
         return border[random];
     }
 
     private boolean is_border(int x, int y) {
-        return y == 0 || x == 0 || x == width - 1 || y == height - 1;
+        return y <= borderWidth || x <= borderWidth || x >= width - borderWidth+1 || y >= height - borderWidth+1;
     }
 
     private void loadImages(){
         // Source  https://opengameart.org/content/micro-tileset-overworld-and-dungeon
         // Example
         // http://opengameart.org/sites/default/files/styles/watermarked/public/Render_0.png
-        grass_01 = new Texture("8x8/grass/grass_01.png");
-        grass_02 = new Texture("8x8/grass/grass_02.png");
-        grass_03 = new Texture("8x8/grass/grass_03.png");
-        grass_04 = new Texture("8x8/grass/grass_04.png");
-        
-        water_01 = new Texture("8x8/water/water_01.png");
-        water_02 = new Texture("8x8/water/water_02.png");
-        water_03 = new Texture("8x8/water/water_03.png");
-        water_04 = new Texture("8x8/water/water_04.png");
+        ground0 = new Texture("tiles/ground/ground0.png");
+        ground1 = new Texture("tiles/ground/ground1.png");
+        ground2 = new Texture("tiles/ground/ground2.png");
+        ground3 = new Texture("tiles/ground/ground3.png");
 
-        devGrid = new Texture("dev-grid.png");
+        border0 = new Texture("tiles/space/space0.png");
+        border1 = new Texture("tiles/space/space1.png");
+        border2 = new Texture("tiles/space/space2.png");
+        border3 = new Texture("tiles/space/space3.png");
+        border4 = new Texture("tiles/space/space4.png");
+        border5 = new Texture("tiles/space/space5.png");
+        border6 = new Texture("tiles/space/space6.png");
+        border7 = new Texture("tiles/space/space7.png");
 
-        ground = new Texture[]{grass_01, grass_02, grass_03, grass_04};
-        border = new Texture[]{water_01, water_02, water_03, water_04};
+        devGrid = new Texture("tiles/dev_grid.png");
+
+        ground = new Texture[]{ground0, ground1, ground2, ground3};
+        border = new Texture[]{border0, border1, border2, border3, border4, border5, border6, border7};
     }
 
     private void generateHitboxes(Box2DWorld box2D) {
         for(Tile tile : tiles){
                 if(tile.isNotPassable()){
-                    Box2DHelper.createBody(box2D.world, tile.size, tile.size, tile.pos, BodyDef.BodyType.StaticBody);
+                    Box2DHelper.createBody(box2D.world, tile.width, tile.height, tile.pos, BodyDef.BodyType.StaticBody);
                 }
         }
     }

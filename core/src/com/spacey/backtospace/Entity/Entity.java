@@ -13,7 +13,6 @@ public class Entity {
     public Texture texture;
     public float width;
     public float height;
-    public int size;
     public Animation<TextureRegion> animation;
     public Body body;
     

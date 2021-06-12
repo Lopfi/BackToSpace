@@ -8,14 +8,13 @@ public class Tile extends Entity {
     public int col;
     private final TILETYPE type;
     
-    public Tile(float x, float y, int size, TILETYPE type, Texture texture){
+    public Tile(float x, float y, TILETYPE type, Texture texture){
         super();
-        pos.x = x*size;
-        pos.y = y*size;
-        this.size = size;
-        width = size;
-        height = size;
         this.texture = texture;
+        width = texture.getWidth();
+        height = texture.getHeight();
+        pos.x = x*width;
+        pos.y = y*height;
         this.row = (int) x;
         this.col = (int) y;
         this.type = type;

@@ -6,8 +6,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 public class GameClass extends ApplicationAdapter {
     OrthographicCamera camera;
     Control control;
@@ -34,7 +35,7 @@ public class GameClass extends ApplicationAdapter {
 
     Player player;
     Button button;
-
+    private BitmapFont font; // for writing
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -113,8 +114,8 @@ public class GameClass extends ApplicationAdapter {
 
         player.pos.x = camera.position.x;
         player.pos.y = camera.position.y;
-        //Gdx.app.log("POS", String.valueOf(camera.position));
 
+        //Gdx.app.log("POS", String.valueOf(camera.position));
         // GAME DRAW
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -122,6 +123,12 @@ public class GameClass extends ApplicationAdapter {
         batch.begin();
         for(Tile tile : map.tiles) tile.draw(batch);
         player.drawAnimation(batch, stateTime);
+
+        //Developer Mode draw x/y camera position
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().setScale(1, 1);
+        font.draw(batch, "x:"+camera.position.x+" y:"+camera.position.y, camera.position.x - 50, camera.position.y -20);
 
         for (int i = 0; i < 3; i++) {
             String img;
@@ -144,5 +151,6 @@ public class GameClass extends ApplicationAdapter {
     @Override
     public void dispose () {
         batch.dispose();
+        font.dispose();
     }
 }

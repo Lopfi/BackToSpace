@@ -48,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
         int w = (int) (displayW/(displayH/ (displayH/Math.floor(displayH/160))));
 
         camera = new OrthographicCamera(w,h);
-        camera.zoom = 2f; //.65f
+        camera.zoom = 1.2f; //.65f
 
         // Used to capture Keyboard Input
         control = new Control(displayW, displayH, camera);

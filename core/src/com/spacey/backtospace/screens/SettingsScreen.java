@@ -6,10 +6,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Helper.Datasave;
 
 public class SettingsScreen extends ScreenAdapter {
-
     GameClass game;
+    public Datasave saver = new Datasave();
 
     public SettingsScreen(GameClass game) {
         this.game = game;
@@ -17,6 +18,15 @@ public class SettingsScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        //load the music and play
+        if (game.playmusic){
+            game.introSound.pause();
+            game.gameSound.pause();
+            long SoundId = game.introSound.loop();
+            game.introSound.setVolume(SoundId,game.playvolume);
+            //mp3Sound.stop(id);
+        }
+
         Gdx.input.setInputProcessor(new InputAdapter() {
 
             @Override
@@ -28,7 +38,12 @@ public class SettingsScreen extends ScreenAdapter {
                 if (keyCode == Input.Keys.SPACE) {
                     game.setScreen(new GameScreen(game));
                 }
-
+                if (keyCode == Input.Keys.M) {
+                    game.playmusic = !game.playmusic;
+                    saver.write("music", game.playmusic);
+                    game.introSound.pause();
+                    game.gameSound.pause();
+                }
                 return true;
             }
         });
@@ -40,8 +55,9 @@ public class SettingsScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Einstellungs un Pause Abteilung [Speichere Fortschritt!!]", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
-        game.font.draw(game.batch, "Drücke Leertaste um fortzufahren", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .7f);
+        game.font.draw(game.batch, "EINSTELLUNGEN", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .77f);
+        game.font.draw(game.batch, "Sound: [" + game.playmusic + "] Drücke >m< zum ändern", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .7f);
+        game.font.draw(game.batch, "Drücke Leertaste um fortzufahren", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .4f);
         game.font.draw(game.batch, "Drücke Enter für den Hauptbildschirm", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();
 

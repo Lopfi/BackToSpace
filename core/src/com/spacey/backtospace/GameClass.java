@@ -2,12 +2,13 @@ package com.spacey.backtospace;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DWorld;
-import com.spacey.backtospace.screens.TitleScreen;
+import com.spacey.backtospace.screens.LoadingScreen;
 import com.spacey.backtospace.Helper.Datasave;
 
 public class GameClass extends Game {
@@ -15,14 +16,23 @@ public class GameClass extends Game {
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
     public Box2DWorld box2d;
+    //Create values to be accessable everywhere in the game
+    public Sound introSound;
+    public Sound gameSound;
+    public Boolean playmusic;
+    public Integer playvolume;
 
+    public Integer coins;
+    public Integer slot1;
+    public Integer slot2;
+    public Integer slot3;
     @Override
     public void create () {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
         box2d = new Box2DWorld();
-        setScreen(new TitleScreen(this));
+        setScreen(new LoadingScreen(this));
     }
 
     @Override
@@ -31,10 +41,6 @@ public class GameClass extends Game {
         shapeRenderer.dispose();
         font.dispose();
     }
-    /*Datasave safer;
-    safer = new Datasave();
-
-    safer.write("key", "hey");
-    String yourdata = safer.readString("key");*/
-
+    /*saver.write("key", "hey");
+    String yourdata = saver.readString("key");*/
 }

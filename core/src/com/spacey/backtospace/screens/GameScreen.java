@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.Helper.Datasave;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Map;
 
@@ -61,6 +63,15 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         map = new Map(game.box2d);
         player = new Player(new Vector3(100, 100, 0), game.box2d);
+
+                //load the music and play
+                if (game.playmusic){
+                    game.introSound.pause();
+                    game.gameSound.pause();
+                    long SoundId = game.gameSound.loop();
+                    game.gameSound.setVolume(SoundId,game.playvolume);
+                    //mp3Sound.stop(id);
+                }
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.spacey.backtospace.screens;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Player;
@@ -61,6 +59,15 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         map = new Map(game.box2d);
         player = new Player(new Vector3(100, 100, 0), game.box2d);
+
+                //load the music and play
+                if (game.playMusic){
+                    game.introSound.pause();
+                    game.gameSound.pause();
+                    long SoundId = game.gameSound.loop();
+                    game.gameSound.setVolume(SoundId,game.playVolume);
+                    //mp3Sound.stop(id);
+                }
     }
 
     @Override

@@ -19,11 +19,11 @@ public class SettingsScreen extends ScreenAdapter {
     @Override
     public void show() {
         //load the music and play
-        if (game.playmusic){
+        if (game.playMusic){
             game.introSound.pause();
             game.gameSound.pause();
             long SoundId = game.introSound.loop();
-            game.introSound.setVolume(SoundId,game.playvolume);
+            game.introSound.setVolume(SoundId,game.playVolume);
             //mp3Sound.stop(id);
         }
 
@@ -39,8 +39,8 @@ public class SettingsScreen extends ScreenAdapter {
                     game.setScreen(new GameScreen(game));
                 }
                 if (keyCode == Input.Keys.M) {
-                    game.playmusic = !game.playmusic;
-                    saver.write("music", game.playmusic);
+                    game.playMusic = !game.playMusic;
+                    saver.write("music", game.playMusic);
                     game.introSound.pause();
                     game.gameSound.pause();
                 }
@@ -56,7 +56,7 @@ public class SettingsScreen extends ScreenAdapter {
 
         game.batch.begin();
         game.font.draw(game.batch, "EINSTELLUNGEN", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .77f);
-        game.font.draw(game.batch, "Sound: [" + game.playmusic + "] Drücke >m< zum ändern", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .7f);
+        game.font.draw(game.batch, "Sound: [" + game.playMusic + "] Drücke >m< zum ändern", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .7f);
         game.font.draw(game.batch, "Drücke Leertaste um fortzufahren", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .4f);
         game.font.draw(game.batch, "Drücke Enter für den Hauptbildschirm", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();

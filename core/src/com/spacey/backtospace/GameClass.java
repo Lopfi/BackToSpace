@@ -16,11 +16,11 @@ public class GameClass extends Game {
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
     public Box2DWorld box2d;
-    //Create values to be accessable everywhere in the game
+    //Create values to be accessible everywhere in the game
     public Sound introSound;
     public Sound gameSound;
-    public Boolean playmusic;
-    public Integer playvolume;
+    public Boolean playMusic;
+    public Integer playVolume;
 
     public Integer coins;
     public Integer slot1;

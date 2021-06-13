@@ -22,6 +22,7 @@ public class LoadingScreen extends ScreenAdapter {
         Datasave saver;
         saver = new Datasave();
         if (!saver.exists("init")){
+            Gdx.app.log("INFO", "Save not found creating new.");
             saver.write("init", true);
             saver.write("music", true);
             saver.write("volume", 1);

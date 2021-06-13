@@ -11,6 +11,10 @@ public class Item extends Entity{
         this.type = type;
         switch (type) {
             case FUEL:
+            case WOOD:
+                texture = new Texture("items/Wood.png");
+            case STONE:
+                texture = new Texture("items/Stone.png");
         }
     }
 }

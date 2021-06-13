@@ -1,6 +1,8 @@
 package com.spacey.backtospace.Entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.Helper.Animations;
@@ -15,13 +17,19 @@ public class Player extends Entity {
 
     public Player(Vector3 pos, Box2DWorld box2d) {
         super();
-        texture = new Texture("Spaceman_walk.png");
+        texture = new Texture("player/Spaceman_walk.png");
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3);
-        height = texture.getWidth();
-        width = texture.getHeight();
+        height = texture.getHeight();
+        width = texture.getWidth()/2f;
         speed = 60;
         body = Box2DHelper.createBody(box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody);
+    }
+
+    @Override
+    public void drawAnimation(SpriteBatch batch, float stateTime) {
+        super.drawAnimation(batch, stateTime);
+        inventory.draw(batch);
     }
 
     public void update(Control control) {
@@ -48,18 +56,20 @@ public class Player extends Entity {
             }
         }
         else{
-                if (control.down) dirY = -1;
-                if (control.up) dirY = 1;
-                if (control.left) dirX = -1;
-                if (control.right) dirX = 1;
-            }
+            if (control.down) dirY = -1;
+            if (control.up) dirY = 1;
+            if (control.left) dirX = -1;
+            if (control.right) dirX = 1;
+        }
 
         body.setLinearVelocity(dirX * speed, dirY * speed);
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - height/4;
+        inventory.pos.x = pos.x - 10;
+        inventory.pos.y = pos.y - 88;
     }
 
-    void dispose() {
+    public void dispose() {
         texture.dispose();
     }
 }

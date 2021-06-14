@@ -33,17 +33,24 @@ public class SettingsScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
 
-                if (keyCode == Input.Keys.ENTER) {
+                if (keyCode == Input.Keys.ENTER && !deletemode) {
                     game.setScreen(new TitleScreen(game));
                 }
-                if (keyCode == Input.Keys.SPACE) {
+                if (keyCode == Input.Keys.SPACE && !deletemode) {
                     game.setScreen(new GameScreen(game));
                 }
-                if (keyCode == Input.Keys.M) {
+                if (keyCode == Input.Keys.M && !deletemode) {
+                    if (game.playMusic){
+                        saver.write("music", !game.playMusic);
+                        game.introSound.pause();
+                        game.gameSound.pause();
+                    } else {
+                        saver.write("music", !game.playMusic);
+                        game.introSound.play();
+                        long SoundId = game.introSound.loop();
+                        game.introSound.setVolume(SoundId,game.playVolume);
+                    }
                     game.playMusic = !game.playMusic;
-                    saver.write("music", game.playMusic);
-                    game.introSound.pause();
-                    game.gameSound.pause();
                 }
                 if (keyCode == Input.Keys.F) {
                     if(deletemode){

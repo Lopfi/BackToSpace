@@ -7,11 +7,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.spacey.backtospace.GameClass;
 
-public class EndScreen extends ScreenAdapter {
+public class ProtoScreen extends ScreenAdapter {
 
     GameClass game;
 
-    public EndScreen(GameClass game) {
+    public ProtoScreen(GameClass game) {
         this.game = game;
     }
 

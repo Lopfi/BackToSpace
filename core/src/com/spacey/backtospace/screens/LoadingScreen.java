@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.AssetLoad;
 import com.spacey.backtospace.Helper.Datasave;
@@ -30,6 +31,7 @@ public class LoadingScreen extends ScreenAdapter {
             saver.write("music", true);
             saver.write("volume", 1);
             saver.write("coins", 0);
+            saver.write("level", 1);
 
             saver.write("slot1", 0);
             saver.write("slot2", 0);
@@ -41,6 +43,7 @@ public class LoadingScreen extends ScreenAdapter {
         game.slot1 = saver.readInteger("slot1");
         game.slot2 = saver.readInteger("slot2");
         game.slot3 = saver.readInteger("slot3");
+        game.level = saver.readInteger("level");
 
         Gdx.app.log("INFO", "Finished Loading");
         station.queueAddImages();
@@ -73,6 +76,7 @@ public class LoadingScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.05f, .15f, .35f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+        game.batch.draw(new Texture("menu/loading.png"), 650, 350, 200, 200);
         game.font.draw(game.batch, "LADEN:     (" + (station.manager.getProgress()*100) + "%)...", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
         game.font.draw(game.batch, "Zu Laden: ["+station.manager.getQueuedAssets() +"x]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .55f);
         game.batch.end();

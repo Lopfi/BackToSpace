@@ -14,6 +14,7 @@ public class Player extends Entity {
 
     private int speed;
     public Inventory inventory;
+    private boolean flipped;
 
     public Player(Vector3 pos, Box2DWorld box2d) {
         super();
@@ -26,9 +27,8 @@ public class Player extends Entity {
         body = Box2DHelper.createBody(box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody);
     }
 
-    @Override
     public void drawAnimation(SpriteBatch batch, float stateTime) {
-        super.drawAnimation(batch, stateTime);
+        super.drawAnimation(batch, stateTime, flipped);
         inventory.draw(batch);
     }
 
@@ -58,8 +58,14 @@ public class Player extends Entity {
         else{
             if (control.down) dirY = -1;
             if (control.up) dirY = 1;
-            if (control.left) dirX = -1;
-            if (control.right) dirX = 1;
+            if (control.left) {
+                dirX = -1;
+                flipped = true;
+            }
+            if (control.right) {
+                dirX = 1;
+                flipped = false;
+            }
         }
 
         body.setLinearVelocity(dirX * speed, dirY * speed);

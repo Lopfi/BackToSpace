@@ -8,6 +8,7 @@ public class Item extends Entity{
     public Enums.ITEMTYPE type;
 
     public Item(Enums.ITEMTYPE type) {
+        super();
         this.type = type;
         switch (type) {
             case FUEL:

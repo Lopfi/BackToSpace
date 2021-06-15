@@ -9,6 +9,7 @@ public class Inventory extends Entity{
     public int itemCount;
 
     public Inventory(int slots) {
+        super();
         items = new Item[slots];
         itemCount = 0;
         texture = new Texture("player/Itembar.png");

@@ -24,8 +24,10 @@ public class Entity {
         batch.draw(texture, pos.x, pos.y, width, height);
     }
 
-    public void drawAnimation(SpriteBatch batch, float stateTime) {
+    public void drawAnimation(SpriteBatch batch, float stateTime, boolean flipped) {
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+        if (flipped) currentFrame.flip(!currentFrame.isFlipX(), false);
+        else currentFrame.flip(currentFrame.isFlipX(), false);
         batch.draw(currentFrame, pos.x, pos.y, width, height);
     }
 

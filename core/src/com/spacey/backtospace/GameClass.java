@@ -23,6 +23,7 @@ public class GameClass extends Game {
     public Integer playVolume;
 
     public Integer coins;
+    public Integer level;
     public Integer slot1;
     public Integer slot2;
     public Integer slot3;

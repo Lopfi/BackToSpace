@@ -40,7 +40,9 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.font.draw(game.batch, "__ BACK TO SPACE __", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .80f);
-        game.font.draw(game.batch, "Your Mission is to reapir your Spaceship and to survive", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
+        game.font.draw(game.batch, "Level: ["+game.level+"]     Coins: ["+game.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
+        game.font.draw(game.batch, "Aufgabe:  Finde alle Teile und bringe sie zu deinem Raumschiff", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .71f);
+        game.font.draw(game.batch, "                            (Im Hintergrund kommt noch Simons cooler SplashScreen hin, aber hab das File nicht)", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .5f);
         game.font.draw(game.batch, "[ H ] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .44f);
         game.font.draw(game.batch, "[ I ] Mitwirkende Personen", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .4f);
         game.font.draw(game.batch, "->Drücke Leertaste zum spielen.<-", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .3f);

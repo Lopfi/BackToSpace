@@ -19,10 +19,6 @@ public class GameScreen extends ScreenAdapter {
     OrthographicCamera camera;
     Control control;
 
-    // Display Size
-    private int displayW;
-    private int displayH;
-
     float stateTime;
 
     Map map;
@@ -37,13 +33,13 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        // CAMERA
-        displayW = Gdx.graphics.getWidth();
-        displayH = Gdx.graphics.getHeight();
+        // Display Size
+        int displayW = Gdx.graphics.getWidth();
+        int displayH = Gdx.graphics.getHeight();
 
         // For 800x600 we will get 266*200
-        int h = (int) (displayH/Math.floor(displayH/160));
-        int w = (int) (displayW/(displayH/ (displayH/Math.floor(displayH/160))));
+        int h = (int) (displayH /Math.floor(displayH /160f));
+        int w = (int) (displayW /(displayH / (displayH /Math.floor(displayH /160f))));
 
         camera = new OrthographicCamera(w,h);
         camera.zoom = 1.2f; //.65f
@@ -57,17 +53,17 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
 
         batch = new SpriteBatch();
-        map = new Map(game.box2d);
-        player = new Player(new Vector3(100, 100, 0), game.box2d);
+        map = new Map(game);
+        player = new Player(new Vector3(100, 100, 0), game);
 
-                //load the music and play
-                if (game.playMusic){
-                    game.introSound.pause();
-                    game.gameSound.pause();
-                    long SoundId = game.gameSound.loop();
-                    game.gameSound.setVolume(SoundId,game.playVolume);
-                    //mp3Sound.stop(id);
-                }
+        //load the music and play
+        if (game.playMusic){
+            game.introSound.pause();
+            game.gameSound.pause();
+            long SoundId = game.gameSound.loop();
+            game.gameSound.setVolume(SoundId,game.playVolume);
+            //mp3Sound.stop(id);
+        }
     }
 
     @Override

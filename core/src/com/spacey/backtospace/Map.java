@@ -2,6 +2,7 @@ package com.spacey.backtospace;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.Entity.Tile;
@@ -27,14 +28,14 @@ public class Map {
 
     private ArrayList<Tile> tiles;
     
-    public Map(Box2DWorld box2d){
+    public Map(GameClass game){
         height = 50;
         width = 50;
         borderWidth = 5;
         tiles = new ArrayList<>();
-        loadImages();
+        getImages(game.assets.manager);
         setup_tiles();
-        generateHitboxes(box2d);
+        generateHitboxes(game.box2d);
     }
 
     public void draw(SpriteBatch batch, boolean debug) {
@@ -71,25 +72,23 @@ public class Map {
         return y <= borderWidth || x <= borderWidth || x >= width - borderWidth+1 || y >= height - borderWidth+1;
     }
 
-    private void loadImages(){
-        // Source  https://opengameart.org/content/micro-tileset-overworld-and-dungeon
-        // Example
-        // http://opengameart.org/sites/default/files/styles/watermarked/public/Render_0.png
-        ground0 = new Texture("tiles/ground/ground0.png");
-        ground1 = new Texture("tiles/ground/ground1.png");
-        ground2 = new Texture("tiles/ground/ground2.png");
-        ground3 = new Texture("tiles/ground/ground3.png");
+    private void getImages(AssetManager manager){
 
-        border0 = new Texture("tiles/space/space0.png");
-        border1 = new Texture("tiles/space/space1.png");
-        border2 = new Texture("tiles/space/space2.png");
-        border3 = new Texture("tiles/space/space3.png");
-        border4 = new Texture("tiles/space/space4.png");
-        border5 = new Texture("tiles/space/space5.png");
-        border6 = new Texture("tiles/space/space6.png");
-        border7 = new Texture("tiles/space/space7.png");
+        ground0 = manager.get("tiles/ground/ground0.png", Texture.class);
+        ground1 = manager.get("tiles/ground/ground1.png", Texture.class);
+        ground2 = manager.get("tiles/ground/ground2.png", Texture.class);
+        ground3 = manager.get("tiles/ground/ground3.png", Texture.class);
 
-        devGrid = new Texture("tiles/dev_grid.png");
+        border0 = manager.get("tiles/space/space0.png", Texture.class);
+        border1 = manager.get("tiles/space/space1.png", Texture.class);
+        border2 = manager.get("tiles/space/space2.png", Texture.class);
+        border3 = manager.get("tiles/space/space3.png", Texture.class);
+        border4 = manager.get("tiles/space/space4.png", Texture.class);
+        border5 = manager.get("tiles/space/space5.png", Texture.class);
+        border6 = manager.get("tiles/space/space6.png", Texture.class);
+        border7 = manager.get("tiles/space/space7.png", Texture.class);
+
+        devGrid = manager.get("tiles/dev_grid.png", Texture.class);
 
         ground = new Texture[]{ground0, ground1, ground2, ground3};
         border = new Texture[]{border0, border1, border2, border3, border4, border5, border6, border7};

@@ -48,7 +48,7 @@ public class CreditScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Srishti      -??", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .47f);
         game.font.draw(game.batch, "Copyright @2021 ", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .28f);
 
-        game.batch.draw(new Texture("menu/team.png"), 650, 250, 350, 350);
+        game.batch.draw(game.assets.manager.get("menu/team.png", Texture.class), 650, 250, 350, 350);
 
         game.font.draw(game.batch, "Drücke Enter für den Hauptbildschirm", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();

@@ -1,10 +1,7 @@
 package com.spacey.backtospace.screens;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,15 +9,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.spacey.backtospace.GameClass;
-import com.spacey.backtospace.Helper.AssetLoad;
 import com.spacey.backtospace.Helper.Datasave;
 
 public class LoadingScreen extends ScreenAdapter {
-    public AssetLoad station = new AssetLoad();
+
     GameClass game;
+
     public LoadingScreen(GameClass game) {
         this.game = game;
+
     }
+
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     @Override
     public void show(){
@@ -48,9 +47,7 @@ public class LoadingScreen extends ScreenAdapter {
         game.slot2 = saver.readInteger("slot2");
         game.slot3 = saver.readInteger("slot3");
         game.level = saver.readInteger("level");
-
-        Gdx.app.log("INFO", "Finished Loading");
-        station.queueAddImages();
+        game.assets.loadAssets();
     }
 
     @Override
@@ -64,10 +61,10 @@ public class LoadingScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if(station.manager.update()) {
+        if(game.assets.manager.update()) {
         //music play logic
-        game.introSound = station.manager.get("music/IntroMusic.mp3", Sound.class);
-        game.gameSound = station.manager.get("music/GameMusic.mp3", Sound.class);
+        game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
+        game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
 
         if (game.playMusic){
             game.introSound.play();
@@ -75,6 +72,7 @@ public class LoadingScreen extends ScreenAdapter {
             game.introSound.setVolume(SoundId,game.playVolume);
             //mp3Sound.stop(id);
         }
+        Gdx.app.log("INFO", "Finished Loading");
         game.setScreen(new TitleScreen(game));
         }
          // display loading information
@@ -84,12 +82,12 @@ public class LoadingScreen extends ScreenAdapter {
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.rect(380, 500, 200f, 20);
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(380, 500, 200f*station.manager.getProgress(), 20);
+        shapeRenderer.rect(380, 500, 200f*game.assets.manager.getProgress(), 20);
         shapeRenderer.end();
         game.batch.begin();
-        game.batch.draw(new Texture("menu/loading.png"), 650, 350, 200, 200);
-        game.font.draw(game.batch, "LADEN:     (" + (station.manager.getProgress()*100) + "%)...", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
-        game.font.draw(game.batch, "Zu Laden: ["+station.manager.getQueuedAssets() +"x]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .6f);
+        game.batch.draw(new Texture("menu/loading.png"), 650, 350, 200, 200); //nicht über asset loader laden!!
+        game.font.draw(game.batch, "LADEN:     (" + Math.round(game.assets.manager.getProgress()*100) + "%)...", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
+        game.font.draw(game.batch, "Zu Laden: ["+game.assets.manager.getQueuedAssets() +"x]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .6f);
         game.batch.end();
         
     }

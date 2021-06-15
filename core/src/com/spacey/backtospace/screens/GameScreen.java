@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.Helper.Datasave;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,7 +16,7 @@ import com.spacey.backtospace.Map;
 public class GameScreen extends ScreenAdapter {
 
     GameClass game;
-
+    public Datasave saver = new Datasave();
     OrthographicCamera camera;
     Control control;
 
@@ -54,7 +55,8 @@ public class GameScreen extends ScreenAdapter {
 
         batch = new SpriteBatch();
         map = new Map(game);
-        player = new Player(new Vector3(100, 100, 0), game);
+        
+        player = new Player(new Vector3(game.playerx, game.playery, 0), game);
 
         //load the music and play
         if (game.playMusic){
@@ -75,6 +77,10 @@ public class GameScreen extends ScreenAdapter {
         player.update(control);
 
         if(control.esc){
+            saver.write("playerx", player.pos.x);
+            saver.write("playery", player.pos.y);
+            game.playerx = player.pos.x;
+            game.playery = player.pos.y;
             game.setScreen(new SettingsScreen(game));
         }
 

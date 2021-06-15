@@ -84,7 +84,7 @@ public class SettingsScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.font.draw(game.batch, "EINSTELLUNGEN", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .77f);
+        game.font.draw(game.batch, "EINSTELLUNGEN (Automatic Save)", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .77f);
         if (deletemode){
             game.font.draw(game.batch, "!! WARNUNG !!", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .56f);
             game.font.draw(game.batch, "Du bist gerade dabei alle Daten zu löschen!", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .58f);

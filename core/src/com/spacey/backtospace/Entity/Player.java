@@ -40,34 +40,24 @@ public class Player extends Entity {
         if(control.LMB) {
             int x = Math.round(control.mouse_click_pos.x);
             int y = Math.round(control.mouse_click_pos.y);
-            int normX = 700;
-            int normY = 405;
-            if (Math.abs((Math.abs(x) - normX)) >= Math.abs((Math.abs(y) - normY))) {
-                if (x < 675) {
-                    dirX = -1;
-                } else if (x > 688) {
-                    dirX = 1;
-                }
-            } else {
-                if (y > 400) {
-                    dirY = 1;
-                } else if (y < 420) {
-                    dirY = -1;
-                }
-            }
+            int midX = Gdx.graphics.getWidth() / 2;
+            int midY = Gdx.graphics.getHeight() / 2;
+
+            if (x < midX - 100) dirX = -1;
+            if (x > midX +100) dirX = 1;
+            if (y > midY + 100)  dirY = 1;
+            if (y < midY -50) dirY = -1;
+
         }
         else{
             if (control.down) dirY = -1;
             if (control.up) dirY = 1;
-            if (control.left) {
-                dirX = -1;
-                flipped = true;
-            }
-            if (control.right) {
-                dirX = 1;
-                flipped = false;
-            }
+            if (control.left) dirX = -1;
+            if (control.right) dirX = 1;
         }
+
+        if (dirX < 0) flipped = true;
+        else flipped = false;
 
         body.setLinearVelocity(dirX * speed, dirY * speed);
         pos.x = body.getPosition().x - width/2;

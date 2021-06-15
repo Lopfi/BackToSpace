@@ -47,7 +47,7 @@ public class LoadingScreen extends ScreenAdapter {
         game.slot2 = saver.readInteger("slot2");
         game.slot3 = saver.readInteger("slot3");
         game.level = saver.readInteger("level");
-        game.assets.loadAssets();
+        game.assets.loadAssets(game.playMusic);
     }
 
     @Override
@@ -63,10 +63,9 @@ public class LoadingScreen extends ScreenAdapter {
     public void render(float delta) {
         if(game.assets.manager.update()) {
         //music play logic
-        game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-        game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
-
         if (game.playMusic){
+            game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
+            game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
             game.introSound.play();
             long SoundId = game.introSound.loop();
             game.introSound.setVolume(SoundId,game.playVolume);

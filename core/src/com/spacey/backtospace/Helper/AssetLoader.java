@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class AssetLoader {
     public final AssetManager manager = new AssetManager();
 	
-    public void loadAssets(){
+    public void loadAssets(boolean loadmusic){
 
         //load texture assets that are needed
         manager.load("player/Spaceman_walk.png", Texture.class);
@@ -28,8 +28,10 @@ public class AssetLoader {
         manager.load("tiles/dev_grid.png", Texture.class);
 
         //load music assets
-        manager.load("music/IntroMusic.mp3", Sound.class);
-        manager.load("music/GameMusic.mp3", Sound.class);
+        if (loadmusic){
+            manager.load("music/IntroMusic.mp3", Sound.class);
+            manager.load("music/GameMusic.mp3", Sound.class);
+        }
         //manager.load("music/BossMusic.mp3", Sound.class); Idk not loading yet cuz not needed here. maybe some if level = 2 load this
 
         //load other assets

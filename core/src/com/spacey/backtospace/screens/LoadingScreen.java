@@ -48,8 +48,8 @@ public class LoadingScreen extends ScreenAdapter {
         game.slot2 = saver.readInteger("slot2");
         game.slot3 = saver.readInteger("slot3");
         game.level = saver.readInteger("level");
-        game.playerx = saver.readFloat("playerx");
-        game.playery = saver.readFloat("playery");
+        game.playerX = saver.readFloat("playerx");
+        game.playerY = saver.readFloat("playery");
         game.assets.loadAssets(game.playMusic);
     }
 

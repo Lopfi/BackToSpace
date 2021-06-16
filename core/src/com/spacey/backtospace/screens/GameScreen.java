@@ -1,6 +1,7 @@
 package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
@@ -17,48 +18,37 @@ import com.spacey.backtospace.Map;
 
 public class GameScreen extends ScreenAdapter {
 
-    GameClass game;
+    private final GameClass game;
     public Datasave saver = new Datasave();
-    OrthographicCamera camera;
-    Control control;
-
-    float stateTime;
-
-    Map map;
+    private Control control;
+    private final OrthographicCamera camera;
+    private float stateTime;
+    private Map map;
     Player player;
-
     SpriteBatch batch;
+    Matrix4 screenMatrix;
+
 
     public GameScreen(GameClass game) {
         this.game = game;
+        this.camera = game.camera;
         game.font.getData().setScale(0.5f);
     }
 
     @Override
     public void show() {
-        // Display Size
-        int displayW = Gdx.graphics.getWidth();
-        int displayH = Gdx.graphics.getHeight();
 
-        // For 800x600 we will get 266*200
-        int h = (int) (displayH /Math.floor(displayH /160f));
-        int w = (int) (displayW /(displayH / (displayH /Math.floor(displayH /160f))));
 
-        camera = new OrthographicCamera(w,h);
-        camera.zoom = 1.2f; //.65f
+
 
         // Used to capture Keyboard Input
-        control = new Control(displayW, displayH, camera);
+        control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         Gdx.input.setInputProcessor(control);
-
-        camera.position.x = 45; //start somewhat in the middle of the map
-        camera.position.y = 45;
-        camera.update();
-
         batch = new SpriteBatch();
+        screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, control.screenWidth, control.screenHeight));
+
         map = new Map(game);
-        
-        player = new Player(new Vector3(game.playerx, game.playery, 0), game);
+        player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
 
         //load the music and play
         if (game.playMusic){
@@ -81,8 +71,8 @@ public class GameScreen extends ScreenAdapter {
         if(control.esc){
             saver.write("playerx", player.pos.x);
             saver.write("playery", player.pos.y);
-            game.playerx = player.pos.x;
-            game.playery = player.pos.y;
+            game.playerX = player.pos.x;
+            game.playerY = player.pos.y;
             game.setScreen(new SettingsScreen(game));
         }
 
@@ -97,13 +87,21 @@ public class GameScreen extends ScreenAdapter {
         player.inventory.addItem(wood);
 
         batch.begin();
+
         map.draw(batch, control.debug);
         player.drawAnimation(batch, stateTime);
 
-        if (control.debug){
-            game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
-        }
+        if (control.debug) game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+
         batch.end();
+
+        // GUI
+        batch.setProjectionMatrix(screenMatrix);
+
+        batch.begin();
+        player.inventory.draw(batch);
+        batch.end();
+
         game.box2d.tick(camera, control);
     }
 

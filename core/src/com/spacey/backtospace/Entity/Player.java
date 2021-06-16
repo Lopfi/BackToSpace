@@ -21,7 +21,8 @@ public class Player extends Entity {
         super();
         texture = game.assets.manager.get("player/Spaceman_walk.png", Texture.class);
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
-        inventory = new Inventory(3, game.assets.manager);
+
+        inventory = new Inventory(3, game);
         height = texture.getHeight();
         width = texture.getWidth()/2f;
         speed = 60;
@@ -30,7 +31,6 @@ public class Player extends Entity {
 
     public void drawAnimation(SpriteBatch batch, float stateTime) {
         super.drawAnimation(batch, stateTime, flipped);
-        inventory.draw(batch);
     }
 
     public void update(Control control) {
@@ -61,8 +61,6 @@ public class Player extends Entity {
         body.setLinearVelocity(dirX * speed, dirY * speed);
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - height/4;
-        inventory.pos.x = pos.x - 10;
-        inventory.pos.y = pos.y - 88;
     }
 
     public void dispose() {

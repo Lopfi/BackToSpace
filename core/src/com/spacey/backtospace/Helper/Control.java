@@ -1,6 +1,5 @@
 package com.spacey.backtospace.Helper;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
@@ -35,23 +34,23 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean debug;
     
     // SCREEN
-    int screen_width;
-    int screen_height;
+    public int screenWidth;
+    public int screenHeight;
 
-    public Control(int screen_width, int screen_height, OrthographicCamera camera){
+    public Control(int screenWidth, int screenHeight, OrthographicCamera camera){
         this.camera = camera;
-        this.screen_width = screen_width;
-        this.screen_height = screen_height;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     private void setMouseClickedPos(int screenX, int screenY){
         // Set mouse position (flip screen Y)
-        mouse_click_pos.set(screenX, screen_height - screenY);
+        mouse_click_pos.set(screenX, screenHeight - screenY);
         map_click_pos.set(get_map_coords(mouse_click_pos));
     }
         
     public Vector2 get_map_coords(Vector2 mouse_coords){
-        Vector3 v3 = new Vector3(mouse_coords.x, screen_height - mouse_coords.y, 0);
+        Vector3 v3 = new Vector3(mouse_coords.x, screenHeight - mouse_coords.y, 0);
         this.camera.unproject(v3);
         return new Vector2(v3.x,v3.y);
     }

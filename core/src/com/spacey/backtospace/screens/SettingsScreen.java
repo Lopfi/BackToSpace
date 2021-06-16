@@ -10,7 +10,7 @@ import com.spacey.backtospace.Helper.Datasave;
 
 public class SettingsScreen extends ScreenAdapter {
     GameClass game;
-    public Boolean musicmode = false; //if u want to remove all the data
+    public Boolean musicMode = false; //if u want to remove all the data
     public Datasave saver;
     public Boolean deleteMode;
     final float firstLineY;
@@ -37,11 +37,11 @@ public class SettingsScreen extends ScreenAdapter {
 
             @Override
             public boolean keyDown(int keyCode) {
-                if (!deleteMode && !musicmode) {
+                if (!deleteMode && !musicMode) {
                     if (keyCode == Input.Keys.ENTER) {
                         game.setScreen(new TitleScreen(game));
                     }
-                    if (keyCode == Input.Keys.SPACE) {
+                    if (keyCode == Input.Keys.SPACE ||keyCode == Input.Keys.ESCAPE) {
                         game.setScreen(new GameScreen(game));
                     }
                     if (keyCode == Input.Keys.M) {
@@ -51,8 +51,8 @@ public class SettingsScreen extends ScreenAdapter {
                             game.gameSound.pause();
                         } else {
                             if (game.gameSound == null){
-                                musicmode = true;
-                                game.assets.loadAssets(true);
+                                musicMode = true;
+                                game.assets.loadMusic();
                             } else {
                                 saver.write("music", true);
                                 game.introSound.play();
@@ -64,10 +64,10 @@ public class SettingsScreen extends ScreenAdapter {
                     }
                 }
 
-                if (keyCode == Input.Keys.F && !musicmode) {
+                if (keyCode == Input.Keys.F && !musicMode) {
                     deleteMode = !deleteMode;
                 }
-                if (keyCode == Input.Keys.Y && !musicmode) {
+                if (keyCode == Input.Keys.Y && !musicMode) {
                     if(deleteMode){
                         saver.clear();
                         Gdx.app.exit();
@@ -95,11 +95,11 @@ public class SettingsScreen extends ScreenAdapter {
             game.font.draw(game.batch, "Are you sure you want to delete all game date?", textX, getLineY(3));
             game.font.draw(game.batch, "[N] NO", textX, getLineY(5));
             game.font.draw(game.batch, "[Y] YES", textX, getLineY(6));
-        } else if (musicmode){
+        } else if (musicMode){
         if(game.assets.manager.update()) {
             //music play logic
             game.startMusic();
-            musicmode = false;
+            musicMode = false;
         }
         game.font.draw(game.batch, "LOADING MUSIC FILES..", textX, getLineY(3));
         game.font.draw(game.batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));

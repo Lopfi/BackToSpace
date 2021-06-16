@@ -28,13 +28,15 @@ public class LoadingScreen extends ScreenAdapter {
         shapeRenderer.setProjectionMatrix(game.batch.getProjectionMatrix());
         Datasave saver;
         saver = new Datasave();
-        if (!saver.exists("init")){
+        if (!saver.exists("new")){
             Gdx.app.log("INFO", "Save not found creating new.");
-            saver.write("init", true);
+            saver.write("new", true);
             saver.write("music", true);
             saver.write("volume", 1);
             saver.write("coins", 0);
             saver.write("level", 1);
+            saver.write("playerx", 100f);
+            saver.write("playery", 100f);
 
             saver.write("slot1", 0);
             saver.write("slot2", 0);
@@ -47,7 +49,9 @@ public class LoadingScreen extends ScreenAdapter {
         game.slot2 = saver.readInteger("slot2");
         game.slot3 = saver.readInteger("slot3");
         game.level = saver.readInteger("level");
-        game.assets.loadAssets();
+        game.playerx = saver.readFloat("playerx");
+        game.playery = saver.readFloat("playery");
+        game.assets.loadAssets(game.playMusic);
     }
 
     @Override
@@ -63,10 +67,9 @@ public class LoadingScreen extends ScreenAdapter {
     public void render(float delta) {
         if(game.assets.manager.update()) {
         //music play logic
-        game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-        game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
-
         if (game.playMusic){
+            game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
+            game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
             game.introSound.play();
             long SoundId = game.introSound.loop();
             game.introSound.setVolume(SoundId,game.playVolume);

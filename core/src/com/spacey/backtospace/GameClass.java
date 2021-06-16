@@ -26,7 +26,8 @@ public class GameClass extends Game {
     public Integer slot1;
     public Integer slot2;
     public Integer slot3;
-
+    public Float playerx;
+    public Float playery;
     @Override
     public void create () {
         assets = new AssetLoader();

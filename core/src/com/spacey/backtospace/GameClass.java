@@ -44,4 +44,15 @@ public class GameClass extends Game {
         shapeRenderer.dispose();
         font.dispose();
     }
+
+    public void startMusic() {
+        if (this.playMusic){
+            this.introSound = this.assets.manager.get("music/IntroMusic.mp3", Sound.class);
+            this.gameSound = this.assets.manager.get("music/GameMusic.mp3", Sound.class);
+            this.introSound.play();
+            long SoundId = this.introSound.loop();
+            this.introSound.setVolume(SoundId,this.playVolume);
+            //mp3Sound.stop(id);
+        }
+    }
 }

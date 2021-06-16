@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Datasave;
 
@@ -39,40 +37,38 @@ public class SettingsScreen extends ScreenAdapter {
 
             @Override
             public boolean keyDown(int keyCode) {
-
-                if (keyCode == Input.Keys.ENTER && !deletemode && !musicmode) {
-                    game.setScreen(new TitleScreen(game));
-                }
-                if (keyCode == Input.Keys.SPACE && !deletemode && !musicmode) {
-                    game.setScreen(new GameScreen(game));
-                }
-                if (keyCode == Input.Keys.M && !deletemode && !musicmode) {
-                    if (game.playMusic){
-                        saver.write("music", !game.playMusic);
-                        game.introSound.pause();
-                        game.gameSound.pause();
-                    } else {
-                        if (game.gameSound == null){
-                            musicmode = true;
-                            game.assets.loadAssets(true);
+                if (!deleteMode && !musicmode) {
+                    if (keyCode == Input.Keys.ENTER) {
+                        game.setScreen(new TitleScreen(game));
+                    }
+                    if (keyCode == Input.Keys.SPACE) {
+                        game.setScreen(new GameScreen(game));
+                    }
+                    if (keyCode == Input.Keys.M) {
+                        if (game.playMusic){
+                            saver.write("music", false);
+                            game.introSound.pause();
+                            game.gameSound.pause();
                         } else {
-                            saver.write("music", !game.playMusic);
-                            game.introSound.play();
-                            long SoundId = game.introSound.loop();
-                            game.introSound.setVolume(SoundId,game.playVolume);
+                            if (game.gameSound == null){
+                                musicmode = true;
+                                game.assets.loadAssets(true);
+                            } else {
+                                saver.write("music", true);
+                                game.introSound.play();
+                                long SoundId = game.introSound.loop();
+                                game.introSound.setVolume(SoundId,game.playVolume);
+                            }
                         }
+                        game.playMusic = !game.playMusic;
                     }
-                    game.playMusic = !game.playMusic;
                 }
+
                 if (keyCode == Input.Keys.F && !musicmode) {
-                    if(deletemode){
-                        deletemode = false;
-                    } else {
-                        deletemode = true;
-                    }
+                    deleteMode = !deleteMode;
                 }
                 if (keyCode == Input.Keys.Y && !musicmode) {
-                    if(deletemode){
+                    if(deleteMode){
                         saver.clear();
                         Gdx.app.exit();
                         //close game cuz else we get value errors to play the standard values need to be set on start
@@ -102,20 +98,12 @@ public class SettingsScreen extends ScreenAdapter {
         } else if (musicmode){
         if(game.assets.manager.update()) {
             //music play logic
-            if (game.playMusic){
-                game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-                game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
-                game.introSound.play();
-                long SoundId = game.introSound.loop();
-                game.introSound.setVolume(SoundId,game.playVolume);
-                //mp3Sound.stop(id);
-            }
+            game.startMusic();
             musicmode = false;
         }
-        game.font.draw(game.batch, "LADE MUSIK DATEIEN..", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .56f);
-        game.font.draw(game.batch, "Dies kann etwas dauern! (" + Math.round(game.assets.manager.getProgress()*100) + "%)", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .58f);
-        game.font.draw(game.batch, "Bitte warte ein paar Sekunden du solltest automatisch zurück geleitet werden", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .32f);
-    }
+        game.font.draw(game.batch, "LOADING MUSIC FILES..", textX, getLineY(3));
+        game.font.draw(game.batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));
+        }
         else {
         game.font.draw(game.batch, "Music: <" + game.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
         game.font.draw(game.batch, "[D] Reset game data", textX, Gdx.graphics.getHeight() * .35f);

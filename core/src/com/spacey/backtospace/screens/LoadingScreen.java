@@ -2,7 +2,6 @@ package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -67,14 +66,7 @@ public class LoadingScreen extends ScreenAdapter {
     public void render(float delta) {
         if(game.assets.manager.update()) {
         //music play logic
-        if (game.playMusic){
-            game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-            game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
-            game.introSound.play();
-            long SoundId = game.introSound.loop();
-            game.introSound.setVolume(SoundId,game.playVolume);
-            //mp3Sound.stop(id);
-        }
+        game.startMusic();
         Gdx.app.log("INFO", "Finished Loading");
         game.setScreen(new TitleScreen(game));
         }

@@ -10,9 +10,11 @@ import com.spacey.backtospace.GameClass;
 
 public class CreditScreen extends ScreenAdapter {
     GameClass game;
+    final float firstLineY;
 
     public CreditScreen(GameClass game) {
         this.game = game;
+        firstLineY = Gdx.graphics.getHeight() * .80f;
     }
 
     @Override
@@ -36,21 +38,22 @@ public class CreditScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(1, .4f, .2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        float textX = Gdx.graphics.getWidth() * .25f;
         game.batch.begin();
-        game.font.draw(game.batch, "Mitwirkende:", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .80f);
-        game.font.draw(game.batch, "Bene        -Story", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
-        game.font.draw(game.batch, "Colin        -Code", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .71f);
-        game.font.draw(game.batch, "Felisa        -??", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .67f);
-        game.font.draw(game.batch, "Lisa           -??", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .63f);
-        game.font.draw(game.batch, "Maarten    -??", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .59f);
-        game.font.draw(game.batch, "Robin       -Code", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .55f);
-        game.font.draw(game.batch, "Simon      -Design", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .51f);
-        game.font.draw(game.batch, "Srishti      -??", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .47f);
-        game.font.draw(game.batch, "Copyright @2021 ", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .28f);
+        game.font.draw(game.batch, "Credits:", textX, getLineY(0));
+        game.font.draw(game.batch, "Bene        -Story", textX, getLineY(1));
+        game.font.draw(game.batch, "Colin        -Code", textX, getLineY(2));
+        game.font.draw(game.batch, "Felisa        -??", textX, getLineY(3));
+        game.font.draw(game.batch, "Lisa           -??", textX, getLineY(4));
+        game.font.draw(game.batch, "Maarten    -??", textX, getLineY(5));
+        game.font.draw(game.batch, "Robin       -Code", textX, getLineY(6));
+        game.font.draw(game.batch, "Simon      -Design", textX, getLineY(7));
+        game.font.draw(game.batch, "Srishti      -??", textX, getLineY(8));
+        game.font.draw(game.batch, "Copyright @2021 ", textX, getLineY(9));
 
         game.batch.draw(game.assets.manager.get("menu/team.png", Texture.class), 650, 250, 350, 350);
 
-        game.font.draw(game.batch, "Drücke Enter für den Hauptbildschirm", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
+        game.font.draw(game.batch, "[ENTER] Main Menu", textX, getLineY(11));
         game.batch.end();
 
     }
@@ -58,5 +61,9 @@ public class CreditScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+    }
+
+    private float getLineY(float factor) {
+        return firstLineY - (game.font.getLineHeight() + 10) * factor;
     }
 }

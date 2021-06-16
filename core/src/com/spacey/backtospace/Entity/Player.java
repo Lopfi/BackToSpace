@@ -13,7 +13,7 @@ import com.spacey.backtospace.box2d.Box2DWorld;
 
 public class Player extends Entity {
 
-    private int speed;
+    private final int speed;
     public Inventory inventory;
     private boolean flipped;
 
@@ -56,8 +56,7 @@ public class Player extends Entity {
             if (control.right) dirX = 1;
         }
 
-        if (dirX < 0) flipped = true;
-        else flipped = false;
+        flipped = dirX < 0;
 
         body.setLinearVelocity(dirX * speed, dirY * speed);
         pos.x = body.getPosition().x - width/2;

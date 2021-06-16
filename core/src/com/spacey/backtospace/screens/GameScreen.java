@@ -2,6 +2,7 @@ package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Helper.Control;
 import com.badlogic.gdx.Gdx;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.Map;
 
 
@@ -84,6 +86,9 @@ public class GameScreen extends ScreenAdapter {
         //Gdx.app.log("POS", String.valueOf(camera.position));
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        Item wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
+        player.inventory.addItem(wood);
 
         batch.begin();
         map.draw(batch, control.debug);

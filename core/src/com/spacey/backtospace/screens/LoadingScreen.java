@@ -86,8 +86,8 @@ public class LoadingScreen extends ScreenAdapter {
         shapeRenderer.end();
         game.batch.begin();
         game.batch.draw(new Texture("menu/loading.png"), 650, 350, 200, 200); //nicht über asset loader laden!!
-        game.font.draw(game.batch, "LADEN:     (" + Math.round(game.assets.manager.getProgress()*100) + "%)...", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
-        game.font.draw(game.batch, "Zu Laden: ["+game.assets.manager.getQueuedAssets() +"x]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .6f);
+        game.font.draw(game.batch, "LOADING:     (" + Math.round(game.assets.manager.getProgress()*100) + "%)...", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
+        game.font.draw(game.batch, "Remaining: ["+game.assets.manager.getQueuedAssets() +"x]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .6f);
         game.batch.end();
         
     }

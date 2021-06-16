@@ -113,7 +113,6 @@ public class Control extends InputAdapter implements InputProcessor {
                 right = false;
                 break;
             case Keys.ESCAPE:
-                Gdx.app.exit();
                 break;
             case Keys.BACKSPACE:
                 debug = !debug;

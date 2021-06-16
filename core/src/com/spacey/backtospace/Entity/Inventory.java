@@ -47,9 +47,9 @@ public class Inventory extends Entity{
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null) {
-                items[i].draw(batch);
+        for (Item item : items) {
+            if (item != null) {
+                item.draw(batch);
             }
         }
     }

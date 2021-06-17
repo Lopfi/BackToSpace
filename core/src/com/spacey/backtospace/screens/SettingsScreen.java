@@ -10,9 +10,9 @@ import com.spacey.backtospace.Helper.Datasave;
 
 public class SettingsScreen extends ScreenAdapter {
     GameClass game;
-    public Boolean musicMode = false; //if u want to remove all the data
+    public Boolean musicMode = false; 
     public Datasave saver;
-    public Boolean deleteMode;
+    public Boolean deleteMode; //if u want to remove all the data
     final float firstLineY;
 
     public SettingsScreen(GameClass game) {
@@ -64,8 +64,11 @@ public class SettingsScreen extends ScreenAdapter {
                     }
                 }
 
-                if (keyCode == Input.Keys.F && !musicMode) {
-                    deleteMode = !deleteMode;
+                if (keyCode == Input.Keys.R && !musicMode) {
+                    deleteMode = true;
+                }
+                if (keyCode == Input.Keys.N && !musicMode) {
+                    deleteMode = false;
                 }
                 if (keyCode == Input.Keys.Y && !musicMode) {
                     if(deleteMode){
@@ -94,10 +97,11 @@ public class SettingsScreen extends ScreenAdapter {
             game.font.draw(game.batch, "!! WARNING !!", textX, getLineY(2));
             game.font.draw(game.batch, "Are you sure you want to delete all game date?", textX, getLineY(3));
             game.font.draw(game.batch, "[N] NO", textX, getLineY(5));
-            game.font.draw(game.batch, "[Y] YES", textX, getLineY(6));
+            game.font.draw(game.batch, "[Y] YES DELETE EVERYTHING AND CLOSE", textX, getLineY(6));
         } else if (musicMode){
         if(game.assets.manager.update()) {
             //music play logic
+            saver.write("music", true);
             game.startMusic();
             musicMode = false;
         }
@@ -106,7 +110,7 @@ public class SettingsScreen extends ScreenAdapter {
         }
         else {
         game.font.draw(game.batch, "Music: <" + game.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
-        game.font.draw(game.batch, "[D] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
+        game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
         game.font.draw(game.batch, "[SPACE/ESC] Continue", textX, Gdx.graphics.getHeight() * .28f);
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, Gdx.graphics.getHeight() * .25f);
         }

@@ -19,10 +19,10 @@ public class Item extends Entity{
                 //texture = new Texture("items/Fuel.png");
                 break;
             case WOOD:
-                texture = manager.get("items/Wood.png", Texture.class);
+                texture = manager.get("items/Wood10x8.png", Texture.class);
                 break;
             case STONE:
-                texture = manager.get("items/Stone.png", Texture.class);
+                texture = manager.get("items/Stone10x8.png", Texture.class);
                 break;
             case ENGINE:
                 break;
@@ -32,8 +32,8 @@ public class Item extends Entity{
                 break;
         }
     }
-    public void draw(Batch batch, int slot, float width, int invslots, float scale, float y){
-        Float middle = (Gdx.graphics.getWidth() / 2) - ((width/2)) + (width/invslots*slot) - (4*slot);
-        batch.draw(texture, middle, y, texture.getWidth() / scale, texture.getHeight() / scale);
+    public void draw(Batch batch, int slot, float width, int invslots, float scale, float x, float y){
+        Float middle = x + (3*scale) + (((width - (3*scale))/invslots)*slot);
+        batch.draw(texture, middle, y+8, texture.getWidth() * scale, texture.getHeight() * scale);
     }
 }

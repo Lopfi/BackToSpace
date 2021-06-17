@@ -57,7 +57,7 @@ public class Inventory extends Entity{
         super.draw(batch);
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null) {
-                items[i].draw(batch, i, width, invslots, scale, pos.y);
+                items[i].draw(batch, i, width, invslots, scale, pos.x, pos.y);
             }
         }
     }

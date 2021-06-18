@@ -111,7 +111,7 @@ public class GameScreen extends ScreenAdapter {
         player.inventory.draw(batch);
         batch.end();
 
-        game.box2d.tick(camera, control);
+        if (!game.isPaused) game.box2d.tick(camera, control);
     }
 
     @Override

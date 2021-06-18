@@ -40,15 +40,22 @@ public class Inventory extends Entity{
         }
     }
 
-    public void removeItem(Item item) {
+    public void removeItem(Item item, boolean onlyone) {
         if (itemCount > 0) {
             for (int i = 0; i < items.length; i++) {
-                if(items[i] == item) {
+                if(items[i] != null && items[i].type == item.type) {
                     items[i] = null;
                     itemCount--;
+                    if (onlyone) break;
                     return;
                 }
             }
+        }
+    }
+    public void removeItem(int slot) {
+        if (items[slot] != null){
+            items[slot] = null;
+            itemCount--;
         }
     }
 

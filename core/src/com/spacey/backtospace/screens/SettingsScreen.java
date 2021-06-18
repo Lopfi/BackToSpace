@@ -14,6 +14,7 @@ public class SettingsScreen extends ScreenAdapter {
     public Datasave saver;
     public Boolean deleteMode; //if u want to remove all the data
     final float firstLineY;
+    long SoundId;
 
     public SettingsScreen(GameClass game) {
         this.game = game;
@@ -28,7 +29,7 @@ public class SettingsScreen extends ScreenAdapter {
         if (game.playMusic){
             game.introSound.pause();
             game.gameSound.pause();
-            long SoundId = game.introSound.loop();
+            SoundId = game.introSound.loop();
             game.introSound.setVolume(SoundId,game.playVolume);
             //mp3Sound.stop(id);
         }
@@ -70,6 +71,21 @@ public class SettingsScreen extends ScreenAdapter {
                 if (keyCode == Input.Keys.N && !musicMode) {
                     deleteMode = false;
                 }
+                if (keyCode == Input.Keys.UP && !musicMode) {
+                    if(game.playVolume < 1) game.playVolume = ((int)((game.playVolume + .1f) * 10)) / 10f;
+                    if (game.playMusic){
+                        game.introSound.setVolume(SoundId,game.playVolume);
+                    }
+                    saver.write("volume", game.playVolume);
+                }
+                if (keyCode == Input.Keys.DOWN && !musicMode) {
+                    if(game.playVolume > 0) game.playVolume =((int)((game.playVolume - .1f) * 10)) / 10f;
+                    if (game.playMusic){
+                        game.introSound.setVolume(SoundId,game.playVolume);
+                    }
+                    saver.write("volume", game.playVolume);
+                }
+
                 if (keyCode == Input.Keys.Y && !musicMode) {
                     if(deleteMode){
                         saver.clear();
@@ -110,6 +126,7 @@ public class SettingsScreen extends ScreenAdapter {
         }
         else {
         game.font.draw(game.batch, "Music: <" + game.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
+        game.font.draw(game.batch, "Volume: <" + game.playVolume + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
         game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
         game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);//changed because if u start it does not continue the game and its not inteded to do so
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, Gdx.graphics.getHeight() * .25f);

@@ -31,7 +31,7 @@ public class LoadingScreen extends ScreenAdapter {
             Gdx.app.log("INFO", "Save not found creating new.");
             saver.write("new", true);
             saver.write("music", true);
-            saver.write("volume", 1);
+            saver.write("volume", .8f);
             saver.write("coins", 0);
             saver.write("level", 1);
             saver.write("playerx", 100f);
@@ -42,7 +42,7 @@ public class LoadingScreen extends ScreenAdapter {
             saver.write("slot3", 0);
         }
         game.playMusic = saver.readBoolean("music");
-        game.playVolume = saver.readInteger("volume");
+        game.playVolume = saver.readFloat("volume");
         game.coins = saver.readInteger("coins");
         game.slot1 = saver.readInteger("slot1");
         game.slot2 = saver.readInteger("slot2");

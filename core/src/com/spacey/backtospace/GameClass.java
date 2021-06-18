@@ -24,7 +24,7 @@ public class GameClass extends Game {
     public Sound introSound;
     public Sound gameSound;
     public Boolean playMusic;
-    public Integer playVolume;
+    public Float playVolume;
 
     public Integer coins;
     public Integer level;

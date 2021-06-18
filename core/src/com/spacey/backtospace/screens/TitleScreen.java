@@ -26,6 +26,9 @@ public class TitleScreen extends ScreenAdapter {
                 if (keyCode == Input.Keys.C) {
                     game.setScreen(new CreditScreen(game));
                 }
+                if (keyCode == Input.Keys.S) {
+                    game.setScreen(new SettingsScreen(game));
+                }
                 if (keyCode == Input.Keys.H) {
                     game.setScreen(new HelpScreen(game));
                 }
@@ -43,7 +46,8 @@ public class TitleScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Level: ["+game.level+"]     Coins: ["+game.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
         game.font.draw(game.batch, "Task:  Find all parts and bring them back to your rocket to repair it.", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .71f);
         game.font.draw(game.batch, "                            (Im Hintergrund kommt noch Simons cooler SplashScreen hin, aber hab das File nicht)", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .5f);
-        game.font.draw(game.batch, "[H] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .44f);
+        game.font.draw(game.batch, "[H] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .36f);
+        game.font.draw(game.batch, "[S] Settings", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .44f);
         game.font.draw(game.batch, "[C] Credits", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .4f);
         game.font.draw(game.batch, "->[SPACE] PLAY<-", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .3f);
         game.batch.end();

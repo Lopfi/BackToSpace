@@ -111,7 +111,7 @@ public class SettingsScreen extends ScreenAdapter {
         else {
         game.font.draw(game.batch, "Music: <" + game.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
         game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
-        game.font.draw(game.batch, "[SPACE/ESC] Continue", textX, Gdx.graphics.getHeight() * .28f);
+        game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);//changed because if u start it does not continue the game and its not inteded to do so
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, Gdx.graphics.getHeight() * .25f);
         }
         game.batch.end();

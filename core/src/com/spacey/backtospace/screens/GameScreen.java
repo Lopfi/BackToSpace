@@ -37,10 +37,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-
-
-
-
         // Used to capture Keyboard Input
         control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         Gdx.input.setInputProcessor(control);
@@ -49,6 +45,9 @@ public class GameScreen extends ScreenAdapter {
 
         map = new Map(game);
         player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
+
+        Item wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
+        player.inventory.addItem(wood);
 
         //load the music and play
         if (game.playMusic){
@@ -82,9 +81,6 @@ public class GameScreen extends ScreenAdapter {
         //Gdx.app.log("POS", String.valueOf(camera.position));
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        Item wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
-        player.inventory.addItem(wood);
 
         batch.begin();
 

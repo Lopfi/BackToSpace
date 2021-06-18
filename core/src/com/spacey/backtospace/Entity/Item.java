@@ -33,7 +33,7 @@ public class Item extends Entity{
         }
     }
     public void draw(Batch batch, int slot, float width, int invslots, float scale, float x, float y){
-        Float middle = x + (3*scale) + (((width - (3*scale))/invslots)*slot);
+        float middle = x + (3*scale) + (((width - (3*scale))/invslots)*slot);
         batch.draw(texture, middle, y+8, texture.getWidth() * scale, texture.getHeight() * scale);
     }
 }

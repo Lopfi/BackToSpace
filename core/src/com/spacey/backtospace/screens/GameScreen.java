@@ -10,6 +10,7 @@ import com.spacey.backtospace.Helper.Datasave;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
@@ -64,19 +65,12 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-
-        player.update(control);
-
-        if(control.esc){
-            saver.write("playerx", player.pos.x);
-            saver.write("playery", player.pos.y);
-            game.playerX = player.pos.x;
-            game.playerY = player.pos.y;
-            game.setScreen(new SettingsScreen(game));
+        
+        if (!game.isPaused){
+            player.update(control);
+            camera.position.lerp(player.pos, .1f);
+            camera.update();
         }
-
-        camera.position.lerp(player.pos, .1f);
-        camera.update();
 
         //Gdx.app.log("POS", String.valueOf(camera.position));
         batch.setProjectionMatrix(camera.combined);
@@ -85,16 +79,35 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
 
         map.draw(batch, control.debug);
-        player.drawAnimation(batch, stateTime);
+        if (!game.isPaused){
+            player.drawAnimation(batch, stateTime);//idk if we want to hide the player but i think it should not animate in pause
+            if (control.debug) game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+        }
 
-        if (control.debug) game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
+        if(control.Q || control.esc){
+            if (!game.isPaused){
+                saver.write("playerx", player.pos.x);
+                saver.write("playery", player.pos.y);
+                game.playerX = player.pos.x;
+                game.playerY = player.pos.y;
+                game.isPaused = true;
+            }
+        } 
+        if (game.isPaused){
+            if(control.B) game.setScreen(new TitleScreen(game));
+            else if(control.E) game.setScreen(new SettingsScreen(game));
+            else if(control.X) Gdx.app.exit();
+            else if(control.Space) game.isPaused = false;
 
+        }
+        
         batch.end();
 
         // GUI
         batch.setProjectionMatrix(screenMatrix);
 
         batch.begin();
+        if (game.isPaused) batch.draw(game.assets.manager.get("menu/options.png", Texture.class), control.screenWidth/4, control.screenHeight/5, (control.screenWidth/4)*2, (control.screenHeight/5)*3);
         player.inventory.draw(batch);
         batch.end();
 

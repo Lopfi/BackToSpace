@@ -9,6 +9,7 @@ public class AssetLoader {
 
         //load texture assets that are needed
         manager.load("player/Spaceman_walk.png", Texture.class);
+        manager.load("menu/options.png", Texture.class);
         manager.load("menu/team.png", Texture.class);
         manager.load("items/Wood10x8.png", Texture.class);
         manager.load("items/Stone10x8.png", Texture.class);

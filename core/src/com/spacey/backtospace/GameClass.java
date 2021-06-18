@@ -20,6 +20,7 @@ public class GameClass extends Game {
     public OrthographicCamera camera;
 
     //Create values to be accessible everywhere in the game
+    public Boolean isPaused = false;
     public Sound introSound;
     public Sound gameSound;
     public Boolean playMusic;

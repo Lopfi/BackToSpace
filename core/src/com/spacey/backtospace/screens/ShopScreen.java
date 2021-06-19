@@ -14,7 +14,9 @@ import com.spacey.backtospace.Entity.ownButton;
 public class ShopScreen extends ScreenAdapter {
 
     GameClass game;
+
     ownButton btn = new ownButton();
+    ownButton back = new ownButton();
     Stage stage = new Stage();
     public Integer fakecoins = 0;
 
@@ -27,12 +29,21 @@ public class ShopScreen extends ScreenAdapter {
         InputListener action = new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("BUTTON", "Pressed Text Button");
+                Gdx.app.log("BUTTON1", "Pressed Text Button");
                 fakecoins++;
                 return true;
             }
         };
-        btn.create(stage, "Increase your coins (not really!) or press [c]", action, 400, 120, 200, 200);
+        btn.create(stage, "Increase your coins (fake!) or press [c]", action, 400, 120, 240, 300);
+        InputListener action2 = new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("BUTTON2", "Pressed Text Button");
+                game.setScreen(new TitleScreen(game));
+                return true;
+            }
+        };
+        back.create(stage, "or click here", action2, 120, 60, 600, 150);
         stage.addListener(new InputListener() 
         {
             @Override
@@ -40,6 +51,8 @@ public class ShopScreen extends ScreenAdapter {
             {
                 if (keycode == Input.Keys.C){
                     fakecoins++;
+                } else if (keycode == Input.Keys.ENTER){
+                    game.setScreen(new TitleScreen(game));
                 }
                 //Gdx.app.log("Image ClickListener", "keyDown. keycode=" + keycode);
                 return true;

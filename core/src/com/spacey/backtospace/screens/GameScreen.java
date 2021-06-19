@@ -102,13 +102,28 @@ public class GameScreen extends ScreenAdapter {
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
         batch.setProjectionMatrix(screenMatrix);
+
+        //Added Button Support, but there is still this stage/batch conflict in gamescreen! Because of control class
+        //Stage stage = new Stage(new ScreenViewport());
+        //    InputListener action = new InputListener(){
+        //        @Override
+        //        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+        //            Gdx.app.log("BUTTON", "Pressed Text Button");
+        //            return true;
+        //        }
+        //    };
+        //    btn.create(stage, "Click me!", action, 400, 150, 200, 200);
+        //}
+
         
         //Nicht löschen!! ===> für Bene für Montag
+        //
         //Texture coin = new Texture("menu/coin.png");
         //batch.draw(coin, ?, ?, coin.getWidth()*game.uiScale, coin.getHeight()*game.uiScale);
         // Für Dialoge ==> "Hey you! Your Rocket Broke and now your lost in Space repair it ..."
         //Statusbar.create(batch, control.screenWidth, "Hello");
 
+        
         if (game.isPaused) batch.draw(game.assets.manager.get("menu/options.png", Texture.class), control.screenWidth/4, control.screenHeight/5, (control.screenWidth/4)*2, (control.screenHeight/5)*3);
         player.inventory.draw(batch);
         batch.end();

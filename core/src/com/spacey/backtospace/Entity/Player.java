@@ -60,7 +60,7 @@ public class Player extends Entity {
 
         body.setLinearVelocity(dirX * speed, dirY * speed);
         pos.x = body.getPosition().x - width/2;
-        pos.y = body.getPosition().y - height/4;
+        pos.y = body.getPosition().y - (height-4)/2;
     }
 
     public void dispose() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
+import com.spacey.backtospace.Entity.Statusbar;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
 import com.badlogic.gdx.Gdx;
@@ -78,11 +79,9 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
 
-        map.draw(batch, control.debug);
-        if (!game.isPaused){
-            player.drawAnimation(batch, stateTime);//idk if we want to hide the player but i think it should not animate in pause
-            if (control.debug) game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
-        }
+        map.draw(batch, (control.debug&&!game.isPaused));
+        if (!game.isPaused) player.drawAnimation(batch, stateTime);//idk if we want to hide the player but i think it should not animate in pause
+        if (control.debug && !game.isPaused) game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
 
         if(control.Q || control.esc){
             if (!game.isPaused){
@@ -100,13 +99,16 @@ public class GameScreen extends ScreenAdapter {
             else if(control.Space) game.isPaused = false;
 
         }
-        
-        batch.end();
 
-        // GUI
+        //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
         batch.setProjectionMatrix(screenMatrix);
+        
+        //Nicht löschen!! ===> für Bene für Montag
+        //Texture coin = new Texture("menu/coin.png");
+        //batch.draw(coin, ?, ?, coin.getWidth()*game.uiScale, coin.getHeight()*game.uiScale);
+        // Für Dialoge ==> "Hey you! Your Rocket Broke and now your lost in Space repair it ..."
+        //Statusbar.create(batch, control.screenWidth, "Hello");
 
-        batch.begin();
         if (game.isPaused) batch.draw(game.assets.manager.get("menu/options.png", Texture.class), control.screenWidth/4, control.screenHeight/5, (control.screenWidth/4)*2, (control.screenHeight/5)*3);
         player.inventory.draw(batch);
         batch.end();

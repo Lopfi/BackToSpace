@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Datasave;
@@ -14,7 +15,7 @@ public class SettingsScreen extends ScreenAdapter {
     public Datasave saver;
     public Boolean deleteMode; //if u want to remove all the data
     final float firstLineY;
-    long SoundId;
+    public long SoundId;
 
     public SettingsScreen(GameClass game) {
         this.game = game;
@@ -118,8 +119,15 @@ public class SettingsScreen extends ScreenAdapter {
         if(game.assets.manager.update()) {
             //music play logic
             saver.write("music", true);
-            game.startMusic();
             musicMode = false;
+            if (game.playMusic){ //IF YOU CAN READ, DONT DELETE THIS BECAUSE U NEED TO SAVE THE SOUNDID WHEN PLAYING TO CHANGE THE VOLUME!
+                game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
+                game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
+                game.introSound.pause();
+                game.gameSound.pause();
+                SoundId = game.introSound.loop();
+                game.introSound.setVolume(SoundId,game.playVolume);
+            }
         }
         game.font.draw(game.batch, "LOADING MUSIC FILES..", textX, getLineY(3));
         game.font.draw(game.batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));

@@ -48,8 +48,7 @@ public class Player extends Entity {
             if (y > midY + 100)  dirY = 1;
             if (y < midY -50) dirY = -1;
 
-        }
-        else{
+        } else{
             if (control.down) dirY = -1;
             if (control.up) dirY = 1;
             if (control.left) dirX = -1;

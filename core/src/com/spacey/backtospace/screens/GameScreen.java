@@ -5,8 +5,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
-import com.spacey.backtospace.Entity.Statusbar;
-import com.spacey.backtospace.Entity.ownButton;
+import com.spacey.backtospace.Helper.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
 import java.util.concurrent.Callable;
@@ -31,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
     Player player;
     SpriteBatch batch;
     Matrix4 screenMatrix;
-    ownButton btn = new ownButton();
+    Button btn;
 
     public GameScreen(GameClass game) {
         this.game = game;
@@ -61,7 +60,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         Callable<Void> todo = new Test();
-        btn.createNoStage(batch, control, "Pause Game", true, todo, 111f, 35f, control.screenWidth-113f, control.screenHeight-37f);
+        btn = new Button(batch, control, "Pause Game", true, todo, 111f, 35f, control.screenWidth-113f, control.screenHeight-37f);
 
         //load the music and play
         if (game.playMusic){
@@ -79,7 +78,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         
-        if (!game.isPaused && !btn.ispressed){
+        if (!game.isPaused && !btn.pressed){
             player.update(control);
             camera.position.lerp(player.pos, .1f);
             camera.update();
@@ -134,7 +133,7 @@ public class GameScreen extends ScreenAdapter {
         player.inventory.draw(batch);
         batch.end();
 
-        if (!game.isPaused && !btn.ispressed) game.box2d.tick(camera, control);
+        if (!game.isPaused && !btn.pressed) game.box2d.tick(camera, control);
     }
 
     @Override

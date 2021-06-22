@@ -13,6 +13,7 @@ public class TitleScreen extends ScreenAdapter {
 
     public TitleScreen(GameClass game) {
         this.game = game;
+        game.isPaused = false;
     }
 
     @Override

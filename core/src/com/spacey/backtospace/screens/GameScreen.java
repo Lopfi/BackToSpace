@@ -104,7 +104,17 @@ public class GameScreen extends ScreenAdapter {
             }
         } 
         if (game.isPaused){
-            if(control.B) game.setScreen(new TitleScreen(game));
+            if(control.B){
+        //load the music and play
+        if (game.playMusic){
+            game.introSound.pause();
+            game.gameSound.pause();
+            long SoundId = game.gameSound.loop();
+            game.gameSound.setVolume(SoundId,game.playVolume);
+            //mp3Sound.stop(id);
+        }
+                game.setScreen(new TitleScreen(game));
+            }
             else if(control.E) game.setScreen(new SettingsScreen(game));
             else if(control.X) Gdx.app.exit();
             else if(control.Space) game.isPaused = false;

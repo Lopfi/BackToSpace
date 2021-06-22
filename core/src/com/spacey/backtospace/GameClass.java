@@ -27,6 +27,8 @@ public class GameClass extends Game {
     public Float playVolume;
 
     public Integer coins;
+    public Integer life;
+
     public Integer level;
     public Integer slot1;
     public Integer slot2;

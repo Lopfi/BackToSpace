@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
+import com.spacey.backtospace.Entity.Statusbar;
 import com.spacey.backtospace.Helper.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
@@ -142,6 +143,7 @@ public class GameScreen extends ScreenAdapter {
         // Für Dialoge ==> "Hey you! Your Rocket Broke and now your lost in Space repair it ..."
         //Statusbar.create(batch, control.screenWidth, "Hello");
         
+        Statusbar.showlife(game, batch);
         
         
         //Own Button Implementation

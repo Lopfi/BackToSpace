@@ -2,13 +2,11 @@ package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.Statusbar;
 import com.spacey.backtospace.Entity.Structure;
-import com.spacey.backtospace.Helper.Button;
 import com.spacey.backtospace.Entity.UI.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
@@ -152,7 +150,7 @@ public class GameScreen extends ScreenAdapter {
 
         
         //Own Button Implementation
-        btn.renderNoStage();
+        pauseBtn.draw(batch);
         //Own Button Implementation
 
 

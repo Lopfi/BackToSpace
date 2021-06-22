@@ -27,13 +27,14 @@ public class LoadingScreen extends ScreenAdapter {
         shapeRenderer.setProjectionMatrix(game.batch.getProjectionMatrix());
         Datasave saver;
         saver = new Datasave();
-        if (!saver.exists("new")){
+        if (!saver.exists("intialized")){
             Gdx.app.log("INFO", "Save not found creating new.");
-            saver.write("new", true);
+            saver.write("intialized", true);
             saver.write("music", true);
             saver.write("volume", .8f);
             saver.write("coins", 0);
             saver.write("level", 1);
+            saver.write("life", 3);
             saver.write("playerx", 100f);
             saver.write("playery", 100f);
 
@@ -48,6 +49,7 @@ public class LoadingScreen extends ScreenAdapter {
         game.slot2 = saver.readInteger("slot2");
         game.slot3 = saver.readInteger("slot3");
         game.level = saver.readInteger("level");
+        game.life = saver.readInteger("life");
         game.playerX = saver.readFloat("playerx");
         game.playerY = saver.readFloat("playery");
         game.assets.loadAssets(game.playMusic);

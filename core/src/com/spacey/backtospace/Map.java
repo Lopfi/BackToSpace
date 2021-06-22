@@ -56,13 +56,14 @@ public class Map {
         entities.add(newEntity);
     }
 
-    public void deleteEntity(Entity oldEntity) {
+    public Entity deleteEntity(Entity oldEntity) {
         for(int i = 0; i < entities.size(); i++ ){
             if(entities.get(i) == oldEntity){
                 entities.remove(i);
-                break;
+                return entities.get(i);
             }
         }
+        return null;
     }
     
     private void setup_tiles(){

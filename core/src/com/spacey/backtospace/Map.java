@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.Tile;
 import com.spacey.backtospace.Helper.Enums.TILETYPE;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,12 +28,14 @@ public class Map {
     final int borderWidth;
 
     private ArrayList<Tile> tiles;
+    private ArrayList<Entity> entities;
     
     public Map(GameClass game){
         height = 50;
         width = 50;
         borderWidth = 5;
         tiles = new ArrayList<>();
+        entities = new ArrayList<>();
         getImages(game.assets.manager);
         setup_tiles();
         generateHitboxes(game.box2d);
@@ -43,6 +46,24 @@ public class Map {
             tile.draw(batch);
             if (debug) batch.draw(devGrid, tile.pos.x, tile.pos.y, tile.width, tile.height);
         }
+        //Entitys zeichnen
+        for(Entity entity : entities) {
+            entity.draw(batch);
+        }
+    }
+
+    public void addEntity(Entity newEntity) {
+        entities.add(newEntity);
+    }
+
+    public Entity deleteEntity(Entity oldEntity) {
+        for(int i = 0; i < entities.size(); i++ ){
+            if(entities.get(i) == oldEntity){
+                entities.remove(i);
+                return oldEntity;
+            }
+        }
+        return null;
     }
     
     private void setup_tiles(){

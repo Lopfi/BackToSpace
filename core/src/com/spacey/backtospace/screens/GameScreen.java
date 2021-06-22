@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
+import com.spacey.backtospace.Entity.Statusbar;
+import com.spacey.backtospace.Entity.Structure;
+import com.spacey.backtospace.Helper.Button;
 import com.spacey.backtospace.Entity.UI.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
@@ -32,6 +35,11 @@ public class GameScreen extends ScreenAdapter {
     Matrix4 screenMatrix;
     Button pauseBtn;
 
+    Item wood;
+    Structure stone;
+    Structure rocket;
+
+
     public GameScreen(GameClass game) {
         this.game = game;
         this.camera = game.camera;
@@ -49,8 +57,17 @@ public class GameScreen extends ScreenAdapter {
         map = new Map(game);
         player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
 
-        Item wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
-        player.inventory.addItem(wood);
+        wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
+        stone = new Structure(Enums.STRUCTURETYPE.STONE, game, 300, 300);
+        rocket = new Structure(Enums.STRUCTURETYPE.ROCKET, game, 459, 500 );
+        //player.inventory.addItem(wood);
+
+        wood.pos.x = 100;
+        wood.pos.y = 100;
+
+        map.addEntity(wood);
+        map.addEntity(stone);
+        map.addEntity(rocket);
 
         pauseBtn = new Button(game, control, game.assets.manager.get("ui/PauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height -10, 0);
@@ -79,6 +96,10 @@ public class GameScreen extends ScreenAdapter {
             camera.update();
         }
 
+        if(control.slot1) {
+            map.deleteEntity(wood);
+        }
+
         //Gdx.app.log("POS", String.valueOf(camera.position));
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -100,7 +121,17 @@ public class GameScreen extends ScreenAdapter {
             }
         } 
         if (game.isPaused){
-            if(control.B) game.setScreen(new TitleScreen(game));
+            if(control.B){
+        //load the music and play
+        if (game.playMusic){
+            game.introSound.pause();
+            game.gameSound.pause();
+            long SoundId = game.gameSound.loop();
+            game.gameSound.setVolume(SoundId,game.playVolume);
+            //mp3Sound.stop(id);
+        }
+                game.setScreen(new TitleScreen(game));
+            }
             else if(control.E) game.setScreen(new SettingsScreen(game));
             else if(control.X) Gdx.app.exit();
             else if(control.Space) game.isPaused = false;
@@ -116,8 +147,17 @@ public class GameScreen extends ScreenAdapter {
         //batch.draw(coin, ?, ?, coin.getWidth()*game.uiScale, coin.getHeight()*game.uiScale);
         // Für Dialoge ==> "Hey you! Your Rocket Broke and now your lost in Space repair it ..."
         //Statusbar.create(batch, control.screenWidth, "Hello");
-        pauseBtn.draw(batch);
-        if (game.isPaused) batch.draw(game.assets.manager.get("menu/options.png", Texture.class), control.screenWidth/4f, control.screenHeight/5f, (control.screenWidth/4f)*2, (control.screenHeight/5f)*3);
+        
+        Statusbar.showlife(game, batch);
+
+        
+        //Own Button Implementation
+        btn.renderNoStage();
+        //Own Button Implementation
+
+
+
+        if (game.isPaused) batch.draw(game.assets.manager.get("menu/options.png", Texture.class), control.screenWidth/4, control.screenHeight/5, (control.screenWidth/4)*2, (control.screenHeight/5)*3);
         player.inventory.draw(batch);
         batch.end();
 

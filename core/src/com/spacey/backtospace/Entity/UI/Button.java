@@ -42,7 +42,6 @@ public class Button extends UIElement {
     }
 
     public void update() {
-        Gdx.app.log("lmb", String.valueOf(control.LMB));
         if (control.LMB && mouseOnButton() && !clicked && !pressed) {
             pressed = true;
             clicked = true;

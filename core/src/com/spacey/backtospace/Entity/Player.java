@@ -55,7 +55,8 @@ public class Player extends Entity {
             if (control.right) dirX = 1;
         }
 
-        flipped = dirX < 0;
+        if (dirX < 0) flipped = true;
+        if (dirX > 0) flipped = false;
 
         body.setLinearVelocity(dirX * speed, dirY * speed);
         //body.applyForceToCenter(new Vector2(dirX * speed, dirY * speed), false);

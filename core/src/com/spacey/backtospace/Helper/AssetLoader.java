@@ -27,6 +27,7 @@ public class AssetLoader {
         manager.load("tiles/space/space6.png", Texture.class);
         manager.load("tiles/space/space7.png", Texture.class);
         manager.load("tiles/dev_grid.png", Texture.class);
+        manager.load("ui/PauseBtn.png", Texture.class);
 
         //load music assets
         if (music){

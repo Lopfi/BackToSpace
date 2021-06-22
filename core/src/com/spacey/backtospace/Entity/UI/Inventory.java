@@ -1,24 +1,22 @@
-package com.spacey.backtospace.Entity;
+package com.spacey.backtospace.Entity.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.GameClass;
 
-public class Inventory extends Entity{
+public class Inventory extends UIElement{
 
     public Item[] items;
     public int itemCount;
     float scale;
 
     public Inventory(int slots, GameClass game) {
-        super();
-        scale = game.uiScale;
+        super(game);
         items = new Item[slots];
         itemCount = 0;
-        texture = game.assets.manager.get("player/Itembar.png", Texture.class);
-        width = texture.getWidth() * scale;
-        height = texture.getHeight() * scale;
+        this.texture = this.initTexture(game.assets.manager.get("player/Itembar.png", Texture.class));
         pos.x = (Gdx.graphics.getWidth() / 2f)- (width/2);
         pos.y = 15;
     }
@@ -61,7 +59,7 @@ public class Inventory extends Entity{
         super.draw(batch);
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null) {
-                items[i].draw(batch, i, width, items.length, scale, pos.x, pos.y);
+                items[i].drawInInv(batch, i, width, items.length, scale, pos.x, pos.y);
             }
         }
     }

@@ -19,6 +19,12 @@ public class Entity {
     public Entity(){
         pos = new Vector3();
     }
+
+    public Texture initTexture(Texture texture) {
+        this.height = texture.getHeight();
+        this.width = texture.getWidth();
+        return texture;
+    }
     
     public void draw(SpriteBatch batch){
         batch.draw(texture, pos.x, pos.y, width, height);

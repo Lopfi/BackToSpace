@@ -31,7 +31,10 @@ public class Item extends Entity{
             default:
                 break;
         }
+        width = texture.getWidth();
+        height = texture.getHeight();
     }
+
     public void draw(Batch batch, int slot, float width, int invslots, float scale, float x, float y){
         float middle = x + (3*scale) + (((width - (3*scale))/invslots)*slot);
         batch.draw(texture, middle, y+8, texture.getWidth() * scale, texture.getHeight() * scale);

@@ -32,6 +32,8 @@ public class GameScreen extends ScreenAdapter {
     Matrix4 screenMatrix;
     Button btn;
 
+    Item wood;
+
     public GameScreen(GameClass game) {
         this.game = game;
         this.camera = game.camera;
@@ -49,8 +51,13 @@ public class GameScreen extends ScreenAdapter {
         map = new Map(game);
         player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
 
-        Item wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
-        player.inventory.addItem(wood);
+        wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
+        //player.inventory.addItem(wood);
+
+        wood.pos.x = 100;
+        wood.pos.y = 100;
+
+        map.addEntity(wood);
 
         //Own Button Implementation
         class Test implements Callable {
@@ -82,6 +89,10 @@ public class GameScreen extends ScreenAdapter {
             player.update(control);
             camera.position.lerp(player.pos, .1f);
             camera.update();
+        }
+
+        if(control.slot1) {
+            map.deleteEntity(wood);
         }
 
         //Gdx.app.log("POS", String.valueOf(camera.position));

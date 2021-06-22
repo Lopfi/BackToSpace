@@ -20,4 +20,10 @@ public class Enums {
         FUEL
     }
 
+    public enum STRUCTURETYPE {
+        ROCKET,
+        STONE,
+        WOOD
+    }
+
 }

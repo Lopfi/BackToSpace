@@ -60,7 +60,7 @@ public class Map {
         for(int i = 0; i < entities.size(); i++ ){
             if(entities.get(i) == oldEntity){
                 entities.remove(i);
-                return entities.get(i);
+                return oldEntity;
             }
         }
         return null;

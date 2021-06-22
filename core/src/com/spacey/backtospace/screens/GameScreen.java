@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
+import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Helper.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
@@ -33,6 +34,9 @@ public class GameScreen extends ScreenAdapter {
     Button btn;
 
     Item wood;
+    Structure stone;
+    Structure rocket;
+
 
     public GameScreen(GameClass game) {
         this.game = game;
@@ -52,12 +56,16 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
 
         wood = new Item(Enums.ITEMTYPE.WOOD, game.assets.manager);
+        stone = new Structure(Enums.STRUCTURETYPE.STONE, game, 300, 300);
+        rocket = new Structure(Enums.STRUCTURETYPE.ROCKET, game, 459, 500 );
         //player.inventory.addItem(wood);
 
         wood.pos.x = 100;
         wood.pos.y = 100;
 
         map.addEntity(wood);
+        map.addEntity(stone);
+        map.addEntity(rocket);
 
         //Own Button Implementation
         class Test implements Callable {

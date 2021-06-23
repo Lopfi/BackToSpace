@@ -9,7 +9,7 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DHelper;
-import com.spacey.backtospace.box2d.Box2DWorld;
+
 
 public class Player extends Entity {
 

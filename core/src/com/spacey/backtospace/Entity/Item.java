@@ -19,10 +19,10 @@ public class Item extends Entity{
                 //texture = new Texture("items/Fuel.png");
                 break;
             case WOOD:
-                texture = manager.get("items/Wood10x8.png", Texture.class);
+                this.texture = this.initTexture(manager.get("items/Wood10x8.png", Texture.class));
                 break;
             case STONE:
-                texture = manager.get("items/Stone10x8.png", Texture.class);
+                this.texture = this.initTexture(manager.get("items/Stone10x8.png", Texture.class));
                 break;
             case ENGINE:
                 break;
@@ -31,12 +31,9 @@ public class Item extends Entity{
             default:
                 break;
         }
-        width = texture.getWidth();
-        height = texture.getHeight();
     }
-
-    public void draw(Batch batch, int slot, float width, int invslots, float scale, float x, float y){
-        float middle = x + (3*scale) + (((width - (3*scale))/invslots)*slot);
-        batch.draw(texture, middle, y+8, texture.getWidth() * scale, texture.getHeight() * scale);
+    public void drawInInv(Batch batch, int slot, float width, int invSlots, float scale, float x, float y){
+        float middle = x + (4*scale) + (((width - (4*scale))/invSlots)*slot);
+        batch.draw(texture, middle, y + (3*scale), width * scale, height * scale);
     }
 }

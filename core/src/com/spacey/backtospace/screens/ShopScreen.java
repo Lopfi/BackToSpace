@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.spacey.backtospace.GameClass;
-import com.spacey.backtospace.Helper.Button;
+import com.spacey.backtospace.Entity.UI.Button;
 
 public class ShopScreen extends ScreenAdapter {
 
@@ -33,7 +33,7 @@ public class ShopScreen extends ScreenAdapter {
                 return true;
             }
         };
-        btn = new Button(stage, "Increase your coins (fake!) or press [c]", action, 400, 120, 240, 300);
+        btn = new Button(game, stage, "Increase your coins (fake!) or press [c]", action, 400, 120, 240, 300);
         InputListener action2 = new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -42,7 +42,7 @@ public class ShopScreen extends ScreenAdapter {
                 return true;
             }
         };
-        back = new Button(stage, "or click here", action2, 120, 60, 600, 150);
+        back = new Button(game, stage, "or click here", action2, 120, 60, 600, 150);
         stage.addListener(new InputListener() 
         {
             @Override

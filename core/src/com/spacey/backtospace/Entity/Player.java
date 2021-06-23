@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
@@ -19,12 +20,11 @@ public class Player extends Entity {
 
     public Player(Vector3 pos, GameClass game) {
         super();
-        texture = game.assets.manager.get("player/Spaceman_walk.png", Texture.class);
+        this.texture = this.initTexture(game.assets.manager.get("player/Spaceman_walk.png", Texture.class));
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
 
         inventory = new Inventory(3, game);
-        height = texture.getHeight();
-        width = texture.getWidth()/2f;
+        width = width/2f;
         speed = 60;
         body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody);
     }
@@ -58,6 +58,7 @@ public class Player extends Entity {
         flipped = dirX < 0;
 
         body.setLinearVelocity(dirX * speed, dirY * speed);
+        //body.applyForceToCenter(new Vector2(dirX * speed, dirY * speed), false);
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - (height-4)/2;
     }

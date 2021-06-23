@@ -7,10 +7,9 @@ import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.Statusbar;
 import com.spacey.backtospace.Entity.Structure;
-import com.spacey.backtospace.Helper.Button;
+import com.spacey.backtospace.Entity.UI.Button;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Datasave;
-import java.util.concurrent.Callable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,7 +31,7 @@ public class GameScreen extends ScreenAdapter {
     Player player;
     SpriteBatch batch;
     Matrix4 screenMatrix;
-    Button btn;
+    Button pauseBtn;
 
     Item wood;
     Structure stone;
@@ -68,15 +67,8 @@ public class GameScreen extends ScreenAdapter {
         map.addEntity(stone);
         map.addEntity(rocket);
 
-        //Own Button Implementation
-        class Test implements Callable {
-            public Object call() {
-                game.isPaused = !game.isPaused;
-                return null;
-            }
-        }
-        Callable<Void> todo = new Test();
-        btn = new Button(batch, control, "Pause Game", true, todo, 111f, 35f, control.screenWidth-113f, control.screenHeight-37f);
+        pauseBtn = new Button(game, control, game.assets.manager.get("ui/PauseBtn.png", Texture.class), true, 100, 100);
+        pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height -10, 0);
 
         //load the music and play
         if (game.playMusic){
@@ -93,8 +85,10 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-        
-        if (!game.isPaused && !btn.pressed){
+
+        pauseBtn.update();
+        if (pauseBtn.pressed) game.isPaused = !game.isPaused;
+        if (!game.isPaused && !pauseBtn.pressed){
             player.update(control);
             camera.position.lerp(player.pos, .1f);
             camera.update();
@@ -111,6 +105,7 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
 
         map.draw(batch, (control.debug&&!game.isPaused));
+
         if (!game.isPaused) player.drawAnimation(batch, stateTime);//idk if we want to hide the player but i think it should not animate in pause
         if (control.debug && !game.isPaused) game.font.draw(batch, "x:"+Math.round(camera.position.x)+" y:"+Math.round(camera.position.y), camera.position.x - 50, camera.position.y -20);
 
@@ -155,7 +150,7 @@ public class GameScreen extends ScreenAdapter {
 
         
         //Own Button Implementation
-        btn.renderNoStage();
+        pauseBtn.draw(batch);
         //Own Button Implementation
 
 
@@ -164,7 +159,7 @@ public class GameScreen extends ScreenAdapter {
         player.inventory.draw(batch);
         batch.end();
 
-        if (!game.isPaused && !btn.pressed) game.box2d.tick(camera, control);
+        if (!game.isPaused && !pauseBtn.pressed) game.box2d.tick(camera, control);
     }
 
     @Override

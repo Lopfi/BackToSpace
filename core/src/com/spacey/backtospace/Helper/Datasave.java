@@ -22,24 +22,19 @@ public void write(String key, Float data){
     prefs.flush();
 }    
 public String readString(String key){
-    String Sdata = prefs.getString(key, "");
-    return Sdata;
+    return prefs.getString(key);
 }
-public Boolean readBoolean(String key){
-    Boolean Bdata = prefs.getBoolean(key, false);
-    return Bdata;
+public boolean readBoolean(String key){
+    return prefs.getBoolean(key);
 }
-public Integer readInteger(String key){
-    Integer Idata = prefs.getInteger(key, 0);
-    return Idata;
+public int readInteger(String key){
+    return prefs.getInteger(key);
 }
-public Float readFloat(String key){
-    Float Idata = prefs.getFloat(key, 0f);
-    return Idata;
+public float readFloat(String key){
+    return prefs.getFloat(key);
 }
 public boolean exists(String key){
-    boolean is = prefs.contains(key);
-    return is;
+    return prefs.contains(key);
 }
 public void clear(){
     prefs.clear();

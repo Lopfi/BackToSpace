@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.spacey.backtospace.Helper.Enums;
 
 public class Entity {
     public Vector3 pos;
@@ -14,7 +15,8 @@ public class Entity {
     public float height;
     public Animation<TextureRegion> animation;
     public Body body;
-    
+    public Enums.ENTITYTYPE type;
+
     public Entity(){
         pos = new Vector3();
     }

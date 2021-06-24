@@ -1,4 +1,4 @@
-package com.spacey.backtospace.Entity;
+package com.spacey.backtospace.Entity.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -10,24 +10,17 @@ import com.spacey.backtospace.Helper.Enums;
 
 public class Item extends UIElement {
 
-    public Enums.ITEMTYPE type;
+    public Enums.ENTITYTYPE type;
 
-    public Item(Enums.ITEMTYPE type, GameClass game) {
+    public Item(Enums.ENTITYTYPE type, GameClass game) {
         super(game);
         this.type = type;
         switch (type) {
             case FUEL:
                 //texture = new Texture("items/Fuel.png");
                 break;
-            case WOOD:
-                this.texture = this.initTexture(game.assets.manager.get("items/Wood10x8.png", Texture.class));
-                break;
             case STONE:
-                this.texture = this.initTexture(game.assets.manager.get("items/Stone10x8.png", Texture.class));
-                break;
-            case ENGINE:
-                break;
-            case HAMMER:
+                this.texture = this.initTexture(game.assets.manager.get("items/Stone.png", Texture.class));
                 break;
             default:
                 break;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Entity;
-import com.spacey.backtospace.Entity.Item;
+import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Entity.UI.UI;
@@ -63,8 +63,8 @@ public class GameScreen extends ScreenAdapter {
 
         game.box2d.world.setContactListener(new ContactListener(this));
 
-        stone = new Structure(Enums.STRUCTURETYPE.STONE, game, 300, 300);
-        rocket = new Structure(Enums.STRUCTURETYPE.ROCKET, game, 459, 500);
+        stone = new Structure(Enums.ENTITYTYPE.STONE, game, 300, 300);
+        rocket = new Structure(Enums.ENTITYTYPE.ROCKET, game, 459, 500);
 
         map.addEntity(stone);
         map.addEntity(rocket);
@@ -93,8 +93,7 @@ public class GameScreen extends ScreenAdapter {
                     Entity currentEntity = map.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
                         map.deleteEntity(currentEntity); // delete the collider of the entity
-                        //TODO: check the type of the entity and add the right item
-                        player.inventory.addItem(new Item(Enums.ITEMTYPE.STONE, game)); // add the item to the inv
+                        player.inventory.addItem(new Item(currentEntity.type, game)); // add the item to the inv
                         break;
                     }
                 }

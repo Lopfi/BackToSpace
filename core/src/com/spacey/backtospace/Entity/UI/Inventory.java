@@ -3,7 +3,6 @@ package com.spacey.backtospace.Entity.UI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.GameClass;
 
 public class Inventory extends UIElement{

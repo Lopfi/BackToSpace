@@ -8,16 +8,12 @@ public class Enums {
 
     public enum ENTITYTYPE {
         PLAYER,
-        ITEM,
-        TILE
-    }
-
-    public enum ITEMTYPE {
-        WOOD,
+        ROCKET,
+        TILE,
         STONE,
-        ENGINE,
-        HAMMER,
-        FUEL
+        FUEL,
+        SCREWDRIVER,
+        SCREW
     }
 
     public enum STRUCTURETYPE {

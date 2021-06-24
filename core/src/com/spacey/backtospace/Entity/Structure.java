@@ -8,20 +8,15 @@ import com.spacey.backtospace.box2d.Box2DHelper;
 
 public class Structure extends Entity{
 
-    public Enums.STRUCTURETYPE type;
 
-    public Structure(Enums.STRUCTURETYPE type, GameClass gameClass, float x, float y) {
+    public Structure(Enums.ENTITYTYPE type, GameClass gameClass, float x, float y) {
         super();
         this.type = type;
         switch (type) {
-            case WOOD:
-                texture = gameClass.assets.manager.get("structures/Wood.png", Texture.class);
-                break;
             case STONE:
-                texture = gameClass.assets.manager.get("structures/Stone.png", Texture.class);
+                texture = gameClass.assets.manager.get("structures/Stone3_big.png", Texture.class);
                 break;
-
-                case ROCKET:
+            case ROCKET:
                 texture = gameClass.assets.manager.get("structures/Rocket.png", Texture.class);
                 break;
             default:

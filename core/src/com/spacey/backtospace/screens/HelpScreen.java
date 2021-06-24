@@ -34,11 +34,11 @@ public class HelpScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(.7f, .2f, .02f, 1);
-        //Gdx.gl.glClearColor(.35f, 0f, 1f, 1); nice purple
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         float textX = Gdx.graphics.getWidth() * .25f;
 
+        // TODO replace with single image
         game.batch.begin();
         game.font.draw(game.batch, "CONTROLS", textX, getLineY(0));
         game.font.draw(game.batch, "Inventory: [1]=1.Slot   [2]=2.Slot   [3]=3.Slot", textX, getLineY(3));

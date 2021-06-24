@@ -1,27 +1,34 @@
 package com.spacey.backtospace.Entity.UI;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 
+// display different elements of the ui in the game-screen
 public class UI extends UIElement{
     public Button pauseBtn;
     private GameClass game;
     private Control control;
+    private UIElement pauseScreen;
     private UIElement lives;
-    private Texture textField;
-    private Texture coins;
+    private UIElement textField;
+    private UIElement coins;
     public String textFieldText;
 
     public UI(GameClass game, Control control) {
         super(game);
         this.game = game;
         this.control = control;
-        this.lives = new UIElement(game);
-        lives.texture = lives.initTexture(game.assets.manager.get("menu/herz.png", Texture.class));
+        lives = new UIElement(game, game.assets.manager.get("menu/herz.png", Texture.class));
+        pauseScreen = new UIElement(game, game.assets.manager.get("ui/pause.png", Texture.class));
+        pauseScreen.pos.x = control.screenWidth / 4f;
+        pauseScreen.pos.y = control.screenHeight / 5f;
+        pauseScreen.width = (control.screenWidth / 4f) * 2; // TODO: replace texture with one thats the right size and remove these lines
+        pauseScreen.height = (control.screenHeight / 5f) * 3;
+        //textField
+        //coins
         pauseBtn = new Button(game, control, game.assets.manager.get("ui/PauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height -10, 0);
 
@@ -37,15 +44,21 @@ public class UI extends UIElement{
             lives.draw(batch);
         }
         //draw coins
-        //draw coin texture
-        // draw amount next to it (wäre cool mit 0001 das man das mit nullern auffüllt)
+            //draw coin texture
+            // draw amount next to it (wäre cool mit 0001 das man das mit Nullern auffüllt muss aber nicht)
 
         //draw text field
-        //draw textField texture
-        //draw font
+            //draw textField texture
+            //draw font
+
+        if (game.isPaused) pauseScreen.draw(batch);
+        // draw coordinates for dev mode
+        if (control.debug) // draw coordinates
+            game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
     }
 
     public void update() {
         pauseBtn.update();
+        //handle updates for textFields
     }
 }

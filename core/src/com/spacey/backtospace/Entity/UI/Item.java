@@ -1,13 +1,11 @@
 package com.spacey.backtospace.Entity.UI;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.spacey.backtospace.Entity.UI.UIElement;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 
+// store and display different item types in the inventory
 public class Item extends UIElement {
 
     public Enums.ENTITYTYPE type;
@@ -17,19 +15,21 @@ public class Item extends UIElement {
         this.type = type;
         switch (type) {
             case FUEL:
-                //texture = new Texture("items/Fuel.png");
+                texture = initTexture(game.assets.manager.get("items/Fuel.png", Texture.class));
                 break;
             case STONE:
-                this.texture = this.initTexture(game.assets.manager.get("items/Stone.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/Stone.png", Texture.class));
                 break;
             default:
                 break;
         }
     }
-    public void drawInInv(Batch batch, int slot, float invX, float invY){
-        int separator = 3 * 4;
-        int slotWidth = 10 * 4;
-        float x = invX + separator + slot * (separator + slotWidth);    //float x = invX + (4* scale) + (((width - (4*scale))/invSlots)*slot);
-        batch.draw(texture, x, invY + 2 * 4, width, height);
+    public void drawInInv(SpriteBatch batch, int slot, float invX, float invY){
+        // TODO make nicer and more dynamic again
+        float separator = 3 * scale; // the space between two slots
+        float slotWidth = 10 * scale;
+        pos.x = invX + separator + slot * (separator + slotWidth);    //float x = invX + (4* scale) + (((width - (4*scale))/invSlots)*slot);
+        pos.y = invY + 2 * scale;
+        draw(batch);
     }
 }

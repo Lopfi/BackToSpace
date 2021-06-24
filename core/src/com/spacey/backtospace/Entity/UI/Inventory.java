@@ -5,17 +5,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
 
+// store and display items
 public class Inventory extends UIElement{
 
     public Item[] items;
     public int itemCount;
 
     public Inventory(int slots, GameClass game) {
-        super(game);
+        super(game, game.assets.manager.get("ui/inventory.png", Texture.class));
         items = new Item[slots];
         itemCount = 0;
-        this.texture = this.initTexture(game.assets.manager.get("player/Itembar.png", Texture.class));
-        pos.x = (Gdx.graphics.getWidth() / 2f)- (width/2);
+        pos.x = (Gdx.graphics.getWidth() / 2f) - (width / 2); // divide by two because animated sprite sheet
         pos.y = 15;
     }
 

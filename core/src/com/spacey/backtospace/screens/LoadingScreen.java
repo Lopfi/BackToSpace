@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.spacey.backtospace.GameClass;
-import com.spacey.backtospace.Helper.Datasave;
+import com.spacey.backtospace.Helper.DataSafe;
 
 public class LoadingScreen extends ScreenAdapter {
 
@@ -16,42 +16,15 @@ public class LoadingScreen extends ScreenAdapter {
 
     public LoadingScreen(GameClass game) {
         this.game = game;
-
     }
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     @Override
     public void show(){
         Gdx.app.log("INFO", "Started Loading");
-        //Check if standard values need to be set
-        shapeRenderer.setProjectionMatrix(game.batch.getProjectionMatrix());
-        Datasave saver;
-        saver = new Datasave();
-        if (!saver.exists("intialized")){
-            Gdx.app.log("INFO", "Save not found creating new.");
-            saver.write("intialized", true);
-            saver.write("music", true);
-            saver.write("volume", .8f);
-            saver.write("coins", 0);
-            saver.write("level", 1);
-            saver.write("life", 3);
-            saver.write("playerx", 100f);
-            saver.write("playery", 100f);
 
-            saver.write("slot1", 0);
-            saver.write("slot2", 0);
-            saver.write("slot3", 0);
-        }
-        game.playMusic = saver.readBoolean("music");
-        game.playVolume = saver.readFloat("volume");
-        game.coins = saver.readInteger("coins");
-        game.slot1 = saver.readInteger("slot1");
-        game.slot2 = saver.readInteger("slot2");
-        game.slot3 = saver.readInteger("slot3");
-        game.level = saver.readInteger("level");
-        game.life = saver.readInteger("life");
-        game.playerX = saver.readFloat("playerx");
-        game.playerY = saver.readFloat("playery");
+        shapeRenderer.setProjectionMatrix(game.batch.getProjectionMatrix());
+
         game.assets.loadAssets(game.playMusic);
     }
 
@@ -59,7 +32,6 @@ public class LoadingScreen extends ScreenAdapter {
     public void hide(){
         //if we idk need to clear something after the screen ends
         Gdx.input.setInputProcessor(null);
-        //shapeRenderer.dispose();
     }
 
 
@@ -72,7 +44,8 @@ public class LoadingScreen extends ScreenAdapter {
         Gdx.app.log("INFO", "Finished Loading");
         game.setScreen(new TitleScreen(game));
         }
-         // display loading information
+        // TODO replace with single image
+        // display loading information
         Gdx.gl.glClearColor(.05f, .15f, .35f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shapeRenderer.begin(ShapeType.Filled);

@@ -1,16 +1,11 @@
 package com.spacey.backtospace.box2d;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.spacey.backtospace.Entity.Entity;
-import com.spacey.backtospace.Entity.Player;
-import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.screens.GameScreen;
 
-import java.util.ArrayList;
-
+// event listener for contacts between two box2d bodies
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
 
     GameScreen screen;

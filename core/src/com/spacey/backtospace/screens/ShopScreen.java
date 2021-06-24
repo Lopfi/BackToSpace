@@ -17,7 +17,7 @@ public class ShopScreen extends ScreenAdapter {
     Button btn;
     Button back;
     Stage stage = new Stage();
-    public Integer fakecoins = 0;
+    public Integer fakeCoins = 0;
 
     public ShopScreen(GameClass game) {
         this.game = game;
@@ -29,7 +29,7 @@ public class ShopScreen extends ScreenAdapter {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("BUTTON1", "Pressed Text Button");
-                fakecoins++;
+                fakeCoins++;
                 return true;
             }
         };
@@ -49,7 +49,7 @@ public class ShopScreen extends ScreenAdapter {
             public boolean keyDown(InputEvent event, int keycode) 
             {
                 if (keycode == Input.Keys.C){
-                    fakecoins++;
+                    fakeCoins++;
                 } else if (keycode == Input.Keys.F){
                     game.life = game.life + 1;
                 } else if (keycode == Input.Keys.ENTER){
@@ -69,7 +69,7 @@ public class ShopScreen extends ScreenAdapter {
         stage.draw();
 
         game.batch.begin();
-        game.font.draw(game.batch, "Current Coins: (press f to get fake hearts)" + (game.coins + fakecoins), Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .79f);
+        game.font.draw(game.batch, "Current Coins: (press f to get fake hearts)" + (game.coins + fakeCoins), Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .79f);
         game.font.draw(game.batch, "THE SECRET SHOP (later u can spend real money)", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
         game.font.draw(game.batch, "[ENTER] To get back to the main menu.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();

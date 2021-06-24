@@ -1,4 +1,6 @@
 package com.spacey.backtospace.Helper;
+
+// defines different types to be used elsewhere
 public class Enums {
     
     public enum TILETYPE {
@@ -9,17 +11,9 @@ public class Enums {
     public enum ENTITYTYPE {
         PLAYER,
         ROCKET,
-        TILE,
         STONE,
         FUEL,
         SCREWDRIVER,
         SCREW
     }
-
-    public enum STRUCTURETYPE {
-        ROCKET,
-        STONE,
-        WOOD
-    }
-
 }

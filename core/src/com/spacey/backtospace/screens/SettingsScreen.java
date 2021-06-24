@@ -7,12 +7,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.spacey.backtospace.GameClass;
-import com.spacey.backtospace.Helper.Datasave;
+import com.spacey.backtospace.Helper.DataSafe;
 
 public class SettingsScreen extends ScreenAdapter {
     GameClass game;
-    public Boolean musicMode = false; 
-    public Datasave saver;
+    public Boolean musicMode = false;
     public Boolean deleteMode; //if u want to remove all the data
     final float firstLineY;
     public long SoundId;
@@ -20,7 +19,6 @@ public class SettingsScreen extends ScreenAdapter {
     public SettingsScreen(GameClass game) {
         this.game = game;
         deleteMode = false;
-        saver = new Datasave();
         firstLineY = Gdx.graphics.getHeight() * .80f;
     }
 
@@ -48,7 +46,7 @@ public class SettingsScreen extends ScreenAdapter {
                     }
                     if (keyCode == Input.Keys.M) {
                         if (game.playMusic){
-                            saver.write("music", false);
+                            game.safe.write("music", false);
                             game.introSound.pause();
                             game.gameSound.pause();
                         } else {
@@ -56,7 +54,7 @@ public class SettingsScreen extends ScreenAdapter {
                                 musicMode = true;
                                 game.assets.loadMusic();
                             } else {
-                                saver.write("music", true);
+                                game.safe.write("music", true);
                                 game.introSound.play();
                                 long SoundId = game.introSound.loop();
                                 game.introSound.setVolume(SoundId,game.playVolume);
@@ -77,19 +75,19 @@ public class SettingsScreen extends ScreenAdapter {
                     if (game.playMusic){
                         game.introSound.setVolume(SoundId,game.playVolume);
                     }
-                    saver.write("volume", game.playVolume);
+                    game.safe.write("volume", game.playVolume);
                 }
                 if (keyCode == Input.Keys.DOWN && !musicMode) {
                     if(game.playVolume > 0) game.playVolume =((int)((game.playVolume - .1f) * 10)) / 10f;
                     if (game.playMusic){
                         game.introSound.setVolume(SoundId,game.playVolume);
                     }
-                    saver.write("volume", game.playVolume);
+                    game.safe.write("volume", game.playVolume);
                 }
 
                 if (keyCode == Input.Keys.Y && !musicMode) {
                     if(deleteMode){
-                        saver.clear();
+                        game.safe.clear();
                         Gdx.app.exit();
                         //close game cuz else we get value errors to play the standard values need to be set on start
                     }
@@ -118,7 +116,7 @@ public class SettingsScreen extends ScreenAdapter {
         } else if (musicMode){
         if(game.assets.manager.update()) {
             //music play logic
-            saver.write("music", true);
+            game.safe.write("music", true);
             musicMode = false;
             if (game.playMusic){ //IF YOU CAN READ, DONT DELETE THIS BECAUSE U NEED TO SAVE THE SOUNDID WHEN PLAYING TO CHANGE THE VOLUME!
                 game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);

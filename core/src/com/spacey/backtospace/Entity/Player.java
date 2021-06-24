@@ -9,9 +9,10 @@ import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.box2d.Box2DHelper;
 
-
+// the player with a controller to handle movement inputs
 public class Player extends Entity {
 
     private final int speed;
@@ -20,9 +21,9 @@ public class Player extends Entity {
 
     public Player(Vector3 pos, GameClass game) {
         super();
-        this.texture = this.initTexture(game.assets.manager.get("player/Spaceman_walk.png", Texture.class));
+        type = Enums.ENTITYTYPE.PLAYER;
+        texture = initTexture(game.assets.manager.get("player/Spaceman_walk.png", Texture.class));
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
-
         inventory = new Inventory(3, game);
         width = width/2f;
         speed = 60;
@@ -34,8 +35,8 @@ public class Player extends Entity {
     }
 
     public void update(Control control) {
-        int dirX=0;
-        int dirY=0;
+        int dirX = 0;
+        int dirY = 0;
 
         if(control.LMB) {
             int x = Math.round(control.mouse_click_pos.x);
@@ -44,9 +45,9 @@ public class Player extends Entity {
             int midY = Gdx.graphics.getHeight() / 2;
 
             if (x < midX - 100) dirX = -1;
-            if (x > midX +100) dirX = 1;
+            if (x > midX + 100) dirX = 1;
             if (y > midY + 100)  dirY = 1;
-            if (y < midY -50) dirY = -1;
+            if (y < midY - 100) dirY = -1;
 
         } else{
             if (control.down) dirY = -1;
@@ -62,9 +63,5 @@ public class Player extends Entity {
         //body.applyForceToCenter(new Vector2(dirX * speed, dirY * speed), false);
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - (height-4)/2;
-    }
-
-    public void dispose() {
-        texture.dispose();
     }
 }

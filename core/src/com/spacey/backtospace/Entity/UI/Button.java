@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 
+// clickable button with a texture
+// TODO: deprecate all scene2d buttons
 public class Button extends UIElement {
 
     Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -31,12 +33,11 @@ public class Button extends UIElement {
     }
 
     public Button(GameClass game, Control control, Texture texture, boolean visible, float x, float y){
-        super(game);
+        super(game, texture);
         clicked = false;
         pressed = false;
         this.control = control;
         this.visible = visible;
-        this.texture = this.initTexture(game.assets.manager.get("ui/PauseBtn.png", Texture.class));
         pos.x = x;
         pos.y = y;
     }

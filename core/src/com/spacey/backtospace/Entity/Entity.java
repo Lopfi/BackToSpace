@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Helper.Enums;
 
+// most important parent class for everything with a position and a texture
 public class Entity {
     public Vector3 pos;
     public Texture texture;
@@ -22,8 +23,8 @@ public class Entity {
     }
 
     public Texture initTexture(Texture texture) {
-        this.height = texture.getHeight();
-        this.width = texture.getWidth();
+        height = texture.getHeight();
+        width = texture.getWidth();
         return texture;
     }
     

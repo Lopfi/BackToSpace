@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spacey.backtospace.Helper.Control;
 
+// stores and updates a box2d world
 public class Box2DWorld {
     public World world;
     private Box2DDebugRenderer debugRenderer;

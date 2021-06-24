@@ -6,17 +6,23 @@ import com.spacey.backtospace.GameClass;
 
 public class UIElement extends Entity {
 
-    float scale;
+    public float scale;
 
     public UIElement(GameClass game) {
         super();
         scale = game.uiScale;
     }
 
+    public UIElement(GameClass game, Texture texture) {
+        super();
+        scale = game.uiScale;
+        this.texture = initTexture(texture);
+    }
+
     @Override
     public Texture initTexture(Texture texture) {
-        this.height = texture.getHeight() * scale;
-        this.width = texture.getWidth() * scale;
+        height = texture.getHeight() * scale;
+        width = texture.getWidth() * scale;
         return texture;
     }
 }

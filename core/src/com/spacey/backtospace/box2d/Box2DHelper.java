@@ -3,6 +3,7 @@ package com.spacey.backtospace.box2d;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
+// function to automate box2d body creation
 public class Box2DHelper {
 
     public static Body createBody(World world, float width, float height, Vector3 pos, BodyDef.BodyType type) {

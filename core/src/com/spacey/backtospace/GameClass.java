@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.Helper.AssetLoader;
+import com.spacey.backtospace.Helper.DataSafe;
 import com.spacey.backtospace.box2d.Box2DWorld;
 import com.spacey.backtospace.box2d.ContactListener;
 import com.spacey.backtospace.screens.LoadingScreen;
@@ -21,6 +22,7 @@ public class GameClass extends Game {
     public OrthographicCamera camera;
 
     //Create values to be accessible everywhere in the game
+    public DataSafe safe;
     public Boolean isPaused = false;
     public Sound introSound;
     public Sound gameSound;
@@ -48,6 +50,7 @@ public class GameClass extends Game {
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
         box2d = new Box2DWorld();
+        safe = new DataSafe(this);
         // Display Size
         displayW = Gdx.graphics.getWidth();
         displayH = Gdx.graphics.getHeight();

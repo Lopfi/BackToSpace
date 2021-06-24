@@ -102,13 +102,20 @@ public class GameScreen extends ScreenAdapter {
 
         ui.update();
 
-        if (ui.pauseBtn.pressed) game.isPaused = !game.isPaused;
         if (!game.isPaused && !ui.pauseBtn.pressed) {
             player.update(control);
             camera.position.lerp(player.pos, .1f);
             camera.update();
         }
 
+        if (ui.pauseBtn.pressed) {
+            game.isPaused = !game.isPaused;
+            //TODO make pause logic nicer
+            game.safe.write("playerx", player.pos.x);
+            game.safe.write("playery", player.pos.y);
+            game.playerX = player.pos.x;
+            game.playerY = player.pos.y;
+        }
         if (control.Q || control.esc) {
             if (!game.isPaused) {
                 game.safe.write("playerx", player.pos.x);
@@ -120,19 +127,10 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (game.isPaused) {
-            if (control.B) {
-                //load the music and play
-                if (game.playMusic) {
-                    game.introSound.pause();
-                    game.gameSound.pause();
-                    long SoundId = game.gameSound.loop();
-                    game.gameSound.setVolume(SoundId, game.playVolume);
-                    //mp3Sound.stop(id);
-                }
-                game.setScreen(new TitleScreen(game));
-            } else if (control.E) game.setScreen(new SettingsScreen(game));
-            else if (control.X) Gdx.app.exit();
-            else if (control.Space || control.esc) game.isPaused = false;
+            if (control.Space) game.isPaused = false;
+            if (control.B) game.setScreen(new TitleScreen(game));
+            if (control.E) game.setScreen(new SettingsScreen(game));
+            if (control.X) Gdx.app.exit();
         }
 
         batch.setProjectionMatrix(camera.combined);

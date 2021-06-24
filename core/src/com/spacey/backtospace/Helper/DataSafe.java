@@ -7,7 +7,7 @@ import com.spacey.backtospace.GameClass;
 // used to store game data locally
 public class DataSafe {
 
-Preferences prefs;
+public Preferences prefs;
 
 public DataSafe(GameClass game) {
     prefs = Gdx.app.getPreferences("GameData");

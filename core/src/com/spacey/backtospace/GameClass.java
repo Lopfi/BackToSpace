@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.Helper.AssetLoader;
 import com.spacey.backtospace.Helper.DataSafe;
 import com.spacey.backtospace.box2d.Box2DWorld;
-import com.spacey.backtospace.box2d.ContactListener;
 import com.spacey.backtospace.screens.LoadingScreen;
 
 public class GameClass extends Game {
@@ -23,7 +22,7 @@ public class GameClass extends Game {
 
     //Create values to be accessible everywhere in the game
     public DataSafe safe;
-    public Boolean isPaused = false;
+    public Boolean isPaused;
     public Sound introSound;
     public Sound gameSound;
     public Boolean playMusic;
@@ -51,6 +50,8 @@ public class GameClass extends Game {
         font = new BitmapFont();
         box2d = new Box2DWorld();
         safe = new DataSafe(this);
+
+        isPaused = false;
         // Display Size
         displayW = Gdx.graphics.getWidth();
         displayH = Gdx.graphics.getHeight();
@@ -74,12 +75,12 @@ public class GameClass extends Game {
     }
 
     public void startMusic() {
-        if (this.playMusic){
-            this.introSound = this.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-            this.gameSound = this.assets.manager.get("music/GameMusic.mp3", Sound.class);
-            this.introSound.play();
+        if (playMusic){
+            introSound = this.assets.manager.get("music/IntroMusic.mp3", Sound.class);
+            gameSound = this.assets.manager.get("music/GameMusic.mp3", Sound.class);
+            introSound.play();
             long SoundId = this.introSound.loop();
-            this.introSound.setVolume(SoundId,this.playVolume);
+            introSound.setVolume(SoundId,this.playVolume);
             //mp3Sound.stop(id);
         }
     }

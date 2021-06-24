@@ -18,6 +18,14 @@ public class TitleScreen extends ScreenAdapter {
 
     @Override
     public void show(){
+        if (game.playMusic) {
+            game.introSound.pause();
+            game.gameSound.pause();
+            long SoundId = game.gameSound.loop();
+            game.gameSound.setVolume(SoundId, game.playVolume);
+            //mp3Sound.stop(id);
+        }
+
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {

@@ -49,7 +49,7 @@ public class Button extends UIElement {
         }
         else {
             pressed = false;
-            if(!control.LMB )clicked = false;
+            if(!control.LMB)clicked = false;
         }
     }
 

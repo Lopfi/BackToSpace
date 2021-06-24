@@ -67,7 +67,6 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Keys.ESCAPE:
-            case Keys.F4:
                 esc = true;
                 break;
             case Keys.Q:
@@ -118,7 +117,6 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Keys.ESCAPE:
-            case Keys.F4:
                 esc = false;
                 break;
             case Keys.Q:

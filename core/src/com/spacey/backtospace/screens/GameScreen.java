@@ -3,6 +3,9 @@ package com.spacey.backtospace.screens;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.spacey.backtospace.Entity.Entity;
+import com.spacey.backtospace.Entity.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Entity.UI.UI;
@@ -16,6 +19,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.Map;
+import com.spacey.backtospace.box2d.ContactListener;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -36,6 +40,8 @@ public class GameScreen extends ScreenAdapter {
     private Structure stone;
     private Structure rocket;
 
+    public Fixture touchedFixture;
+
 
     public GameScreen(GameClass game) {
         this.game = game;
@@ -55,11 +61,15 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
         ui = new UI(game, control);
 
+        game.box2d.world.setContactListener(new ContactListener(this));
+
         stone = new Structure(Enums.STRUCTURETYPE.STONE, game, 300, 300);
         rocket = new Structure(Enums.STRUCTURETYPE.ROCKET, game, 459, 500);
 
         map.addEntity(stone);
         map.addEntity(rocket);
+
+        Gdx.app.log("Player fixture", String.valueOf(player.getFixture()));
 
         //load the music and play
         if (game.playMusic) {
@@ -76,6 +86,21 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
+        if (touchedFixture != null) { // check if the player is currently touching something
+            if (control.E) { // only continue if player is trying to pick something up
+                for (int i = 0; i < map.entities.size(); i++) { // find the entity of the touched fixture
+                    Entity currentEntity = map.entities.get(i);
+                    if (currentEntity.getFixture() == touchedFixture) {
+                        map.deleteEntity(currentEntity); // delete the collider of the entity
+                        //TODO: check the type of the entity and add the right item
+                        player.inventory.addItem(new Item(Enums.ITEMTYPE.STONE, game)); // add the item to the inv
+                        break;
+                    }
+                }
+            }
+            touchedFixture = null; // reset the touched fixture
+        }
 
         ui.update();
 
@@ -137,8 +162,9 @@ public class GameScreen extends ScreenAdapter {
         ui.draw(batch);
 
 
-        if (game.isPaused)
+        if (game.isPaused) {
             batch.draw(game.assets.manager.get("menu/options.png", Texture.class), control.screenWidth / 4, control.screenHeight / 5, (control.screenWidth / 4) * 2, (control.screenHeight / 5) * 3);
+        }
         player.inventory.draw(batch);
         batch.end();
 

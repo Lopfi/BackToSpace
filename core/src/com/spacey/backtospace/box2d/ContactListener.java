@@ -1,26 +1,29 @@
 package com.spacey.backtospace.box2d;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.spacey.backtospace.Entity.Entity;
+import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.screens.GameScreen;
+
+import java.util.ArrayList;
 
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
 
-    GameClass game;
+    GameScreen screen;
 
-    public ContactListener(GameClass game) {
+    public ContactListener(GameScreen screen) {
         super();
-        this.game = game;
+        this.screen = screen;
     }
 
 
     @Override
     public void beginContact(Contact contact) {
-        Gdx.app.log("Contact", contact.getFixtureA() + " touched with " + contact.getFixtureB());
-
+        screen.touchedFixture = contact.getFixtureB();
     }
 
     @Override

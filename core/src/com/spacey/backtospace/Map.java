@@ -28,7 +28,9 @@ public class Map {
     final int borderWidth;
 
     private ArrayList<Tile> tiles;
-    private ArrayList<Entity> entities;
+    public ArrayList<Entity> entities;
+
+    private Box2DWorld box2d;
     
     public Map(GameClass game){
         height = 50;
@@ -38,7 +40,8 @@ public class Map {
         entities = new ArrayList<>();
         getImages(game.assets.manager);
         setup_tiles();
-        generateHitboxes(game.box2d);
+        this.box2d = game.box2d;
+        generateHitboxes(box2d);
     }
 
     public void draw(SpriteBatch batch, boolean debug) {
@@ -59,6 +62,7 @@ public class Map {
     public Entity deleteEntity(Entity oldEntity) {
         for(int i = 0; i < entities.size(); i++ ){
             if(entities.get(i) == oldEntity){
+                box2d.world.destroyBody(entities.get(i).body);
                 entities.remove(i);
                 return oldEntity;
             }

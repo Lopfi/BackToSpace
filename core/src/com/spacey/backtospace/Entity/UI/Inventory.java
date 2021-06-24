@@ -10,7 +10,6 @@ public class Inventory extends UIElement{
 
     public Item[] items;
     public int itemCount;
-    float scale;
 
     public Inventory(int slots, GameClass game) {
         super(game);
@@ -58,7 +57,7 @@ public class Inventory extends UIElement{
         super.draw(batch);
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null) {
-                items[i].drawInInv(batch, i, width, items.length, scale, pos.x, pos.y);
+                items[i].drawInInv(batch, i, pos.x, pos.y);
             }
         }
     }

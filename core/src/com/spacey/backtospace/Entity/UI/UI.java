@@ -33,7 +33,7 @@ public class UI extends UIElement{
         pauseBtn.draw(batch);
         //draw lives
         for (int i = 0; i < game.life; i++) {
-            lives.pos = new Vector3(i * lives.width + 3, control.screenHeight - lives.height, 0);
+            lives.pos = new Vector3(i * (lives.width + 4)+4, control.screenHeight - lives.height, 0);
             lives.draw(batch);
         }
         //draw coins

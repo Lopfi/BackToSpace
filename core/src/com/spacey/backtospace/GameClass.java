@@ -48,7 +48,6 @@ public class GameClass extends Game {
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
         box2d = new Box2DWorld();
-        box2d.world.setContactListener(new ContactListener(this));
         // Display Size
         displayW = Gdx.graphics.getWidth();
         displayH = Gdx.graphics.getHeight();

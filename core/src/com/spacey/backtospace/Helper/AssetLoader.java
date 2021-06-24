@@ -1,9 +1,7 @@
 package com.spacey.backtospace.Helper;
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.io.File;
@@ -33,7 +31,6 @@ public class AssetLoader {
     }
 
     private void loadFromPath(String path, boolean music) {
-        Gdx.app.log("path", Arrays.toString(path.split("\\.")));
         String type = path.split("\\.")[1];
         String name = path.split("assets\\\\")[1];
         if (type.equals("png")) {

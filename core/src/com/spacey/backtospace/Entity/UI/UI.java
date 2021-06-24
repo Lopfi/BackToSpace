@@ -1,25 +1,43 @@
 package com.spacey.backtospace.Entity.UI;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 
-public class UI {
+public class UI extends UIElement{
     public Button pauseBtn;
-    public Lives lives;
+    public GameClass game;
+    private Texture lives;
+    private Texture textField;
+    private Texture coins;
+    public String textFieldText;
 
     public UI(GameClass game, Control control) {
+        super(game);
+        this.game = game;
+        this.lives = game.assets.manager.get("menu/herz.png", Texture.class);
         pauseBtn = new Button(game, control, game.assets.manager.get("ui/PauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height -10, 0);
 
-        lives = new Lives(game);
     }
 
     public void draw(SpriteBatch batch) {
+        //draw pause button
         pauseBtn.draw(batch);
-        lives.draw(batch);
+        //draw lives
+        for (int i = 0; i < game.life; i++) {
+            batch.draw(lives, i * width + 3, Gdx.graphics.getHeight()-height, lives.getWidth() * scale, lives.getHeight() * scale);
+        }
+        //draw coins
+        //draw coin texture
+        // draw amount next to it (wäre cool mit 0001 das man das mit nullern auffüllt)
+
+        //draw text field
+        //draw textField texture
+        //draw font
     }
 
     public void update() {

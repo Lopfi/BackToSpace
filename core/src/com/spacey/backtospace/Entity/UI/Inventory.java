@@ -35,13 +35,12 @@ public class Inventory extends UIElement{
         }
     }
 
-    public void removeItem(Item item, boolean onlyone) {
+    public void removeItem(Item item) {
         if (itemCount > 0) {
             for (int i = 0; i < items.length; i++) {
                 if(items[i] != null && items[i].type == item.type) {
                     items[i] = null;
                     itemCount--;
-                    if (onlyone) break;
                     return;
                 }
             }

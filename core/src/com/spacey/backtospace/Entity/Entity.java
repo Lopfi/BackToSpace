@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 public class Entity {
     public Vector3 pos;
@@ -33,6 +34,11 @@ public class Entity {
         if (flipped) currentFrame.flip(!currentFrame.isFlipX(), false);
         else currentFrame.flip(currentFrame.isFlipX(), false);
         batch.draw(currentFrame, pos.x, pos.y, width, height);
+    }
+
+    public Fixture getFixture() {
+        if (body == null) return null;
+        return  body.getFixtureList().get(0);
     }
 
 }

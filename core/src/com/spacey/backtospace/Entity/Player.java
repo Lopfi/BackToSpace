@@ -11,6 +11,7 @@ import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.box2d.Box2DHelper;
 
+
 public class Player extends Entity {
 
     private final int speed;

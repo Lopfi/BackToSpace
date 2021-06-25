@@ -22,6 +22,9 @@ public class UI extends UIElement{
         this.game = game;
         this.control = control;
         lives = new UIElement(game, game.assets.manager.get("menu/herz.png", Texture.class));
+        coins = new UIElement(game, game.assets.manager.get("menu/coin.png", Texture.class));
+        coins.height = ((coins.height/scale)/2) * scale;
+        coins.width = ((coins.width/scale)/2) * scale;
         pauseScreen = new UIElement(game, game.assets.manager.get("ui/pause.png", Texture.class));
         pauseScreen.pos.x = control.screenWidth / 4f;
         pauseScreen.pos.y = control.screenHeight / 5f;
@@ -43,9 +46,12 @@ public class UI extends UIElement{
             lives.pos = new Vector3(i * (lives.width + 4)+4, control.screenHeight - lives.height, 0);
             lives.draw(batch);
         }
-        //draw coins
-            //draw coin texture
-            // draw amount next to it (wäre cool mit 0001 das man das mit Nullern auffüllt muss aber nicht)
+
+        coins.pos = new Vector3(14, control.screenHeight - lives.height - coins.height -10, 0);
+        coins.draw(batch);
+        game.font.getData().setScale(2);
+        game.font.draw(batch, String.valueOf(game.coins) , coins.width + 20, control.screenHeight - lives.height - (coins.height/2) +3);
+        game.font.getData().setScale(1);
 
         //draw text field
             //draw textField texture

@@ -25,11 +25,11 @@ public class SettingsScreen extends ScreenAdapter {
     @Override
     public void show() {
         //load the music and play
-        if (game.playMusic){
+        if (game.safe.playMusic){
             game.introSound.pause();
             game.gameSound.pause();
             SoundId = game.introSound.loop();
-            game.introSound.setVolume(SoundId,game.playVolume);
+            game.introSound.setVolume(SoundId,game.safe.playVolume);
             //mp3Sound.stop(id);
         }
 
@@ -42,10 +42,10 @@ public class SettingsScreen extends ScreenAdapter {
                         game.setScreen(new TitleScreen(game));
                     }
                     if (keyCode == Input.Keys.SPACE ||keyCode == Input.Keys.ESCAPE) {
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(game.gameScreen);
                     }
                     if (keyCode == Input.Keys.M) {
-                        if (game.playMusic){
+                        if (game.safe.playMusic){
                             game.safe.write("music", false);
                             game.introSound.pause();
                             game.gameSound.pause();
@@ -57,10 +57,10 @@ public class SettingsScreen extends ScreenAdapter {
                                 game.safe.write("music", true);
                                 game.introSound.play();
                                 long SoundId = game.introSound.loop();
-                                game.introSound.setVolume(SoundId,game.playVolume);
+                                game.introSound.setVolume(SoundId,game.safe.playVolume);
                             }
                         }
-                        game.playMusic = !game.playMusic;
+                        game.safe.playMusic = !game.safe.playMusic;
                     }
                 }
 
@@ -71,18 +71,18 @@ public class SettingsScreen extends ScreenAdapter {
                     deleteMode = false;
                 }
                 if (keyCode == Input.Keys.UP && !musicMode) {
-                    if(game.playVolume < 1) game.playVolume = ((int)((game.playVolume + .1f) * 10)) / 10f;
-                    if (game.playMusic){
-                        game.introSound.setVolume(SoundId,game.playVolume);
+                    if(game.safe.playVolume < 1) game.safe.playVolume = ((int)((game.safe.playVolume + .1f) * 10)) / 10f;
+                    if (game.safe.playMusic){
+                        game.introSound.setVolume(SoundId,game.safe.playVolume);
                     }
-                    game.safe.write("volume", game.playVolume);
+                    game.safe.write("volume", game.safe.playVolume);
                 }
                 if (keyCode == Input.Keys.DOWN && !musicMode) {
-                    if(game.playVolume > 0) game.playVolume =((int)((game.playVolume - .1f) * 10)) / 10f;
-                    if (game.playMusic){
-                        game.introSound.setVolume(SoundId,game.playVolume);
+                    if(game.safe.playVolume > 0) game.safe.playVolume =((int)((game.safe.playVolume - .1f) * 10)) / 10f;
+                    if (game.safe.playMusic){
+                        game.introSound.setVolume(SoundId,game.safe.playVolume);
                     }
-                    game.safe.write("volume", game.playVolume);
+                    game.safe.write("volume", game.safe.playVolume);
                 }
 
                 if (keyCode == Input.Keys.Y && !musicMode) {
@@ -118,21 +118,21 @@ public class SettingsScreen extends ScreenAdapter {
             //music play logic
             game.safe.write("music", true);
             musicMode = false;
-            if (game.playMusic){ //IF YOU CAN READ, DONT DELETE THIS BECAUSE U NEED TO SAVE THE SOUNDID WHEN PLAYING TO CHANGE THE VOLUME!
+            if (game.safe.playMusic){ //IF YOU CAN READ, DONT DELETE THIS BECAUSE U NEED TO SAVE THE SOUNDID WHEN PLAYING TO CHANGE THE VOLUME!
                 game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
                 game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
                 game.introSound.pause();
                 game.gameSound.pause();
                 SoundId = game.introSound.loop();
-                game.introSound.setVolume(SoundId,game.playVolume);
+                game.introSound.setVolume(SoundId,game.safe.playVolume);
             }
         }
         game.font.draw(game.batch, "LOADING MUSIC FILES..", textX, getLineY(3));
         game.font.draw(game.batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));
         }
         else {
-        game.font.draw(game.batch, "Music: <" + game.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
-        game.font.draw(game.batch, "Volume: <" + Math.round(game.playVolume*10) + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
+        game.font.draw(game.batch, "Music: <" + game.safe.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
+        game.font.draw(game.batch, "Volume: <" + Math.round(game.safe.playVolume*10) + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
         game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
         game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);//changed because if u start it does not continue the game and its not inteded to do so
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, Gdx.graphics.getHeight() * .25f);

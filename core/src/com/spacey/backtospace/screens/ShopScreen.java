@@ -51,7 +51,7 @@ public class ShopScreen extends ScreenAdapter {
                 if (keycode == Input.Keys.C){
                     fakeCoins++;
                 } else if (keycode == Input.Keys.F){
-                    game.life = game.life + 1;
+                    game.safe.life = game.safe.life + 1;
                 } else if (keycode == Input.Keys.ENTER){
                     game.setScreen(new TitleScreen(game));
                 }
@@ -69,7 +69,7 @@ public class ShopScreen extends ScreenAdapter {
         stage.draw();
 
         game.batch.begin();
-        game.font.draw(game.batch, "Current Coins: (press f to get fake hearts)" + (game.coins + fakeCoins), Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .79f);
+        game.font.draw(game.batch, "Current Coins: (press f to get fake hearts)" + (game.safe.coins + fakeCoins), Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .79f);
         game.font.draw(game.batch, "THE SECRET SHOP (later u can spend real money)", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
         game.font.draw(game.batch, "[ENTER] To get back to the main menu.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();

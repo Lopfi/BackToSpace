@@ -45,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(GameClass game) {
         this.game = game;
-        this.camera = game.camera;
+        camera = game.camera;
 
         control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 
@@ -53,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
         screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, control.screenWidth, control.screenHeight));
 
         map = new Map(game);
-        player = new Player(new Vector3(game.playerX, game.playerY, 0), game);
+        player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         ui = new UI(game, control);
 
         game.box2d.world.setContactListener(new ContactListener(this));
@@ -70,11 +70,11 @@ public class GameScreen extends ScreenAdapter {
         map.addEntity(rocket);
 
         //load the music and play
-        if (game.playMusic) {
+        if (game.safe.playMusic) {
             game.introSound.pause();
             game.gameSound.pause();
             long SoundId = game.gameSound.loop();
-            game.gameSound.setVolume(SoundId, game.playVolume);
+            game.gameSound.setVolume(SoundId, game.safe.playVolume);
             //mp3Sound.stop(id);
         }
     }
@@ -111,17 +111,17 @@ public class GameScreen extends ScreenAdapter {
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
             //TODO make pause logic nicer
-            game.safe.write("playerx", player.pos.x);
-            game.safe.write("playery", player.pos.y);
-            game.playerX = player.pos.x;
-            game.playerY = player.pos.y;
+            game.safe.write("playerX", player.pos.x);
+            game.safe.write("playerY", player.pos.y);
+            game.safe.playerX = player.pos.x;
+            game.safe.playerY = player.pos.y;
         }
         if (control.Q || control.esc) {
             if (!game.isPaused) {
-                game.safe.write("playerx", player.pos.x);
-                game.safe.write("playery", player.pos.y);
-                game.playerX = player.pos.x;
-                game.playerY = player.pos.y;
+                game.safe.write("playerX", player.pos.x);
+                game.safe.write("playerY", player.pos.y);
+                game.safe.playerX = player.pos.x;
+                game.safe.playerY = player.pos.y;
                 game.isPaused = true;
             }
         }

@@ -22,6 +22,18 @@ public class Structure extends Entity{
             case ROCKET:
                 texture = initTexture(game.assets.manager.get("structures/Rocket.png", Texture.class));
                 break;
+            case FUEL:
+                texture = initTexture(game.assets.manager.get("structures/Fuel.png", Texture.class));
+                break;
+            case SCREW:
+                texture = initTexture(game.assets.manager.get("items/Screw.png", Texture.class));
+                break;
+            case SCREWDRIVER:
+                texture = initTexture(game.assets.manager.get("items/Screwdriver.png", Texture.class));
+                break;
+            case COIN:
+                texture = initTexture(game.assets.manager.get("menu/Coin.png", Texture.class));
+                break;
             default:
                 break;
         }

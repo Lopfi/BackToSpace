@@ -14,6 +14,7 @@ public class Enums {
         STONE,
         FUEL,
         SCREWDRIVER,
-        SCREW
+        SCREW,
+        COIN
     }
 }

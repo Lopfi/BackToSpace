@@ -10,12 +10,12 @@ public class UIElement extends Entity {
 
     public UIElement(GameClass game) {
         super();
-        scale = game.uiScale;
+        scale = (float) game.displayH / game.h;
     }
 
     public UIElement(GameClass game, Texture texture) {
         super();
-        scale = game.uiScale;
+        scale = (float) game.displayH / game.h;
         this.texture = initTexture(texture);
     }
 

@@ -59,7 +59,7 @@ public class Control extends InputAdapter implements InputProcessor {
         
     public Vector2 get_map_coords(Vector2 mouse_coords){
         Vector3 v3 = new Vector3(mouse_coords.x, screenHeight - mouse_coords.y, 0);
-        this.camera.unproject(v3);
+        camera.unproject(v3);
         return new Vector2(v3.x,v3.y);
     }
 

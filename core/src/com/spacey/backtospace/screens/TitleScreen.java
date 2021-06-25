@@ -18,11 +18,11 @@ public class TitleScreen extends ScreenAdapter {
 
     @Override
     public void show(){
-        if (game.playMusic) {
+        if (game.safe.playMusic) {
             game.introSound.pause();
             game.gameSound.pause();
             long SoundId = game.gameSound.loop();
-            game.gameSound.setVolume(SoundId, game.playVolume);
+            game.gameSound.setVolume(SoundId, game.safe.playVolume);
             //mp3Sound.stop(id);
         }
 
@@ -30,7 +30,7 @@ public class TitleScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(game.gameScreen);
                 }
                 if (keyCode == Input.Keys.C) {
                     game.setScreen(new CreditScreen(game));
@@ -55,7 +55,7 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.font.draw(game.batch, "__ BACK TO SPACE __", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .80f);
-        game.font.draw(game.batch, "Level: ["+game.level+"]     Coins: ["+game.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
+        game.font.draw(game.batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .75f);
         game.font.draw(game.batch, "Task:  Find all parts and bring them back to your rocket to repair it.", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .71f);
         game.font.draw(game.batch, "                            (Im Hintergrund kommt noch Simons cooler SplashScreen hin, aber hab das File nicht)", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .5f);
         game.font.draw(game.batch, "[H] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .36f);

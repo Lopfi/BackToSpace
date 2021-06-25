@@ -10,9 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.Helper.AssetLoader;
 import com.spacey.backtospace.Helper.DataSafe;
 import com.spacey.backtospace.box2d.Box2DWorld;
+import com.spacey.backtospace.screens.GameScreen;
 import com.spacey.backtospace.screens.LoadingScreen;
 
 public class GameClass extends Game {
+
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
@@ -20,27 +22,19 @@ public class GameClass extends Game {
     public AssetLoader assets;
     public OrthographicCamera camera;
 
-    //Create values to be accessible everywhere in the game
     public DataSafe safe;
+
     public Boolean isPaused;
     public Sound introSound;
     public Sound gameSound;
-    public Boolean playMusic;
-    public Float playVolume;
-
-    public Integer coins;
-    public Integer life;
-
-    public Integer level;
-    public Integer slot1;
-    public Integer slot2;
-    public Integer slot3;
-    public Float playerX;
-    public Float playerY;
 
     public int displayH;
     public int displayW;
-    public float uiScale; // needed for static ui elements to scale them up
+
+    public int h;
+    public int w;
+
+    public GameScreen gameScreen;
 
     @Override
     public void create () {
@@ -52,18 +46,18 @@ public class GameClass extends Game {
         safe = new DataSafe(this);
 
         isPaused = false;
+
         // Display Size
         displayW = Gdx.graphics.getWidth();
         displayH = Gdx.graphics.getHeight();
 
         // For 800x600 we will get 266*200
-        int h = (int) (displayH /Math.floor(displayH /160f)); //180
-        int w = (int) (displayW /(displayH / (displayH /Math.floor(displayH /160f)))); //320
-
-        uiScale = (float) displayH / h;
+        h = (int) (displayH /Math.floor(displayH /160f)); //180
+        w = (int) (displayW /(displayH / (displayH /Math.floor(displayH /160f)))); //320
 
         camera = new OrthographicCamera(w, h);
         camera.zoom = 1.2f; //1.2f
+
         setScreen(new LoadingScreen(this));
     }
 
@@ -75,12 +69,12 @@ public class GameClass extends Game {
     }
 
     public void startMusic() {
-        if (playMusic){
-            introSound = this.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-            gameSound = this.assets.manager.get("music/GameMusic.mp3", Sound.class);
+        if (safe.playMusic){
+            introSound = assets.manager.get("music/IntroMusic.mp3", Sound.class);
+            gameSound = assets.manager.get("music/GameMusic.mp3", Sound.class);
             introSound.play();
-            long SoundId = this.introSound.loop();
-            introSound.setVolume(SoundId,this.playVolume);
+            long SoundId = introSound.loop();
+            introSound.setVolume(SoundId, safe.playVolume);
             //mp3Sound.stop(id);
         }
     }

@@ -42,7 +42,7 @@ public class UI extends UIElement{
         //draw pause button
         pauseBtn.draw(batch);
         //draw lives
-        for (int i = 0; i < game.life; i++) {
+        for (int i = 0; i < game.safe.life; i++) {
             lives.pos = new Vector3(i * (lives.width + 4)+4, control.screenHeight - lives.height, 0);
             lives.draw(batch);
         }
@@ -50,7 +50,7 @@ public class UI extends UIElement{
         coins.pos = new Vector3(14, control.screenHeight - lives.height - coins.height -10, 0);
         coins.draw(batch);
         game.font.getData().setScale(2);
-        game.font.draw(batch, String.valueOf(game.coins) , coins.width + 20, control.screenHeight - lives.height - (coins.height/2) +3);
+        game.font.draw(batch, String.valueOf(game.safe.coins) , coins.width + 20, control.screenHeight - lives.height - (coins.height/2) +3);
         game.font.getData().setScale(1);
 
         //draw text field

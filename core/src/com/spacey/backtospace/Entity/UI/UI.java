@@ -23,6 +23,8 @@ public class UI extends UIElement{
         this.control = control;
         lives = new UIElement(game, game.assets.manager.get("menu/herz.png", Texture.class));
         coins = new UIElement(game, game.assets.manager.get("menu/coin.png", Texture.class));
+        coins.height = ((coins.height/scale)/2) * scale;
+        coins.width = ((coins.width/scale)/2) * scale;
         pauseScreen = new UIElement(game, game.assets.manager.get("ui/pause.png", Texture.class));
         pauseScreen.pos.x = control.screenWidth / 4f;
         pauseScreen.pos.y = control.screenHeight / 5f;
@@ -45,10 +47,10 @@ public class UI extends UIElement{
             lives.draw(batch);
         }
 
-        coins.pos = new Vector3(4, control.screenHeight - lives.height - coins.height -10, 0);
+        coins.pos = new Vector3(14, control.screenHeight - lives.height - coins.height -10, 0);
         coins.draw(batch);
-        game.font.getData().setScale(3);
-        game.font.draw(batch, String.valueOf(game.coins) , coins.width + 10, control.screenHeight - lives.height - (coins.height/2) +3);
+        game.font.getData().setScale(2);
+        game.font.draw(batch, String.valueOf(game.coins) , coins.width + 20, control.screenHeight - lives.height - (coins.height/2) +3);
         game.font.getData().setScale(1);
 
         //draw text field

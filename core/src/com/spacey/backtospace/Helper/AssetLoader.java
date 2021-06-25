@@ -1,5 +1,6 @@
 package com.spacey.backtospace.Helper;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,13 +14,13 @@ public class AssetLoader {
 
     // loads all assets from the standard location
     public void loadAssets(boolean music){
-        File dir = new File(System.getProperty("user.dir"));
+        File dir = new File(Gdx.files.getLocalStoragePath());
         loadFromDir(dir, music);
     }
 
     // only loads the music files from /music
     public void loadMusic() {
-        File dir = new File(System.getProperty("user.dir") + "/music");
+        File dir = new File(Gdx.files.getLocalStoragePath() + "/music");
         loadFromDir(dir, true);
     }
 

@@ -27,6 +27,7 @@ public class Structure extends Entity{
         }
 
         pos = new Vector3(x, y,0);
-        body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody);
+        if (type == Enums.ENTITYTYPE.ROCKET) body = Box2DHelper.createBody(game.box2d.world, width, 36, pos, BodyDef.BodyType.StaticBody); // make it possible to walk behind rocket
+        else body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody);
     }
 }

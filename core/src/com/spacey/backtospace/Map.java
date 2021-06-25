@@ -49,12 +49,14 @@ public class Map {
             tile.draw(batch);
             if (debug) batch.draw(devGrid, tile.pos.x, tile.pos.y, tile.width, tile.height);
         }
+    }
+
+    public void drawEntities(SpriteBatch batch) {
         //Entitys zeichnen
         for(Entity entity : entities) {
             entity.draw(batch);
         }
     }
-
     public void addEntity(Entity newEntity) {
         entities.add(newEntity);
     }

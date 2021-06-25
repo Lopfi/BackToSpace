@@ -142,6 +142,7 @@ public class GameScreen extends ScreenAdapter {
 
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
 
+        map.drawEntities(batch); // draw entities over player
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
         batch.setProjectionMatrix(screenMatrix);

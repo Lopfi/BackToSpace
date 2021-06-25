@@ -20,6 +20,11 @@ public class Item extends UIElement {
             case STONE:
                 texture = initTexture(game.assets.manager.get("items/Stone.png", Texture.class));
                 break;
+            case SCREW:
+                texture = initTexture(game.assets.manager.get("items/Screw.png", Texture.class));
+                break;
+            case SCREWDRIVER:
+                texture = initTexture(game.assets.manager.get("items/Screwdriver.png", Texture.class));
             default:
                 break;
         }

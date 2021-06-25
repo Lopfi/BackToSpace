@@ -22,10 +22,10 @@ public class DataSafe {
     public Float playerX;
     public Float playerY;
 
-    public DataSafe(GameClass game) {
+    public DataSafe() {
         prefs = Gdx.app.getPreferences("GameData");
         if (!exists("initialized")) initialize();
-        load(game);
+        load();
     }
 
     public void write(String key, String data) {
@@ -89,7 +89,7 @@ public class DataSafe {
         write("slot3", 0);
     }
 
-    public void load(GameClass game) {
+    public void load() {
         playMusic = readBoolean("music");
         playVolume = readFloat("volume");
         coins = readInteger("coins");
@@ -100,6 +100,17 @@ public class DataSafe {
         life = readInteger("life");
         playerX = readFloat("playerX");
         playerY = readFloat("playerY");
+    }
+
+    public void save() {
+        write("coins", coins);
+        write("level", level);
+        write("life", life);
+        write("playerX", playerX);
+        write("playerY", playerY);
+        write("slot1", slot1);
+        write("slot2", slot2);
+        write("slot3", slot3);
     }
 
 }

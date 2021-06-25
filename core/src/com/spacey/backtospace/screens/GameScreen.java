@@ -10,33 +10,28 @@ import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Entity.UI.UI;
 import com.spacey.backtospace.Helper.Control;
-import com.spacey.backtospace.Helper.DataSafe;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
-import com.spacey.backtospace.Map;
+import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
 
 public class GameScreen extends ScreenAdapter {
 
     private final GameClass game;
-    private final Control control;
+    private Control control;
 
     private final OrthographicCamera camera;
     private final SpriteBatch batch;
     private final Matrix4 screenMatrix;
 
-    private Map map;
-    private Player player;
-    private UI ui;
-
-    private Structure stone;
-    private Structure rocket;
+    public gameMap gameMap;
+    public Player player;
+    public UI ui;
 
     private float stateTime;
 
@@ -46,28 +41,21 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(GameClass game) {
         this.game = game;
         camera = game.camera;
-
-        control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-
         batch = new SpriteBatch();
-        screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, control.screenWidth, control.screenHeight));
-
-        map = new Map(game);
+        screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        gameMap = new gameMap(game);
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         ui = new UI(game, control);
-
         game.box2d.world.setContactListener(new ContactListener(this));
 
-        stone = new Structure(Enums.ENTITYTYPE.STONE, game, 300, 300);
-        rocket = new Structure(Enums.ENTITYTYPE.ROCKET, game, 459, 500);
+        Gdx.app.log("Contacts", String.valueOf(game.box2d.world.getContactList()));
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(control);
 
-        map.addEntity(stone);
-        map.addEntity(rocket);
+        Gdx.input.setInputProcessor(control);
 
         //load the music and play
         if (game.safe.playMusic) {
@@ -77,6 +65,9 @@ public class GameScreen extends ScreenAdapter {
             game.gameSound.setVolume(SoundId, game.safe.playVolume);
             //mp3Sound.stop(id);
         }
+
+        game.isPaused = false;
+        control.reset();
     }
 
     @Override
@@ -88,11 +79,14 @@ public class GameScreen extends ScreenAdapter {
 
         if (touchedFixture != null) { // check if the player is currently touching something
             if (control.E) { // only continue if player is trying to pick something up
-                for (int i = 0; i < map.entities.size(); i++) { // find the entity of the touched fixture
-                    Entity currentEntity = map.entities.get(i);
+                for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
+                    Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
-                        map.deleteEntity(currentEntity); // delete the collider of the entity
-                        player.inventory.addItem(new Item(currentEntity.type, game)); // add the item to the inv
+                        if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) break;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
+                        else if (!player.inventory.addItem(new Item(currentEntity.type, game))) break;
+                        gameMap.deleteEntity(currentEntity); // delete the collider of the entity
                         break;
                     }
                 }
@@ -111,17 +105,12 @@ public class GameScreen extends ScreenAdapter {
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
             //TODO make pause logic nicer
-            game.safe.write("playerX", player.pos.x);
-            game.safe.write("playerY", player.pos.y);
-            game.safe.playerX = player.pos.x;
-            game.safe.playerY = player.pos.y;
+            game.safe.save();
         }
+
         if (control.Q || control.esc) {
             if (!game.isPaused) {
-                game.safe.write("playerX", player.pos.x);
-                game.safe.write("playerY", player.pos.y);
-                game.safe.playerX = player.pos.x;
-                game.safe.playerY = player.pos.y;
+                game.safe.save();
                 game.isPaused = true;
             }
         }
@@ -138,11 +127,11 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
 
-        map.draw(batch, (control.debug && !game.isPaused));
+        gameMap.draw(batch, (control.debug && !game.isPaused));
 
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
 
-        map.drawEntities(batch); // draw entities over player
+        gameMap.drawEntities(batch); // draw entities over player
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
         batch.setProjectionMatrix(screenMatrix);

@@ -19,18 +19,22 @@ public class Inventory extends UIElement{
         pos.y = 15;
     }
 
-    public void addItem(Item item) {
+    public boolean addItem(Item item) {
         if (itemCount < items.length){
             items[itemCount] = item;
             itemCount++;
+            return true;
         }
+        return false;
     }
 
-    public void addItem(Item item, int slot) {
+    public boolean addItem(Item item, int slot) {
         if (items[slot] == null){
             items[slot] = item;
             itemCount++;
+            return true;
         }
+        return false;
     }
 
     public void removeItem(Item item) {

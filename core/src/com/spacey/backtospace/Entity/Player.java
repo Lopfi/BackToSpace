@@ -27,7 +27,7 @@ public class Player extends Entity {
         inventory = new Inventory(3, game);
         width = width/2f;
         speed = 60;
-        body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody);
+        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
     }
 
     public void drawAnimation(SpriteBatch batch, float stateTime) {

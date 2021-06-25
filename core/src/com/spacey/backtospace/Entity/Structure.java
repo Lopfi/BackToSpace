@@ -17,7 +17,7 @@ public class Structure extends Entity{
 
         switch (type) {
             case STONE:
-                texture = initTexture(game.assets.manager.get("structures/Stone3_big.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("structures/Stone3_small.png", Texture.class));
                 break;
             case ROCKET:
                 texture = initTexture(game.assets.manager.get("structures/Rocket.png", Texture.class));
@@ -32,7 +32,7 @@ public class Structure extends Entity{
                 texture = initTexture(game.assets.manager.get("items/Screwdriver.png", Texture.class));
                 break;
             case COIN:
-                texture = initTexture(game.assets.manager.get("menu/Coin.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("menu/coin.png", Texture.class));
                 break;
             default:
                 break;

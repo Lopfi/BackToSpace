@@ -15,6 +15,7 @@ public class Enums {
         FUEL,
         SCREWDRIVER,
         SCREW,
-        COIN
+        COIN,
+        LIFE
     }
 }

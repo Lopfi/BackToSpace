@@ -43,7 +43,7 @@ public class GameClass extends Game {
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
         box2d = new Box2DWorld();
-        safe = new DataSafe(this);
+        safe = new DataSafe();
 
         isPaused = false;
 

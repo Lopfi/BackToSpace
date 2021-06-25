@@ -51,6 +51,22 @@ public class Control extends InputAdapter implements InputProcessor {
         this.screenHeight = screenHeight;
     }
 
+    public void reset() {
+        esc = false;
+        Q = false;
+        B = false;
+        slot1 = false;
+        slot2 = false;
+        slot3 = false;
+        down = false;
+        up = false;
+        left = false;
+        right = false;
+        E = false;
+        X = false;
+        Space = false;
+    }
+
     private void setMouseClickedPos(int screenX, int screenY){
         // Set mouse position (flip screen Y)
         mouse_click_pos.set(screenX, screenHeight - screenY);

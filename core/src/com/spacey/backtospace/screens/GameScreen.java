@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
-import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Entity.UI.UI;
 import com.spacey.backtospace.Helper.Control;
 import com.badlogic.gdx.Gdx;
@@ -68,6 +67,7 @@ public class GameScreen extends ScreenAdapter {
 
         game.isPaused = false;
         control.reset();
+        player.createBox(player.pos);
     }
 
     @Override
@@ -110,6 +110,8 @@ public class GameScreen extends ScreenAdapter {
 
         if (control.Q || control.esc) {
             if (!game.isPaused) {
+                game.safe.playerX = player.pos.x;
+                game.safe.playerY = player.pos.y;
                 game.safe.save();
                 game.isPaused = true;
             }

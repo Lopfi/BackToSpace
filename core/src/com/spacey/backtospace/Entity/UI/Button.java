@@ -19,13 +19,13 @@ public class Button extends UIElement {
 
     private boolean clicked;
     public boolean pressed;
-
+    TextButton button2;
     public Button(GameClass game, Stage stage, String text, InputListener listen, float width, float height, float x, float y){
         super(game);
         clicked = false;
         pressed = false;
         Gdx.input.setInputProcessor(stage);
-        TextButton button2 = new TextButton(text,mySkin,"small");
+        button2 = new TextButton(text,mySkin,"small");
         button2.setSize(width, height);
         button2.setPosition(x, y);
         button2.addListener(listen);
@@ -40,6 +40,9 @@ public class Button extends UIElement {
         this.visible = visible;
         pos.x = x;
         pos.y = y;
+    }
+    public void remove() {
+        button2.remove();
     }
 
     public void update() {

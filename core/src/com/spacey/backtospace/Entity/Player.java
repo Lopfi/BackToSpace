@@ -18,22 +18,39 @@ public class Player extends Entity {
     private final int speed;
     public Inventory inventory;
     private boolean flipped;
-
+    GameClass game;
     public Player(Vector3 pos, GameClass game) {
         super();
+        this.game = game;
         type = Enums.ENTITYTYPE.PLAYER;
         texture = initTexture(game.assets.manager.get("player/Spaceman_walk.png", Texture.class));
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3, game);
         width = width/2f;
         speed = 60;
+        this.pos = pos;
+        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
+    }
+    public Player(Vector3 pos, GameClass game, Texture texture) {
+        super();
+        this.game = game;
+        type = Enums.ENTITYTYPE.PLAYER;
+        this.texture = initTexture(texture);
+        animation = Animations.createAnimation(texture, 2, 1, 0.5f);
+        inventory = new Inventory(3, game);
+        width = width/2f;
+        speed = 60;
+        this.pos = pos;
         body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
     }
 
     public void drawAnimation(SpriteBatch batch, float stateTime) {
         super.drawAnimation(batch, stateTime, flipped);
     }
-
+    public void createBox(Vector3 pos){
+        game.box2d.world.destroyBody(body);
+        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
+    }
     public void update(Control control) {
         int dirX = 0;
         int dirY = 0;

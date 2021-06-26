@@ -7,11 +7,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.spacey.backtospace.GameClass;
 
-public class ProtoScreen extends ScreenAdapter {
+public class CutSzeneScreen extends ScreenAdapter {
 
     GameClass game;
 
-    public ProtoScreen(GameClass game) {
+    public CutSzeneScreen(GameClass game) {
         this.game = game;
     }
 
@@ -37,8 +37,7 @@ public class ProtoScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.font.draw(game.batch, "You win!", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
-        game.font.draw(game.batch, "[ENTER] Restart.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
+        game.font.draw(game.batch, "Press [ENTER] to skip.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();
 
     }

@@ -76,7 +76,7 @@ public class ShopScreen extends ScreenAdapter {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if  (game.safe.skin1){
                     game.safe.currentSkin = 1;
-                    game.safe.write("currentSkin", 2);
+                    game.safe.write("currentSkin", 1);
                 } else {
                     Label style = btn3.getLabel();
                     if (game.safe.coins >= 20){
@@ -142,7 +142,7 @@ public class ShopScreen extends ScreenAdapter {
                 } else if (keycode == Input.Keys.NUM_2){
                     if  (game.safe.skin1){
                         game.safe.currentSkin = 1;
-                        game.safe.write("currentSkin", 2);
+                        game.safe.write("currentSkin", 1);
                     } else {
                         Label style = btn3.getLabel();
                         if (game.safe.coins >= 20){

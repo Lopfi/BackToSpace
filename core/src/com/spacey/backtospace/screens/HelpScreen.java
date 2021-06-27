@@ -46,8 +46,8 @@ public class HelpScreen extends ScreenAdapter {
         game.font.draw(game.batch, "           [DOWN/S]=Down   [RIGHT/D]=Right", textX, getLineY(7));
         game.font.draw(game.batch, "Mouse Move: [LMB] Hold and move mouse", textX, getLineY(9));
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, getLineY(14));
-        game.batch.draw(new Texture("menu/wasd.png"), 660, 300, 300, 100);
-        game.batch.draw(new Texture("menu/123.png"), 650, 430, 180, 65);
+        game.batch.draw(game.assets.manager.get("menu/wasd.png", Texture.class), 660, 300, 300, 100);
+        game.batch.draw(game.assets.manager.get("menu/123.png", Texture.class), 650, 430, 180, 65);
         game.batch.end();
 
     }

@@ -12,6 +12,7 @@ import com.spacey.backtospace.Helper.Control;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
@@ -55,7 +56,10 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
 
         Gdx.input.setInputProcessor(control);
-
+        if (player.texture != game.assets.manager.get("player/Spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
+            game.box2d.world.destroyBody(player.body);
+            player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
+        }
         //load the music and play
         if (game.safe.playMusic) {
             game.introSound.pause();

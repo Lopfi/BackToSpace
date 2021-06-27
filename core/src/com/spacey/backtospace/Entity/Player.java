@@ -38,11 +38,9 @@ public class Player extends Entity {
         type = Enums.ENTITYTYPE.PLAYER;
         this.texture = initTexture(texture);
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
-        inventory = new Inventory(3, game);
         width = width/2f;
         speed = 60;
         this.pos = pos;
-        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
     }
 
     public void drawAnimation(SpriteBatch batch, float stateTime) {

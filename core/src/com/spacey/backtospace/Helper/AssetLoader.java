@@ -11,7 +11,7 @@ import java.io.File;
 public class AssetLoader {
 
     public AssetManager manager = new AssetManager();
-    private String extendedPath = "\\core\\assets"; //For VisualStudio = "\\core\\assets" //For IntelliJ = ""
+    private String extendedPath = "";//"\\core\\assets"; //For VisualStudio = "\\core\\assets" //For IntelliJ = ""
 
     // loads all assets from the standard location
     public void loadAssets(boolean music){

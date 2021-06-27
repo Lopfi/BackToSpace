@@ -9,6 +9,7 @@ import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.Helper.DataSafe;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.box2d.Box2DHelper;
 
@@ -23,7 +24,7 @@ public class Player extends Entity {
         super();
         this.game = game;
         type = Enums.ENTITYTYPE.PLAYER;
-        texture = initTexture(game.assets.manager.get("player/Spaceman_walk.png", Texture.class));
+        texture = initTexture(game.assets.manager.get("player/Spaceman_walk" + String.valueOf(game.safe.currentSkin - 1) + ".png", Texture.class));
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3, game);
         width = width/2f;

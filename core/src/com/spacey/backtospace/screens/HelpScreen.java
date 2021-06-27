@@ -38,7 +38,7 @@ public class HelpScreen extends ScreenAdapter {
 
         float textX = Gdx.graphics.getWidth() * .25f;
 
-        // TODO replace with single image
+        // TODO replace with single image yes sounds good
         game.batch.begin();
         game.font.draw(game.batch, "CONTROLS", textX, getLineY(0));
         game.font.draw(game.batch, "Inventory: [1]=1.Slot   [2]=2.Slot   [3]=3.Slot", textX, getLineY(3));

@@ -45,7 +45,6 @@ public class LoadingScreen extends ScreenAdapter {
             game.gameScreen = new GameScreen(game);
             game.setScreen(new TitleScreen(game));
         }
-        // TODO replace with single image
         // display loading information
         Gdx.gl.glClearColor(.05f, .15f, .35f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

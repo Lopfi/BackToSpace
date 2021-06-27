@@ -71,14 +71,14 @@ public class SettingsScreen extends ScreenAdapter {
                     deleteMode = false;
                 }
                 if (keyCode == Input.Keys.UP && !musicMode) {
-                    if(game.safe.playVolume < 1) game.safe.playVolume = ((int)((game.safe.playVolume + .1f) * 10)) / 10f;
+                    if(game.safe.playVolume < 1) game.safe.playVolume = ((int)(game.safe.playVolume*10) + (int)(.1f*10)) / 10f;
                     if (game.safe.playMusic){
                         game.introSound.setVolume(SoundId,game.safe.playVolume);
                     }
                     game.safe.write("volume", game.safe.playVolume);
                 }
                 if (keyCode == Input.Keys.DOWN && !musicMode) {
-                    if(game.safe.playVolume > 0) game.safe.playVolume =((int)((game.safe.playVolume - .1f) * 10)) / 10f;
+                    if(game.safe.playVolume > 0) game.safe.playVolume = ((int)(game.safe.playVolume*10) - (int)(.1f*10)) / 10f;
                     if (game.safe.playMusic){
                         game.introSound.setVolume(SoundId,game.safe.playVolume);
                     }

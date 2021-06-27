@@ -21,6 +21,9 @@ public class DataSafe {
     public Integer slot3;
     public Float playerX;
     public Float playerY;
+    public Integer currentSkin;
+    public Boolean skin1;
+    public Boolean skin2;
 
     public DataSafe() {
         prefs = Gdx.app.getPreferences("GameData");
@@ -81,6 +84,9 @@ public class DataSafe {
         write("coins", 0);
         write("level", 1);
         write("life", 3);
+        write("currentSkin", 0);
+        write("skin1", false);
+        write("skin2", false);
         write("playerX", 100f);
         write("playerY", 100f);
 
@@ -98,6 +104,9 @@ public class DataSafe {
         slot3 = readInteger("slot3");
         level = readInteger("level");
         life = readInteger("life");
+        currentSkin = readInteger("currentSkin");
+        skin1 = readBoolean("skin1");
+        skin2 = readBoolean("skin2");
         playerX = readFloat("playerX");
         playerY = readFloat("playerY");
     }

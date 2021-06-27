@@ -38,16 +38,16 @@ public class CreditScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.7f, .2f, .02f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // TODO: replace with texture (single image)
+        //only replace titlescreen maybe helpscreen with splashscreens.
         float textX = Gdx.graphics.getWidth() * .25f;
         game.batch.begin();
         game.font.draw(game.batch, "Credits:", textX, getLineY(0));
         game.font.draw(game.batch, "Bene        -Story, Code", textX, getLineY(1));
-        game.font.draw(game.batch, "Colin        -Code", textX, getLineY(2));
+        game.font.draw(game.batch, "Colin        -Code, Desing", textX, getLineY(2));
         game.font.draw(game.batch, "Felisa        -Code", textX, getLineY(3));
         game.font.draw(game.batch, "Lisa           -Design, Code", textX, getLineY(4));
         game.font.draw(game.batch, "Maarten    -??", textX, getLineY(5));
-        game.font.draw(game.batch, "Robin       -Code", textX, getLineY(6));
+        game.font.draw(game.batch, "Robin       -Code, Fixing", textX, getLineY(6));
         game.font.draw(game.batch, "Simon      -Design, Code", textX, getLineY(7));
         game.font.draw(game.batch, "Srishti      -Code", textX, getLineY(8));
         game.font.draw(game.batch, "Copyright @2021 ", textX, getLineY(9));

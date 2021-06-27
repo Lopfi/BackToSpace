@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spacey.backtospace.GameClass;
@@ -43,6 +44,12 @@ public class Button extends UIElement {
     }
     public void remove() {
         button2.remove();
+    }
+    public void setLabel(Label label) {
+        button2.setLabel(label);
+    }
+    public Label getLabel() {
+        return button2.getLabel();
     }
 
     public void update() {

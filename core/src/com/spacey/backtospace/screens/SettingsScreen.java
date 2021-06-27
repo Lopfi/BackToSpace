@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.DataSafe;
 
 public class SettingsScreen extends ScreenAdapter {
@@ -40,11 +41,24 @@ public class SettingsScreen extends ScreenAdapter {
                 if (!deleteMode && !musicMode) {
                     if (keyCode == Input.Keys.ENTER) {
                         game.setScreen(new TitleScreen(game));
-                    }
-                    if (keyCode == Input.Keys.SPACE ||keyCode == Input.Keys.ESCAPE) {
+                    } else if (keyCode == Input.Keys.SPACE ||keyCode == Input.Keys.ESCAPE) {
                         game.setScreen(game.gameScreen);
-                    }
-                    if (keyCode == Input.Keys.M) {
+
+                    } else if (keyCode == Input.Keys.UP) {
+                        if(game.safe.playVolume < 1) game.safe.playVolume = ((int)(game.safe.playVolume*10) + (int)(.1f*10)) / 10f;
+                        if (game.safe.playMusic){
+                            game.introSound.setVolume(SoundId,game.safe.playVolume);
+                        }
+                        game.safe.write("volume", game.safe.playVolume);
+    
+                    } else if (keyCode == Input.Keys.DOWN) {
+                        if(game.safe.playVolume > 0) game.safe.playVolume = ((int)(game.safe.playVolume*10) - (int)(.1f*10)) / 10f;
+                        if (game.safe.playMusic){
+                            game.introSound.setVolume(SoundId,game.safe.playVolume);
+                        }
+                        game.safe.write("volume", game.safe.playVolume);
+    
+                    } else if (keyCode == Input.Keys.M) {
                         if (game.safe.playMusic){
                             game.safe.write("music", false);
                             game.introSound.pause();
@@ -61,38 +75,29 @@ public class SettingsScreen extends ScreenAdapter {
                             }
                         }
                         game.safe.playMusic = !game.safe.playMusic;
-                    }
-                }
 
+                    }  else if (keyCode == Input.Keys.A) {
+                        game.safe.coins = 999999;
+                        game.safe.save();
+                        
+                    } else if (keyCode == Input.Keys.NUM_0 || keyCode == Input.Keys.O) {
+                        game.safe.coins = 0;
+                        game.safe.save();
+                    }
+                } 
                 if (keyCode == Input.Keys.R && !musicMode) {
                     deleteMode = true;
-                }
+
+                } 
                 if (keyCode == Input.Keys.N && !musicMode) {
                     deleteMode = false;
-                }
-                if (keyCode == Input.Keys.UP && !musicMode) {
-                    if(game.safe.playVolume < 1) game.safe.playVolume = ((int)(game.safe.playVolume*10) + (int)(.1f*10)) / 10f;
-                    if (game.safe.playMusic){
-                        game.introSound.setVolume(SoundId,game.safe.playVolume);
-                    }
-                    game.safe.write("volume", game.safe.playVolume);
-                }
-                if (keyCode == Input.Keys.DOWN && !musicMode) {
-                    if(game.safe.playVolume > 0) game.safe.playVolume = ((int)(game.safe.playVolume*10) - (int)(.1f*10)) / 10f;
-                    if (game.safe.playMusic){
-                        game.introSound.setVolume(SoundId,game.safe.playVolume);
-                    }
-                    game.safe.write("volume", game.safe.playVolume);
-                }
 
-                if (keyCode == Input.Keys.Y && !musicMode) {
-                    if(deleteMode){
-                        game.safe.clear();
-                        Gdx.app.exit();
-                        //close game cuz else we get value errors to play the standard values need to be set on start
-                    }
+                } 
+                if (keyCode == Input.Keys.Y && !musicMode && deleteMode) {
+                    game.safe.clear();
+                    Gdx.app.exit();
+                    //close game cuz else we get value errors to play the standard values need to be set on start
                 }
-
                 return true;
             }
         });
@@ -130,11 +135,12 @@ public class SettingsScreen extends ScreenAdapter {
         game.font.draw(game.batch, "LOADING MUSIC FILES..", textX, getLineY(3));
         game.font.draw(game.batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));
         }
-        else {
+        else {// TODO: ADD BUTTON SUPPORT HERE @robin i can do that if u want
         game.font.draw(game.batch, "Music: <" + game.safe.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
         game.font.draw(game.batch, "Volume: <" + Math.round(game.safe.playVolume*10) + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
+        if (Control.debug) game.font.draw(game.batch, "Money: <" + game.safe.coins + "> [A][O] all or zero", textX, Gdx.graphics.getHeight() * .61f);
         game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
-        game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);//changed because if u start it does not continue the game and its not inteded to do so
+        game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, Gdx.graphics.getHeight() * .25f);
         }
         game.batch.end();

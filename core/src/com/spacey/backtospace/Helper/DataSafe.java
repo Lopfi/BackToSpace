@@ -79,6 +79,7 @@ public class DataSafe {
     public void initialize() {
         Gdx.app.log("INFO", "Save not found creating new.");
         write("initialized", true);
+        write("cutszeneloaded", true);
         write("music", true);
         write("volume", .8f);
         write("coins", 0);

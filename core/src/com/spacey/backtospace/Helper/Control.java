@@ -39,7 +39,7 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean Space;
 
     // DEBUG
-    public boolean debug;
+    public static boolean debug;
     
     // SCREEN
     public int screenWidth;

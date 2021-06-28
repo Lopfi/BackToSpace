@@ -15,6 +15,7 @@ public class DataSafe {
     public Integer coins;
     public Integer life;
 
+    public Boolean showTask;
     public Integer level;
     public Integer slot1;
     public Integer slot2;
@@ -84,6 +85,7 @@ public class DataSafe {
         write("volume", .8f);
         write("coins", 0);
         write("level", 1);
+        write("showtask", false);
         write("life", 3);
         write("currentSkin", 0);
         write("skin1", false);
@@ -104,6 +106,7 @@ public class DataSafe {
         slot2 = readInteger("slot2");
         slot3 = readInteger("slot3");
         level = readInteger("level");
+        showTask = readBoolean("showtask");
         life = readInteger("life");
         currentSkin = readInteger("currentSkin");
         skin1 = readBoolean("skin1");

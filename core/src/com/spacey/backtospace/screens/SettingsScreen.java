@@ -58,6 +58,9 @@ public class SettingsScreen extends ScreenAdapter {
                         }
                         game.safe.write("volume", game.safe.playVolume);
     
+                    } else if (keyCode == Input.Keys.T) {
+                        game.safe.showTask = !game.safe.showTask;
+                        game.safe.write("showtask", game.safe.showTask);
                     } else if (keyCode == Input.Keys.M) {
                         if (game.safe.playMusic){
                             game.safe.write("music", false);
@@ -136,9 +139,10 @@ public class SettingsScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));
         }
         else {// TODO: ADD BUTTON SUPPORT HERE @robin i can do that if u want
-        game.font.draw(game.batch, "Music: <" + game.safe.playMusic + "> [M] to change", textX, Gdx.graphics.getHeight() * .7f);
-        game.font.draw(game.batch, "Volume: <" + Math.round(game.safe.playVolume*10) + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
-        if (Control.debug) game.font.draw(game.batch, "Money: <" + game.safe.coins + "> [A][O] all or zero", textX, Gdx.graphics.getHeight() * .61f);
+        game.font.draw(game.batch, "Music:        <" + game.safe.playMusic + "> [M] to toggle", textX, Gdx.graphics.getHeight() * .7f);
+        game.font.draw(game.batch, "Volume:     <" + Math.round(game.safe.playVolume*10) + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
+        game.font.draw(game.batch, "GameTask: <" + game.safe.showTask + "> [T] to toggle", textX, Gdx.graphics.getHeight() * .62f);
+        if (Control.debug) game.font.draw(game.batch, "Money:    <" + game.safe.coins + "> [A][O] All or zerO", textX, Gdx.graphics.getHeight() * .45f);
         game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
         game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);
         game.font.draw(game.batch, "[ENTER] Main Menu", textX, Gdx.graphics.getHeight() * .25f);

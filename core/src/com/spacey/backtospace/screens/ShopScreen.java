@@ -221,7 +221,7 @@ public class ShopScreen extends ScreenAdapter {
         game.font.getData().setScale(1);
         game.font.draw(game.batch, "Current Coins: " + (game.safe.coins), Gdx.graphics.getWidth() * .7f, Gdx.graphics.getHeight() * .86f);
         if (game.safe.life >= 5) game.font.draw(game.batch, "you cant buy more", 420, 80);
-        if (game.safe.coins < 8) game.font.draw(game.batch, "youre too poor :(", 420, 80);
+        else if (game.safe.coins < 8) game.font.draw(game.batch, "youre too poor :(", 420, 80);
         game.font.draw(game.batch, "[ACTIVE]", swidth/4*(game.safe.currentSkin+1), 400);
 
         stateTime += Gdx.graphics.getDeltaTime();

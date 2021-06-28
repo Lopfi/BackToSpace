@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.spacey.backtospace.GameClass;
@@ -13,7 +12,7 @@ public class TitleScreen extends ScreenAdapter {
 
     GameClass game;
     //Storytasks its basicly the mission you have to do! YAY :)
-    String[] Tasks = {
+    public static String[] Tasks = {
         "Please remove your Data because you start at level 1",
         "Unlock the Spaceship with the key", // then some info like uh ah u cant fly cuz its broken
         "Find     2x fuel     (1/4)",
@@ -69,7 +68,7 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(game.assets.manager.get("menu/background2.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(game.assets.manager.get("menu/background.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.font.getData().setScale(2);
         game.font.draw(game.batch, "__ BACK TO SPACE __", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .83f);
         game.font.getData().setScale(1);

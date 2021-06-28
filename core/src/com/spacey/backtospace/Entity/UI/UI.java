@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.screens.TitleScreen;
 
 // display different elements of the ui in the game-screen
 public class UI extends UIElement{
@@ -13,7 +14,6 @@ public class UI extends UIElement{
     private Control control;
     private UIElement pauseScreen;
     private UIElement lives;
-    private UIElement textField;
     private UIElement coins;
     public String textFieldText;
 
@@ -59,8 +59,8 @@ public class UI extends UIElement{
 
         if (game.isPaused) pauseScreen.draw(batch);
         // draw coordinates for dev mode
-        if (Control.debug) // draw coordinates
-            game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
+        if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
+        if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 0, 20);
     }
 
     public void update() {

@@ -72,8 +72,8 @@ public class GameClass extends Game {
         if (safe.playMusic){
             introSound = assets.manager.get("music/IntroMusic.mp3", Sound.class);
             String soundpath = new DataSafe().standardmusicPath;
-            if (new DataSafe().readString("currenMusic") != "") {
-                soundpath = new DataSafe().readString("currenMusic"); // we cant access datasafe here cuz its requested in loadingscreen lmao
+            if (new DataSafe().readString("currentMusic") != "") {
+                soundpath = new DataSafe().readString("currentMusic"); // we cant access datasafe here cuz its requested in loadingscreen lmao
             }
             gameSound = assets.manager.get(soundpath, Sound.class);
             introSound.play();

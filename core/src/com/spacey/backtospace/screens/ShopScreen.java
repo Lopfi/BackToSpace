@@ -168,6 +168,7 @@ public class ShopScreen extends ScreenAdapter {
                 } else {
                     game.safe.currentMusic = game.safe.music1Path;
                 }
+                game.safe.write("currentMusic", game.safe.currentMusic);
                 game.gameSound = game.assets.manager.get(game.safe.currentMusic, Sound.class);
                 return true;
             }

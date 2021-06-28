@@ -59,8 +59,9 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(control);
         if (player.texture != game.assets.manager.get("player/Spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
             Inventory temp = player.inventory;
+            Vector3 temppos = player.pos;
             game.box2d.world.destroyBody(player.body);
-            player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
+            player = new Player(temppos, game);
             player.inventory = temp;
         }
         //load the music and play

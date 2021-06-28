@@ -11,8 +11,18 @@ import java.io.File;
 public class AssetLoader {
 
     public AssetManager manager = new AssetManager();
-    private String extendedPath = "\\core\\assets"; //For VisualStudio = "\\core\\assets" //For IntelliJ = ""
+    private String extendedPath = checkPath();
 
+    public String checkPath(){ // Automatic Check if the Visualstudio asset Directory exists, if not use intelliJ ones
+        if (new File(System.getProperty("user.dir") + "\\core\\assets").exists()) {
+            return "\\core\\assets";
+        } else {
+            return "";
+        }
+        //For VisualStudio = "\\core\\assets" 
+        //For IntelliJ = ""
+    }
+    
     // loads all assets from the standard location
     public void loadAssets(boolean music){
         Gdx.app.log("AssetPath", new File(System.getProperty("user.dir")) + extendedPath);

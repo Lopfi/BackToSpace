@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Entity;
+import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.UI.UI;
@@ -57,8 +58,10 @@ public class GameScreen extends ScreenAdapter {
 
         Gdx.input.setInputProcessor(control);
         if (player.texture != game.assets.manager.get("player/Spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
+            Inventory temp = player.inventory;
             game.box2d.world.destroyBody(player.body);
             player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
+            player.inventory = temp;
         }
         //load the music and play
         if (game.safe.playMusic) {
@@ -108,7 +111,7 @@ public class GameScreen extends ScreenAdapter {
 
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
-            //TODO make pause logic nicer
+            //TODO make pause logic nicer --- ArE yOu SuRe AbOuT tHat ?
             game.safe.save();
         }
 
@@ -133,7 +136,7 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
 
-        gameMap.draw(batch, (control.debug && !game.isPaused));
+        gameMap.draw(batch, (Control.debug && !game.isPaused));
 
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
 

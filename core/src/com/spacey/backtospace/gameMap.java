@@ -2,15 +2,16 @@ package com.spacey.backtospace;
 
 import java.util.*;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Entity.Tile;
 import com.spacey.backtospace.Helper.Enums;
+import com.spacey.backtospace.Helper.Enums.ENTITYTYPE;
 import com.spacey.backtospace.Helper.Enums.TILETYPE;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -49,6 +50,7 @@ public class gameMap {
         box2d = game.box2d;
         generateHitboxes(box2d);
         spawnEntities();
+        spawnEntitiesDelayed();
     }
 
     public void draw(SpriteBatch batch, boolean debug) {
@@ -79,29 +81,75 @@ public class gameMap {
         }
     }
 
+    private void spawn(ENTITYTYPE type){
+        Vector2 pos;
+        Entity newEntity = null;
+        do {
+            if (newEntity != null) deleteEntity(newEntity);
+            pos = randomPos();
+            newEntity = new Structure(type, game, pos.x, pos.y);
+            addEntity(newEntity);
+        } while (is_borderCoordinates( (int) (pos.x + newEntity.width), (int) (pos.y - newEntity.height)));
+    }
+
     private void spawnEntities() {
         HashMap<Enums.ENTITYTYPE, Integer> thingsToSpawn = new HashMap<Enums.ENTITYTYPE, Integer>();
-        thingsToSpawn.put(Enums.ENTITYTYPE.FUEL, 1);
-        thingsToSpawn.put(Enums.ENTITYTYPE.SCREW, 2);
-        thingsToSpawn.put(Enums.ENTITYTYPE.SCREWDRIVER, 1);
         thingsToSpawn.put(Enums.ENTITYTYPE.ROCKET, 1);
-        thingsToSpawn.put(Enums.ENTITYTYPE.COIN, 4);
-        thingsToSpawn.put(Enums.ENTITYTYPE.STONE, 30);
+        thingsToSpawn.put(Enums.ENTITYTYPE.KEY, 1);
+        thingsToSpawn.put(Enums.ENTITYTYPE.STONE, 25);
 
         Set set = thingsToSpawn.entrySet();
         for (Object o : set) {
             Map.Entry entry = (Map.Entry) o;
             for (int i = 0; i < (int) entry.getValue(); i++) {
-                Vector2 pos;
-                Entity newEntity = null;
-                do {
-                    if (newEntity != null) deleteEntity(newEntity);
-                    pos = randomPos();
-                    newEntity = new Structure((Enums.ENTITYTYPE) entry.getKey(), game, pos.x, pos.y);
-                    addEntity(newEntity);
-                } while (is_borderCoordinates( (int) (pos.x + newEntity.width), (int) (pos.y - newEntity.height)));
+                spawn((Enums.ENTITYTYPE) entry.getKey());
             }
         }
+    }
+    private void spawnEntitiesDelayed() {
+        final Map<Enums.ENTITYTYPE, Integer[]> spawnmap = new HashMap<Enums.ENTITYTYPE, Integer[]>();
+        //first integer = how many should spawn // secound what chances they have
+        Integer coinsToSpawn;
+        if (8 - game.safe.coins <= 0) coinsToSpawn = 0;
+        else coinsToSpawn = 8 - game.safe.coins; // make sure only 8 coins spawn and if u have more than 8 dont spawn them :p
+
+        spawnmap.put(Enums.ENTITYTYPE.COIN, new Integer[]{coinsToSpawn, 18});
+        Gdx.app.log("CoinsSpawning", coinsToSpawn + "x");
+
+        spawnmap.put(Enums.ENTITYTYPE.FUEL, new Integer[]{2, 70});
+        spawnmap.put(Enums.ENTITYTYPE.SCREW, new Integer[]{6, 99});
+        spawnmap.put(Enums.ENTITYTYPE.SCREWDRIVER, new Integer[]{2, 38});
+
+        final Timer myTimer = new Timer();
+        myTimer.scheduleAtFixedRate(
+            new TimerTask() {
+                Map<Enums.ENTITYTYPE, Integer[]> map = spawnmap;
+
+                @Override
+                public void run() {
+                    Integer leftToSpawn = 0;
+                    Integer randomNumber = new Random().nextInt(100-0) + 0;
+                    for (Map.Entry<Enums.ENTITYTYPE, Integer[]> entry : map.entrySet()) {
+                        Gdx.app.log("Spawn", entry.getKey() + "/" + Arrays.toString(entry.getValue()));
+
+                        Integer[] temp = entry.getValue();
+                        if (temp[0] > 0 && randomNumber <= temp[1]){//if to spawn is more than 0 and if chance is given to spawn
+                            temp[0]--;
+                            map.put(entry.getKey(), temp); // to save the minus
+                            spawn((Enums.ENTITYTYPE) entry.getKey()); //spawn it
+                        }
+                        leftToSpawn = leftToSpawn + temp[0];
+                    }
+                    if (leftToSpawn <= 0) { // if 
+                        myTimer.cancel();
+                        myTimer.purge();
+                    }
+                    Gdx.app.log("Spawning left", "" + leftToSpawn);
+                }
+            },
+            15 * 1000,  // after 15 secounds first spawn
+            4* 1000     // then spawn every 4 sec
+        );
     }
 
     private Vector2 randomPos() {

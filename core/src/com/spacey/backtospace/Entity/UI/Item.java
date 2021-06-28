@@ -27,7 +27,10 @@ public class Item extends UIElement {
                 texture = initTexture(game.assets.manager.get("items/Screwdriver.png", Texture.class));
                 break;
             case COIN:
-                texture = initTexture(game.assets.manager.get("items/Coin.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/coin.png", Texture.class)); // thats dumb u dont have coins in inventory
+                break;
+            case KEY:
+                texture = initTexture(game.assets.manager.get("items/Key.png", Texture.class));
                 break;
             default:
                 break;

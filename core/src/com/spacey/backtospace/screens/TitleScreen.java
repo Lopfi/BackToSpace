@@ -12,13 +12,18 @@ import com.spacey.backtospace.GameClass;
 public class TitleScreen extends ScreenAdapter {
 
     GameClass game;
+    //Storytasks its basicly the mission you have to do! YAY :)
     String[] Tasks = {
         "Please remove your Data because you start at level 1",
-        "Find all parts and bring them back to your rocket to repair it",
+        "Unlock the Spaceship with the key", // then some info like uh ah u cant fly cuz its broken
+        "Find     2x fuel     (1/4)",
+        "Find   5x Screws     (2/4)",
+        "Find 1x Screwdriver  (3/4)",
+        "Now repair the ship  (4/4)",
         "Defend yourself from the anrgy aliens",
-        "The Aliens show you how you generate Oxygen",
+        "Follow the alien and generate Oxygen",
         "Help the Aliens rebuild their planet that you destroyed", //or they destroy earth
-        "Get enough Food and Water for your Journey back",
+        "Get enough Oxygen & Food & Water for your Journey back",
         "Say Goodbye and come home, Safely."
     };
     public TitleScreen(GameClass game) {

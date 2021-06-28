@@ -56,7 +56,7 @@ public class GameClass extends Game {
         w = (int) (displayW /(displayH / (displayH /Math.floor(displayH /160f)))); //320
 
         camera = new OrthographicCamera(w, h);
-        camera.zoom = 1.2f; //1.2f
+        camera.zoom = 3f; //1.2f
 
         setScreen(new LoadingScreen(this));
     }

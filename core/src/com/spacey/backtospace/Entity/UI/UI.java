@@ -28,7 +28,7 @@ public class UI extends UIElement{
         pauseScreen = new UIElement(game, game.assets.manager.get("ui/pause.png", Texture.class));
         pauseScreen.pos.x = control.screenWidth / 4f;
         pauseScreen.pos.y = control.screenHeight / 5f;
-        pauseScreen.width = (control.screenWidth / 4f) * 2; // TODO: replace texture with one thats the right size and remove these lines
+        pauseScreen.width = (control.screenWidth / 4f) * 2;
         pauseScreen.height = (control.screenHeight / 5f) * 3;
         //textField
         //coins
@@ -59,7 +59,7 @@ public class UI extends UIElement{
 
         if (game.isPaused) pauseScreen.draw(batch);
         // draw coordinates for dev mode
-        if (control.debug) // draw coordinates
+        if (Control.debug) // draw coordinates
             game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
     }
 

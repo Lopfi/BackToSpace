@@ -81,6 +81,7 @@ public class SettingsScreen extends ScreenAdapter {
 
                     }  else if (keyCode == Input.Keys.A) {
                         game.safe.coins = 999999;
+                        game.safe.life = 1;
                         game.safe.save();
                         
                     } else if (keyCode == Input.Keys.NUM_0 || keyCode == Input.Keys.O) {
@@ -128,7 +129,12 @@ public class SettingsScreen extends ScreenAdapter {
             musicMode = false;
             if (game.safe.playMusic){ //IF YOU CAN READ, DONT DELETE THIS BECAUSE U NEED TO SAVE THE SOUNDID WHEN PLAYING TO CHANGE THE VOLUME!
                 game.introSound = game.assets.manager.get("music/IntroMusic.mp3", Sound.class);
-                game.gameSound = game.assets.manager.get("music/GameMusic.mp3", Sound.class);
+                String soundpath = game.safe.standardmusicPath;
+                if (game.safe.readString("currenMusic") != "") {
+                    soundpath = game.safe.readString("currenMusic"); // we cant access datasafe here cuz its requested in loadingscreen lmao
+                }
+                game.gameSound = game.assets.manager.get(soundpath, Sound.class);
+
                 game.introSound.pause();
                 game.gameSound.pause();
                 SoundId = game.introSound.loop();

@@ -60,7 +60,7 @@ public class UI extends UIElement{
         if (game.isPaused) pauseScreen.draw(batch);
         // draw coordinates for dev mode
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
-        if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 0, 20);
+        if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 2, 20);
     }
 
     public void update() {

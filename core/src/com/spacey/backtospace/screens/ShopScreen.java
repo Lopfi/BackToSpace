@@ -3,6 +3,7 @@ package com.spacey.backtospace.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,6 +38,9 @@ public class ShopScreen extends ScreenAdapter {
     Button buybtn3;
     Button buybtn4;
 
+    Button standardmusic;
+    Button music1;
+
     Stage stage = new Stage();
     public ShopScreen(GameClass game) {
         this.game = game;
@@ -59,7 +63,7 @@ public class ShopScreen extends ScreenAdapter {
                     return true;
                 }
             };
-            btn1 = new Button(game, stage, "[H] 8 coins", action, 150, 50, 400, 60);
+            btn1 = new Button(game, stage, "[H] 8 coins", action, 150, 50, 340, 60);
         }
         InputListener action2 = new InputListener(){
             @Override
@@ -131,6 +135,44 @@ public class ShopScreen extends ScreenAdapter {
             }
         };
         back = new Button(game, stage, "[ENTER] Return to Titlescreen", backbtn, 280, 80, 900, 100);
+        InputListener standardm = new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.safe.currentMusic = game.safe.standardmusicPath;
+                game.safe.write("currentMusic", game.safe.currentMusic);
+                game.gameSound = game.assets.manager.get(game.safe.currentMusic, Sound.class);
+                return true;
+            }
+        };
+        if (game.safe.playMusic) standardmusic = new Button(game, stage, "[A] Standard", standardm, 160, 50, Gdx.graphics.getWidth()/2-75, 35);
+        InputListener m1 = new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                if (!game.safe.music1){
+                    Label style = music1.getLabel();
+                    style.setText("[B] Buy 20 coins");
+                    music1.setLabel(style);
+
+                            if(game.safe.coins >= 20){
+                                game.safe.music1 = true;
+                                game.safe.write("music1", true);
+                                game.safe.currentMusic = game.safe.music1Path;
+                                game.safe.coins = game.safe.coins - 20;
+                                game.safe.save();
+                                style.setText("[B] SeeMeRollin");
+                                music1.setLabel(style);
+                            } else {
+                                style.setText("poor boi");
+                                music1.setLabel(style);
+                            }
+                } else {
+                    game.safe.currentMusic = game.safe.music1Path;
+                }
+                game.gameSound = game.assets.manager.get(game.safe.currentMusic, Sound.class);
+                return true;
+            }
+        };
+        if (game.safe.playMusic) music1 = new Button(game, stage, "[B] SeeMeRollin", m1, 150, 50, Gdx.graphics.getWidth()/2+100, 35);
         stage.addListener(new InputListener() 
         {
             @Override
@@ -216,12 +258,15 @@ public class ShopScreen extends ScreenAdapter {
         game.batch.begin();
         game.font.getData().setScale(2);
         game.font.draw(game.batch, "__THE SHOP:__", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .88f);
-        game.batch.draw(game.assets.manager.get("menu/herz.png", Texture.class), 240, 50, 200, 200);
-        game.font.draw(game.batch, "(" + (game.safe.life) + "x)", 310, 150);
+        game.batch.draw(game.assets.manager.get("menu/herz.png", Texture.class), 180, 50, 200, 200);
+        game.batch.draw(game.assets.manager.get("music/note.png", Texture.class), Gdx.graphics.getWidth()/2-65, 95, 150, 150);
+        game.font.draw(game.batch, "(" + (game.safe.life) + "x)", 250, 150);
         game.font.getData().setScale(1);
+        if (game.safe.playMusic) game.font.draw(game.batch, "Playing: " + String.valueOf(game.safe.currentMusic.split("/")[1]), Gdx.graphics.getWidth()/2-65, 250);
+        else if (!game.safe.playMusic) game.font.draw(game.batch, "Music Disabled *sad*" + "", Gdx.graphics.getWidth()/2, 230);
         game.font.draw(game.batch, "Current Coins: " + (game.safe.coins), Gdx.graphics.getWidth() * .7f, Gdx.graphics.getHeight() * .86f);
-        if (game.safe.life >= 5) game.font.draw(game.batch, "you cant buy more", 420, 80);
-        else if (game.safe.coins < 8) game.font.draw(game.batch, "youre too poor :(", 420, 80);
+        if (game.safe.life >= 5) game.font.draw(game.batch, "you cant buy more", 360, 80);
+        else if (game.safe.coins < 8) game.font.draw(game.batch, "youre too poor :(", 360, 80);
         game.font.draw(game.batch, "[ACTIVE]", swidth/4*(game.safe.currentSkin+1), 400);
 
         stateTime += Gdx.graphics.getDeltaTime();

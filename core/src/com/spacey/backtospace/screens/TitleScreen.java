@@ -32,13 +32,13 @@ public class TitleScreen extends ScreenAdapter {
 
     @Override
     public void show(){
-        if (game.safe.playMusic) {
+        /*if (game.safe.playMusic) {
             game.introSound.pause();
             game.gameSound.pause();
             long SoundId = game.gameSound.loop();
             game.gameSound.setVolume(SoundId, game.safe.playVolume);
             //mp3Sound.stop(id);
-        }
+        }  THIS NEED TO BE REMOVE IN NEAR FUTURE*/
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override

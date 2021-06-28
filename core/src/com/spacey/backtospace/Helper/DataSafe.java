@@ -22,13 +22,19 @@ public class DataSafe {
     public Integer slot3;
     public Float playerX;
     public Float playerY;
+    public String currentMusic;
     public Integer currentSkin;
     public Boolean skin1;
     public Boolean skin2;
+    public Boolean music1; //seeMeRollin
+    public Boolean music2; //?
+    public String music1Path = "music/SeeMeRollin.mp3";
+    public String music2Path = "music/?.mp3";
+    public String standardmusicPath = "music/Standard.mp3";
 
     public DataSafe() {
         prefs = Gdx.app.getPreferences("GameData");
-        if (!exists("initialized")) initialize();
+        if (!exists("Initialized")) initialize();
         load();
     }
 
@@ -79,15 +85,18 @@ public class DataSafe {
 
     public void initialize() {
         Gdx.app.log("INFO", "Save not found creating new.");
-        write("initialized", true);
-        write("cutszeneloaded", true);
+        write("Initialized", true);
+        write("cutszeneloaded", false);
         write("music", true);
         write("volume", .8f);
         write("coins", 0);
         write("level", 1);
         write("showtask", false);
-        write("life", 3);
+        write("life", 2);
+        write("currentMusic", standardmusicPath);
         write("currentSkin", 0);
+        write("music1", false);
+        write("music2", false);
         write("skin1", false);
         write("skin2", false);
         write("playerX", 100f);
@@ -108,7 +117,10 @@ public class DataSafe {
         level = readInteger("level");
         showTask = readBoolean("showtask");
         life = readInteger("life");
+        currentMusic = readString("currentMusic");
         currentSkin = readInteger("currentSkin");
+        music1 = readBoolean("music1");
+        music2 = readBoolean("music2");
         skin1 = readBoolean("skin1");
         skin2 = readBoolean("skin2");
         playerX = readFloat("playerX");

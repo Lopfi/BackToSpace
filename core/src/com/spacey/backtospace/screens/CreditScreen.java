@@ -6,11 +6,18 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Entity.UI.Button;
 
 public class CreditScreen extends ScreenAdapter {
     GameClass game;
     final float firstLineY;
+
+    Button back;
+    Stage stage = new Stage();
 
     public CreditScreen(GameClass game) {
         this.game = game;
@@ -19,15 +26,22 @@ public class CreditScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new InputAdapter() {
-
+        InputListener action = new InputListener(){
             @Override
-            public boolean keyDown(int keyCode) {
-
-                if (keyCode == Input.Keys.ENTER) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new TitleScreen(game));
+                return true;
+            }
+        };
+        back = new Button(game, stage, "[ENTER] Back", action, 200, 65, Gdx.graphics.getWidth()/2-100, 90);
+        stage.addListener(new InputListener() 
+        {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) 
+            {
+                if (keycode == Input.Keys.ENTER) {
                     game.setScreen(new TitleScreen(game));
                 }
-
                 return true;
             }
         });
@@ -54,8 +68,10 @@ public class CreditScreen extends ScreenAdapter {
 
         game.batch.draw(game.assets.manager.get("menu/team.png", Texture.class), 650, 250, 350, 350);
 
-        game.font.draw(game.batch, "[ENTER] Main Menu", textX, getLineY(11));
+        //game.font.draw(game.batch, "[ENTER] Main Menu", textX, getLineY(11));
         game.batch.end();
+        stage.act();
+        stage.draw();
 
     }
 

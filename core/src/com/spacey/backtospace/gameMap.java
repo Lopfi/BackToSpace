@@ -18,7 +18,7 @@ import com.spacey.backtospace.box2d.Box2DWorld;
 
 public class gameMap {
     // TILES
-    Texture ground0, ground1, ground2, ground3;
+    Texture ground0, ground1, ground2, ground3, ground4;
     Texture border0, border1, border2, border3, border4, border5, border6, border7;
     Texture devGrid;
 
@@ -125,9 +125,11 @@ public class gameMap {
     }
     
     private Texture random_ground(){
-        int random = MathUtils.random(20);
-        if (random >= ground.length) return ground[0];
-        return ground[random];
+        int chance = MathUtils.random(100);
+        int random = MathUtils.random(ground.length-1);
+        if (chance >= 35) return ground[0];
+        if (chance >= 2) return ground[random];
+        return ground4;
     }
 
     private Texture random_border(){
@@ -151,6 +153,7 @@ public class gameMap {
         ground1 = manager.get("tiles/ground/ground1.png", Texture.class);
         ground2 = manager.get("tiles/ground/ground2.png", Texture.class);
         ground3 = manager.get("tiles/ground/ground3.png", Texture.class);
+        ground4 = manager.get("tiles/ground/ground4.png", Texture.class);
 
         border0 = manager.get("tiles/space/space0.png", Texture.class);
         border1 = manager.get("tiles/space/space1.png", Texture.class);

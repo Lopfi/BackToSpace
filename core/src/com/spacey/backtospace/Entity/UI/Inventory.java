@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
-import com.spacey.backtospace.screens.EndScreen;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 // store and display items

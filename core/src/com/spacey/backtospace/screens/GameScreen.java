@@ -101,6 +101,7 @@ public class GameScreen extends ScreenAdapter {
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
                         else if (!player.inventory.addItem(new Item(currentEntity.type, game))) break;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.TILE) break;
                         gameMap.deleteEntity(currentEntity); // delete the collider of the entity
                         break;
                     }

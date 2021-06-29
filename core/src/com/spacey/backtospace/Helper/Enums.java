@@ -9,6 +9,7 @@ public class Enums {
     }
 
     public enum ENTITYTYPE {
+        TILE,
         PLAYER,
         ROCKET,
         STONE,

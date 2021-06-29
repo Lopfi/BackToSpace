@@ -51,7 +51,7 @@ public class GameClass extends Game {
         displayW = Gdx.graphics.getWidth();
         displayH = Gdx.graphics.getHeight();
 
-        // For 800x600 we will get 266*200
+        // 180*320
         h = (int) (displayH /Math.floor(displayH /160f)); //180
         w = (int) (displayW /(displayH / (displayH /Math.floor(displayH /160f)))); //320
 

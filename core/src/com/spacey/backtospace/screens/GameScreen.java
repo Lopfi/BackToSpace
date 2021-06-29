@@ -99,15 +99,7 @@ public class GameScreen extends ScreenAdapter {
                                 game.setScreen(new EndScreen(game, true));
                             }
                             //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
-                            else {
-                                required = player.inventory.missing(required);
-                                String missing = "";
-                                for (int y = 0; y < required.length; y++) {
-                                    if (required[y] == null) break;
-                                    missing = missing + required[y].toString() + ",";
-                                }
-                                PopUpMessage = "You forgot: " + missing;
-                            }
+                            else PopUpMessage = "You forgot: " + player.inventory.missing(required);
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;

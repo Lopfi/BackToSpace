@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 // store and display items
 public class Inventory extends UIElement{
@@ -94,24 +96,24 @@ public class Inventory extends UIElement{
         return Arrays.asList(types()).containsAll(Arrays.asList(required));
     }
 
+    public Boolean has(Enums.ENTITYTYPE required) {
+        return Arrays.asList(types()).contains(required);
+    }
+
     public void clear() {
         for (int i = 0; i < itemCount; i++) {
             items[i] = null;
             itemCount = 0;
         }
     }
-    public Enums.ENTITYTYPE[] missing(Enums.ENTITYTYPE[] required) {
-        Enums.ENTITYTYPE[] back = new Enums.ENTITYTYPE[20];
-        Integer index = 0;
+    public String missing(Enums.ENTITYTYPE[] required) {
+        ArrayList<Enums.ENTITYTYPE> missing = new ArrayList<>();
+        for (Enums.ENTITYTYPE type : required) if (!has(type)) missing.add(type);
 
-        for (int i = 0; i < required.length; i++) {
-            Enums.ENTITYTYPE[] temp = {required[i]};
-            if (!has(temp)){
-                back[index] = required[i];
-                index++;
-            }
-        }
-        return back;
+        StringBuilder out = new StringBuilder();
+        for (Enums.ENTITYTYPE type : missing) out.append(type.toString()).append(",");
+
+        return out.toString();
     }
 
     @Override

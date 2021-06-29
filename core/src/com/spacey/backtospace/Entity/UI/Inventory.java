@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Helper.Enums;
+import com.spacey.backtospace.screens.EndScreen;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 // store and display items
 public class Inventory extends UIElement{
@@ -48,11 +53,20 @@ public class Inventory extends UIElement{
             }
         }
     }
+
     public void removeItem(int slot) {
         if (items[slot] != null){
             items[slot] = null;
             itemCount--;
         }
+    }
+
+    public Boolean has(Enums.ENTITYTYPE[] required) {
+        Enums.ENTITYTYPE[] itemTypes = new Enums.ENTITYTYPE[itemCount];
+        for (int i = 0; i < itemCount; i++) {
+            itemTypes[i] = items[i].type;
+        }
+        return Arrays.asList(itemTypes).containsAll(Arrays.asList(required));
     }
 
     @Override

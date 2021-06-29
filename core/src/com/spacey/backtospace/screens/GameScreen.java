@@ -20,6 +20,8 @@ import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
+import java.util.Arrays;
+
 
 public class GameScreen extends ScreenAdapter {
 
@@ -91,7 +93,12 @@ public class GameScreen extends ScreenAdapter {
                     Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
-                        else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) break;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
+                            Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[] {Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
+                            if (player.inventory.has(required)) game.setScreen(new EndScreen(game));
+                            // add message what items you are missing
+                            break;
+                        }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
                         else if (!player.inventory.addItem(new Item(currentEntity.type, game))) break;
                         gameMap.deleteEntity(currentEntity); // delete the collider of the entity

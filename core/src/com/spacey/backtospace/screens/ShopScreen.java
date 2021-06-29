@@ -230,7 +230,6 @@ public class ShopScreen extends ScreenAdapter {
                 } else if (keycode == Input.Keys.ENTER){
                     game.setScreen(new TitleScreen(game));
                 }
-                //Gdx.app.log("Image ClickListener", "keyDown. keycode=" + keycode);
                 return true;
             }
         });

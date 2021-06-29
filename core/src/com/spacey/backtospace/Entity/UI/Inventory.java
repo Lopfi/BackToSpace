@@ -22,7 +22,7 @@ public class Inventory extends UIElement{
         pos.y = 15;
     }
 
-    public boolean addItem(Item item) {
+    public boolean add(Item item) {
         if (itemCount < items.length){
             items[itemCount] = item;
             itemCount++;
@@ -31,7 +31,7 @@ public class Inventory extends UIElement{
         return false;
     }
 
-    public boolean addItem(Item item, int slot) {
+    public boolean add(Item item, int slot) {
         if (items[slot] == null){
             items[slot] = item;
             itemCount++;
@@ -40,31 +40,65 @@ public class Inventory extends UIElement{
         return false;
     }
 
-    public void removeItem(Item item) {
+    public boolean remove(Item item) {
         if (itemCount > 0) {
             for (int i = 0; i < items.length; i++) {
                 if(items[i] != null && items[i].type == item.type) {
                     items[i] = null;
                     itemCount--;
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    public void removeItem(int slot) {
+    public boolean remove(Enums.ENTITYTYPE type) {
+        if (itemCount > 0) {
+            for (int i = 0; i < items.length; i++) {
+                if(items[i] != null && items[i].type == type) {
+                    items[i] = null;
+                    itemCount--;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Boolean remove(int slot) {
         if (items[slot] != null){
             items[slot] = null;
             itemCount--;
+            return true;
         }
+        return false;
     }
 
-    public Boolean has(Enums.ENTITYTYPE[] required) {
+    public Boolean remove(Enums.ENTITYTYPE[] items) {
+        for(Enums.ENTITYTYPE i: items) {
+            if (!remove(i)) return false;
+        }
+        return true;
+    }
+
+    private Enums.ENTITYTYPE[] types() {
         Enums.ENTITYTYPE[] itemTypes = new Enums.ENTITYTYPE[itemCount];
         for (int i = 0; i < itemCount; i++) {
             itemTypes[i] = items[i].type;
         }
-        return Arrays.asList(itemTypes).containsAll(Arrays.asList(required));
+        return itemTypes;
+    }
+
+    public Boolean has(Enums.ENTITYTYPE[] required) {
+        return Arrays.asList(types()).containsAll(Arrays.asList(required));
+    }
+
+    public void clear() {
+        for (int i = 0; i < itemCount; i++) {
+            items[i] = null;
+            itemCount = 0;
+        }
     }
 
     @Override

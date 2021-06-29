@@ -14,16 +14,14 @@ public class TitleScreen extends ScreenAdapter {
     //Storytasks its basicly the mission you have to do! YAY :)
     public static String[] Tasks = {
         "Please remove your Data because you start at level 1",
-        "Unlock the Spaceship with the key", // then some info like uh ah u cant fly cuz its broken
-        "Find     2x fuel     (1/4)",
-        "Find   5x Screws     (2/4)",
-        "Find 1x Screwdriver  (3/4)",
-        "Now repair the ship  (4/4)",
-        "Defend yourself from the anrgy aliens",
-        "Follow the alien and generate Oxygen",
-        "Help the Aliens rebuild their planet that you destroyed", //or they destroy earth
-        "Get enough Oxygen & Food & Water for your Journey back",
-        "Say Goodbye and come home, Safely."
+        "Find the main body of your rocket and put it up", // für jeden schritt wird eine Schraube und der Schraubenzieher benötigt
+        "Find and use a screwdriver with 1x screw and 1x body plate to repair the main body",
+        "Find and attach the lower left fin with 1x screw to your rocket",
+        "Find and attach 1x body plate with 1x screw to your rocket",
+        "Find and attach the    nosecone with 1x screw to your rocket",
+        "Find 2x fuel canisters to fill up your rocket",
+        "Use the key to enter and start your rocket",
+        "Say Goodbye and get back home, Safely."
     };
     public TitleScreen(GameClass game) {
         this.game = game;

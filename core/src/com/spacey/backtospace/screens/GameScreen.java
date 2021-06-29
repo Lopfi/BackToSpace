@@ -20,8 +20,6 @@ import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
-import java.util.Arrays;
-
 
 public class GameScreen extends ScreenAdapter {
 
@@ -51,8 +49,6 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         ui = new UI(game, control);
         game.box2d.world.setContactListener(new ContactListener(this));
-
-        Gdx.app.log("Contacts", String.valueOf(game.box2d.world.getContactList()));
     }
 
     @Override
@@ -95,12 +91,16 @@ public class GameScreen extends ScreenAdapter {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
                             Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[] {Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
-                            if (player.inventory.has(required)) game.setScreen(new EndScreen(game));
+                            if (player.inventory.has(required)) {
+                                player.inventory.remove(required);
+                                game.safe.level++;
+                                game.setScreen(new EndScreen(game));
+                            }
                             // add message what items you are missing
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
-                        else if (!player.inventory.addItem(new Item(currentEntity.type, game))) break;
+                        else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
                         else if (currentEntity.type == Enums.ENTITYTYPE.TILE) break;
                         gameMap.deleteEntity(currentEntity); // delete the collider of the entity
                         break;

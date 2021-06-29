@@ -25,7 +25,6 @@ public class AssetLoader {
     
     // loads all assets from the standard location
     public void loadAssets(boolean music){
-        Gdx.app.log("AssetPath", new File(System.getProperty("user.dir")) + extendedPath);
         File dir = new File(System.getProperty("user.dir") + extendedPath);
         loadFromDir(dir, music);
     }

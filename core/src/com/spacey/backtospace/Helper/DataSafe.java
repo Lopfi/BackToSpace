@@ -16,6 +16,7 @@ public class DataSafe {
     public Integer life;
 
     public Boolean showTask;
+    public Boolean cutSzeneFinished;
     public Integer level;
     public Integer slot1;
     public Integer slot2;
@@ -92,6 +93,7 @@ public class DataSafe {
         write("coins", 0);
         write("level", 1);
         write("showtask", false);
+        write("cutSzeneFinished", false);
         write("life", 2);
         write("currentMusic", standardmusicPath);
         write("currentSkin", 0);
@@ -116,6 +118,7 @@ public class DataSafe {
         slot3 = readInteger("slot3");
         level = readInteger("level");
         showTask = readBoolean("showtask");
+        cutSzeneFinished = readBoolean("cutSzeneFinished");
         life = readInteger("life");
         currentMusic = readString("currentMusic");
         currentSkin = readInteger("currentSkin");

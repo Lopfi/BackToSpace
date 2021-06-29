@@ -10,9 +10,11 @@ import com.spacey.backtospace.GameClass;
 public class EndScreen extends ScreenAdapter {
 
     GameClass game;
+    Boolean won;
 
-    public EndScreen(GameClass game) {
+    public EndScreen(GameClass game, Boolean won) {
         this.game = game;
+        this.won = won;
     }
 
     @Override
@@ -33,11 +35,20 @@ public class EndScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.25f, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.font.draw(game.batch, "You WIN!!!!!!!!!.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
+        if (won){
+            Gdx.gl.glClearColor(0, .6f, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            game.font.draw(game.batch, "YOU WON", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .5f);
+            game.font.draw(game.batch, "You came back to Earth and this will stay a historical Event.", Gdx.graphics.getWidth() * .4f, Gdx.graphics.getHeight() * .4f);
+        } else {
+            Gdx.gl.glClearColor(.7f, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            game.font.draw(game.batch, "MISSION FAILED TRAGICALLY", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .5f);
+            game.font.draw(game.batch, "Sadly you didnt survived and didnt managed to repair the rocket to come back no one will be sad because you are so bad", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .4f);    
+        }
+        game.font.draw(game.batch, "Press [ENTER] to get back or something", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);    
         game.batch.end();
 
     }

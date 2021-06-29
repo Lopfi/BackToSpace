@@ -59,6 +59,7 @@ public class HelpScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        stage.dispose();
     }
 
     /*final float firstLineY;

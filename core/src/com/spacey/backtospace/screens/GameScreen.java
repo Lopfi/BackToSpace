@@ -20,6 +20,8 @@ import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
+import java.util.Arrays;
+
 
 public class GameScreen extends ScreenAdapter {
 
@@ -35,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
     public UI ui;
 
     private float stateTime;
-
+    String PopUpMessage; //if its empty nothing will be shown, else it shows it
     public Fixture touchedFixture;
 
 
@@ -49,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         ui = new UI(game, control);
         game.box2d.world.setContactListener(new ContactListener(this));
+        this.PopUpMessage = "";
     }
 
     @Override
@@ -82,7 +85,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-
         if (touchedFixture != null) { // check if the player is currently touching something
             if (control.E) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
@@ -94,9 +96,18 @@ public class GameScreen extends ScreenAdapter {
                             if (player.inventory.has(required)) {
                                 player.inventory.remove(required);
                                 game.safe.level++;
-                                game.setScreen(new EndScreen(game));
+                                game.setScreen(new EndScreen(game, true));
                             }
-                            // add message what items you are missing
+                            //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
+                            else {
+                                required = player.inventory.missing(required);
+                                String missing = "";
+                                for (int y = 0; y < required.length; y++) {
+                                    if (required[y] == null) break;
+                                    missing = missing + required[y].toString() + ",";
+                                }
+                                PopUpMessage = "You forgot: " + missing;
+                            }
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
@@ -121,6 +132,8 @@ public class GameScreen extends ScreenAdapter {
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
             //TODO make pause logic nicer --- ArE yOu SuRe AbOuT tHat ?
+            game.safe.playerX = player.body.getPosition().x;
+            game.safe.playerY = player.body.getPosition().y -.1f;
             game.safe.save();
         }
 
@@ -147,17 +160,16 @@ public class GameScreen extends ScreenAdapter {
             }
             if (control.E) game.setScreen(new SettingsScreen(game));
             if (control.X) Gdx.app.exit();
+        } else if (!PopUpMessage.isEmpty()){
+            if (control.X) PopUpMessage = "";
         }
 
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
         batch.begin();
 
         gameMap.draw(batch, (Control.debug && !game.isPaused));
-
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
-
         gameMap.drawEntities(batch); // draw entities over player
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
@@ -165,6 +177,9 @@ public class GameScreen extends ScreenAdapter {
 
         ui.draw(batch);
         player.inventory.draw(batch);
+        if (!PopUpMessage.isEmpty()){
+            ui.showMessage(batch, PopUpMessage + " [X]=Close");
+        }
 
         batch.end();
 

@@ -12,19 +12,19 @@ public class DataSafe {
     public Boolean playMusic;
     public Float playVolume;
 
-    public Integer coins;
-    public Integer life;
+    public int coins;
+    public int life;
 
     public Boolean showTask;
     public Boolean cutSzeneFinished;
-    public Integer level;
-    public Integer slot1;
-    public Integer slot2;
-    public Integer slot3;
+    public int level;
+    public int slot1;
+    public int slot2;
+    public int slot3;
     public Float playerX;
     public Float playerY;
     public String currentMusic;
-    public Integer currentSkin;
+    public int currentSkin;
     public Boolean skin1;
     public Boolean skin2;
     public Boolean music1; //seeMeRollin
@@ -49,7 +49,7 @@ public class DataSafe {
         prefs.flush();
     }
 
-    public void write(String key, Integer data) {
+    public void write(String key, int data) {
         prefs.putInteger(key, data);
         prefs.flush();
     }

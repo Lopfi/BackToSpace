@@ -51,14 +51,14 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         ui = new UI(game, control);
         game.box2d.world.setContactListener(new ContactListener(this));
-        this.PopUpMessage = "";
+        PopUpMessage = "";
     }
 
     @Override
     public void show() {
 
         Gdx.input.setInputProcessor(control);
-        if (player.texture != game.assets.manager.get("player/Spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
+        if (player.texture != game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
             Inventory temp = player.inventory;
             Vector3 temppos = player.pos;
             game.box2d.world.destroyBody(player.body);
@@ -170,7 +170,7 @@ public class GameScreen extends ScreenAdapter {
         ui.draw(batch);
         player.inventory.draw(batch);
         if (!PopUpMessage.isEmpty()){
-            ui.showMessage(batch, PopUpMessage + " [X]=Close");
+            ui.showMessage(batch, PopUpMessage + " [X] Close");
         }
 
         batch.end();

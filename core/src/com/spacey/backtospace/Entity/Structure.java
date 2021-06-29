@@ -20,31 +20,31 @@ public class Structure extends Entity{
         switch (type) {
             case STONE:
                 String[] options = {
-                    "structures/Stone1_small.png",
-                    "structures/Stone2_small.png",
-                    "structures/Stone3_small.png",
+                    "structures/stone1_small.png",
+                    "structures/stone2_small.png",
+                    "structures/stone3_small.png",
                     //didnt implemented the big ones cuz they are too big or there to many to big ones
                 };
-                Integer random = new Random().nextInt(options.length);
+                int random = new Random().nextInt(options.length);
                 texture = initTexture(game.assets.manager.get(options[random], Texture.class));
                 break;
             case ROCKET:
-                texture = initTexture(game.assets.manager.get("structures/Rocket.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("structures/rocket.png", Texture.class));
                 break;
             case FUEL:
-                texture = initTexture(game.assets.manager.get("structures/Fuel.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("structures/fuel.png", Texture.class));
                 break;
             case SCREW:
-                texture = initTexture(game.assets.manager.get("items/Screw.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/screw.png", Texture.class));
                 break;
             case SCREWDRIVER:
-                texture = initTexture(game.assets.manager.get("items/Screwdriver.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/screwdriver.png", Texture.class));
                 break;
             case KEY:
-                texture = initTexture(game.assets.manager.get("items/Key.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/key.png", Texture.class));
                 break;
             case COIN:
-                texture = initTexture(game.assets.manager.get("menu/coin.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("ui/coin.png", Texture.class));
                 break;
             default:
                 break;

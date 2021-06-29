@@ -66,7 +66,7 @@ public class CreditScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Srishti      -Code", textX, getLineY(8));
         game.font.draw(game.batch, "Copyright @2021 ", textX, getLineY(9));
 
-        game.batch.draw(game.assets.manager.get("menu/team.png", Texture.class), 650, 250, 350, 350);
+        game.batch.draw(game.assets.manager.get("screens/team.png", Texture.class), 650, 250, 350, 350);
 
         //game.font.draw(game.batch, "[ENTER] Main Menu", textX, getLineY(11));
         game.batch.end();

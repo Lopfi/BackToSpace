@@ -23,8 +23,8 @@ public class UI extends UIElement{
         super(game);
         this.game = game;
         this.control = control;
-        lives = new UIElement(game, game.assets.manager.get("menu/herz.png", Texture.class));
-        coins = new UIElement(game, game.assets.manager.get("menu/coin.png", Texture.class));
+        lives = new UIElement(game, game.assets.manager.get("ui/heart.png", Texture.class));
+        coins = new UIElement(game, game.assets.manager.get("ui/coin.png", Texture.class));
         coins.height = ((coins.height/scale)/2) * scale;
         coins.width = ((coins.width/scale)/2) * scale;
         pauseScreen = new UIElement(game, game.assets.manager.get("ui/pause.png", Texture.class));
@@ -32,9 +32,7 @@ public class UI extends UIElement{
         pauseScreen.pos.y = control.screenHeight / 5f;
         pauseScreen.width = (control.screenWidth / 4f) * 2;
         pauseScreen.height = (control.screenHeight / 5f) * 3;
-        //textField
-        //coins
-        pauseBtn = new Button(game, control, game.assets.manager.get("ui/PauseBtn.png", Texture.class), true, 100, 100);
+        pauseBtn = new Button(game, control, game.assets.manager.get("ui/buttons/pauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height - 10, 0);
 
     }
@@ -64,9 +62,9 @@ public class UI extends UIElement{
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
         if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 2, 20);
     }
-    public void showMessage(SpriteBatch batchy, String text) {
-        batchy.draw(game.assets.manager.get("ui/textbox.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/8);
-        game.font.draw(batchy, text, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/8/2);
+    public void showMessage(SpriteBatch batch, String text) {
+        batch.draw(game.assets.manager.get("ui/textbox.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/8f);
+        game.font.draw(batch, text, Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/8f/2);
     }
     public void update() {
         pauseBtn.update();

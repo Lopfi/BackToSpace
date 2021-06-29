@@ -15,22 +15,19 @@ public class Item extends UIElement {
         this.type = type;
         switch (type) {
             case FUEL:
-                texture = initTexture(game.assets.manager.get("items/Fuel.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/fuel.png", Texture.class));
                 break;
             case STONE:
-                texture = initTexture(game.assets.manager.get("items/Stone.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/stone.png", Texture.class));
                 break;
             case SCREW:
-                texture = initTexture(game.assets.manager.get("items/Screw.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/screw.png", Texture.class));
                 break;
             case SCREWDRIVER:
-                texture = initTexture(game.assets.manager.get("items/Screwdriver.png", Texture.class));
-                break;
-            case COIN:
-                texture = initTexture(game.assets.manager.get("items/coin.png", Texture.class)); // thats dumb u dont have coins in inventory
+                texture = initTexture(game.assets.manager.get("items/screwdriver.png", Texture.class));
                 break;
             case KEY:
-                texture = initTexture(game.assets.manager.get("items/Key.png", Texture.class));
+                texture = initTexture(game.assets.manager.get("items/key.png", Texture.class));
                 break;
             default:
                 break;

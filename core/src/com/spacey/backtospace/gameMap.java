@@ -79,7 +79,7 @@ public class gameMap {
     }
 
     private void spawnEntities() {
-        HashMap<Enums.ENTITYTYPE, Integer> thingsToSpawn = new HashMap<Enums.ENTITYTYPE, Integer>();
+        HashMap<Enums.ENTITYTYPE, Integer> thingsToSpawn = new HashMap<>();
         thingsToSpawn.put(Enums.ENTITYTYPE.FUEL, 1);
         thingsToSpawn.put(Enums.ENTITYTYPE.SCREW, 2);
         thingsToSpawn.put(Enums.ENTITYTYPE.SCREWDRIVER, 1);

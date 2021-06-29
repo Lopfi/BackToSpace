@@ -66,8 +66,8 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(game.assets.manager.get("menu/background.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game.batch.draw(game.assets.manager.get("menu/backtospace.png", Texture.class), Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .77f, 400, 140);
+        game.batch.draw(game.assets.manager.get("screens/background.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(game.assets.manager.get("screens/backtospace.png", Texture.class), Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .77f, 400, 140);
         //game.font.getData().setScale(2);
         //game.font.draw(game.batch, "__ BACK TO SPACE __", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .83f);
         //game.font.getData().setScale(1);

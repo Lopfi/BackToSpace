@@ -24,7 +24,7 @@ public class Player extends Entity {
         super();
         this.game = game;
         type = Enums.ENTITYTYPE.PLAYER;
-        texture = initTexture(game.assets.manager.get("player/Spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class));
+        texture = initTexture(game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class));
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3, game);
         width = width/2f;

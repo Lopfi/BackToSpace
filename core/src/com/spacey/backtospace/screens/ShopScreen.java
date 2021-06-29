@@ -258,8 +258,8 @@ public class ShopScreen extends ScreenAdapter {
         game.batch.begin();
         game.font.getData().setScale(2);
         game.font.draw(game.batch, "__THE SHOP:__", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .88f);
-        game.batch.draw(game.assets.manager.get("menu/herz.png", Texture.class), 180, 50, 200, 200);
-        game.batch.draw(game.assets.manager.get("music/note.png", Texture.class), Gdx.graphics.getWidth()/2-65, 95, 150, 150);
+        game.batch.draw(game.assets.manager.get("ui/heart.png", Texture.class), 180, 50, 200, 200);
+        game.batch.draw(game.assets.manager.get("ui/note.png", Texture.class), Gdx.graphics.getWidth()/2-65, 95, 150, 150);
         game.font.draw(game.batch, "(" + (game.safe.life) + "x)", 250, 150);
         game.font.getData().setScale(1);
         if (game.safe.playMusic) game.font.draw(game.batch, "Playing: " + String.valueOf(game.safe.currentMusic.split("/")[1]), Gdx.graphics.getWidth()/2-65, 250);

@@ -20,9 +20,6 @@ import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
-import java.util.Arrays;
-
-
 public class GameScreen extends ScreenAdapter {
 
     private final GameClass game;
@@ -37,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
     public UI ui;
 
     private float stateTime;
-
+    String PopUpMessage; //if its empty nothing will be shown, else it shows it
     public Fixture touchedFixture;
 
 
@@ -51,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         ui = new UI(game, control);
         game.box2d.world.setContactListener(new ContactListener(this));
-
+        this.PopUpMessage = "";
         Gdx.app.log("Contacts", String.valueOf(game.box2d.world.getContactList()));
     }
 
@@ -86,7 +83,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-
         if (touchedFixture != null) { // check if the player is currently touching something
             if (control.E) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
@@ -95,8 +91,11 @@ public class GameScreen extends ScreenAdapter {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
                             Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[] {Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
-                            if (player.inventory.has(required)) game.setScreen(new EndScreen(game));
-                            // add message what items you are missing
+                            if (player.inventory.has(required)) game.setScreen(new EndScreen(game, true));
+                            //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
+                            else {
+                                PopUpMessage = "You maybe forgot something?";
+                            }
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
@@ -109,9 +108,7 @@ public class GameScreen extends ScreenAdapter {
             }
             touchedFixture = null; // reset the touched fixture
         }
-
         ui.update();
-
         if (!game.isPaused && !ui.pauseBtn.pressed) {
             player.update(control);
             camera.position.lerp(player.pos, .1f);
@@ -121,6 +118,8 @@ public class GameScreen extends ScreenAdapter {
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
             //TODO make pause logic nicer --- ArE yOu SuRe AbOuT tHat ?
+            game.safe.playerX = player.pos.x;
+            game.safe.playerY = player.pos.y;
             game.safe.save();
         }
 
@@ -147,17 +146,16 @@ public class GameScreen extends ScreenAdapter {
             }
             if (control.E) game.setScreen(new SettingsScreen(game));
             if (control.X) Gdx.app.exit();
+        } else if (!PopUpMessage.isBlank()){
+            if (control.X) PopUpMessage = "";
         }
 
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
         batch.begin();
 
         gameMap.draw(batch, (Control.debug && !game.isPaused));
-
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
-
         gameMap.drawEntities(batch); // draw entities over player
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
@@ -165,6 +163,9 @@ public class GameScreen extends ScreenAdapter {
 
         ui.draw(batch);
         player.inventory.draw(batch);
+        if (!PopUpMessage.isBlank()){
+            ui.showMessage(batch, PopUpMessage + " [X]=Close");
+        }
 
         batch.end();
 

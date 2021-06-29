@@ -1,5 +1,7 @@
 package com.spacey.backtospace.Entity;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,7 +19,14 @@ public class Structure extends Entity{
 
         switch (type) {
             case STONE:
-                texture = initTexture(game.assets.manager.get("structures/Stone3_small.png", Texture.class));
+                String[] options = {
+                    "structures/Stone1_small.png",
+                    "structures/Stone2_small.png",
+                    "structures/Stone3_small.png",
+                    //didnt implemented the big ones cuz they are too big or there to many to big ones
+                };
+                Integer random = new Random().nextInt(options.length);
+                texture = initTexture(game.assets.manager.get(options[random], Texture.class));
                 break;
             case ROCKET:
                 texture = initTexture(game.assets.manager.get("structures/Rocket.png", Texture.class));

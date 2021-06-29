@@ -264,7 +264,7 @@ public class ShopScreen extends ScreenAdapter {
         game.font.draw(game.batch, "(" + (game.safe.life) + "x)", 250, 150);
         game.font.getData().setScale(1);
         if (game.safe.playMusic) game.font.draw(game.batch, "Playing: " + String.valueOf(game.safe.currentMusic.split("/")[1]), Gdx.graphics.getWidth()/2-65, 250);
-        else if (!game.safe.playMusic) game.font.draw(game.batch, "Music Disabled *sad*" + "", Gdx.graphics.getWidth()/2, 230);
+        else if (!game.safe.playMusic) game.font.draw(game.batch, "Music Disabled *sad*", Gdx.graphics.getWidth()/2-65, 250);
         game.font.draw(game.batch, "Current Coins: " + (game.safe.coins), Gdx.graphics.getWidth() * .7f, Gdx.graphics.getHeight() * .86f);
         if (game.safe.life >= 5) game.font.draw(game.batch, "you cant buy more", 360, 80);
         else if (game.safe.coins < 8) game.font.draw(game.batch, "youre too poor :(", 360, 80);

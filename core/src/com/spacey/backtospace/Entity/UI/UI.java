@@ -1,5 +1,7 @@
 package com.spacey.backtospace.Entity.UI;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -62,7 +64,10 @@ public class UI extends UIElement{
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
         if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 2, 20);
     }
-
+    public void showMessage(SpriteBatch batchy, String text) {
+        batchy.draw(game.assets.manager.get("ui/textbox.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/8);
+        game.font.draw(batchy, text, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/8/2);
+    }
     public void update() {
         pauseBtn.update();
         //handle updates for textFields

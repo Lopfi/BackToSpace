@@ -10,12 +10,6 @@ import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.UI.UI;
 import com.spacey.backtospace.Helper.Control;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,7 +17,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
-import com.spacey.backtospace.Helper.Enums.ENTITYTYPE;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
@@ -159,7 +152,7 @@ public class GameScreen extends ScreenAdapter {
             }
             if (control.E) game.setScreen(new SettingsScreen(game));
             if (control.X) Gdx.app.exit();
-        } else if (!PopUpMessage.isBlank()){
+        } else if (!PopUpMessage.isEmpty()){
             if (control.X) PopUpMessage = "";
         }
 
@@ -176,7 +169,7 @@ public class GameScreen extends ScreenAdapter {
 
         ui.draw(batch);
         player.inventory.draw(batch);
-        if (!PopUpMessage.isBlank()){
+        if (!PopUpMessage.isEmpty()){
             ui.showMessage(batch, PopUpMessage + " [X]=Close");
         }
 

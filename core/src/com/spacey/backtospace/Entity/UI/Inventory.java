@@ -66,6 +66,19 @@ public class Inventory extends UIElement{
         }
         return Arrays.asList(itemTypes).containsAll(Arrays.asList(required));
     }
+    public Enums.ENTITYTYPE[] missing(Enums.ENTITYTYPE[] required) {
+        Enums.ENTITYTYPE[] back = new Enums.ENTITYTYPE[20];
+        Integer index = 0;
+
+        for (int i = 0; i < required.length; i++) {
+            Enums.ENTITYTYPE[] temp = {required[i]};
+            if (!has(temp)){
+                back[index] = required[i];
+                index++;
+            }
+        }
+        return back;
+    }
 
     @Override
     public void draw(SpriteBatch batch) {

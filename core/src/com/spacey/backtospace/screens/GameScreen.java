@@ -10,6 +10,12 @@ import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.UI.UI;
 import com.spacey.backtospace.Helper.Control;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,6 +23,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
+import com.spacey.backtospace.Helper.Enums.ENTITYTYPE;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
@@ -94,7 +101,13 @@ public class GameScreen extends ScreenAdapter {
                             if (player.inventory.has(required)) game.setScreen(new EndScreen(game, true));
                             //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
                             else {
-                                PopUpMessage = "You maybe forgot something?";
+                                required = player.inventory.missing(required);
+                                String missing = "";
+                                for (int y = 0; y < required.length; y++) {
+                                    if (required[y] == null) break;
+                                    missing = missing + required[y].toString() + ",";
+                                }
+                                PopUpMessage = "You forgot: " + missing;
                             }
                             break;
                         }
@@ -118,8 +131,8 @@ public class GameScreen extends ScreenAdapter {
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
             //TODO make pause logic nicer --- ArE yOu SuRe AbOuT tHat ?
-            game.safe.playerX = player.pos.x;
-            game.safe.playerY = player.pos.y;
+            game.safe.playerX = player.body.getPosition().x;
+            game.safe.playerY = player.body.getPosition().y -.1f;
             game.safe.save();
         }
 

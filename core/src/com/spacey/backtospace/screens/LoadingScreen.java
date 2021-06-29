@@ -43,7 +43,7 @@ public class LoadingScreen extends ScreenAdapter {
             game.startMusic();
             Gdx.app.log("INFO", "Finished Loading");
             game.gameScreen = new GameScreen(game);
-            game.setScreen(new TitleScreen(game));
+            game.setScreen(new CutSzeneScreen(game));
         }
         // display loading information
         Gdx.gl.glClearColor(.05f, .15f, .35f, 1);

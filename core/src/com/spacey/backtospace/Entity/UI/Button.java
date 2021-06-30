@@ -31,7 +31,9 @@ public class Button extends UIElement {
         button2.setSize(width, height);
         button2.setPosition(x, y);
         Label style = button2.getLabel();
-        style.setColor(Color.PURPLE);
+        style.setColor(new Color(.49f, 0f, .49f, 1f));
+        //style.setFontScale(style.getFontScaleX()*1.5f, style.getFontScaleY()*1.5f);
+        style.sizeBy(3);
         button2.addListener(listen);
         stage.addActor(button2);
     }

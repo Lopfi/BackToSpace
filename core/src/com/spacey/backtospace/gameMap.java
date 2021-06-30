@@ -157,7 +157,7 @@ public class gameMap {
     private void generateHitboxes(Box2DWorld box2D) {
         for(Tile tile : tiles){
                 if(tile.isNotPassable()){
-                    Box2DHelper.createBody(box2D.world, tile.width, tile.height, tile.pos, BodyDef.BodyType.StaticBody);
+                    Box2DHelper.createBody(box2D.world, tile.width, tile.height, tile.pos, BodyDef.BodyType.StaticBody, false);
                 }
         }
     }

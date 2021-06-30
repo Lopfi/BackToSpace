@@ -27,8 +27,8 @@ public class Player extends Entity {
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3, game);
         width = width/2f;
-        speed = 60;
-        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
+        speed = 600;
+        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody, false);
     }
 
     public Player(Vector3 pos, GameClass game, Texture texture) {
@@ -46,7 +46,7 @@ public class Player extends Entity {
 
     public void createBox(Vector3 pos){
         game.box2d.world.destroyBody(body);
-        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
+        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody, false);
     }
     public void update(Control control) {
         int dirX = 0;

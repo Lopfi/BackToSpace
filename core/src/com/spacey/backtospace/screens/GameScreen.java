@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.spacey.backtospace.Entity.Enemy;
 import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.Entity.UI.Item;
@@ -19,7 +20,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
-
 import java.util.Arrays;
 
 
@@ -34,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
     public gameMap gameMap;
     public Player player;
+    public Enemy enemy1;
     public UI ui;
     private Texture background;
 
@@ -50,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
         control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         gameMap = new gameMap(game);
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
+        enemy1 = new Enemy(new Vector3(300, 100, 0), game);
         ui = new UI(game, control);
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
@@ -182,7 +184,11 @@ public class GameScreen extends ScreenAdapter {
 
         gameMap.draw(batch, (Control.debug && !game.isPaused));
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
-        gameMap.drawEntities(batch); // draw entities over player
+        gameMap.drawEntities(batch); // draw entities over player //sounds dumb but idk
+        if (!game.isPaused) {
+            //enemy1.moveRandom();
+        }
+        if (!game.isPaused) enemy1.drawAnimation(batch, stateTime);
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
         batch.setProjectionMatrix(screenMatrix);

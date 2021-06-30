@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 // function to automate box2d body creation
 public class Box2DHelper {
 
-    public static Body createBody(World world, float width, float height, Vector3 pos, BodyDef.BodyType type) {
+    public static Body createBody(World world, float width, float height, Vector3 pos, BodyDef.BodyType type, Boolean isSensor) {
         Body body;
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(pos.x + width/2, pos.y + height/2);
@@ -22,6 +22,7 @@ public class Box2DHelper {
         fixtureDef.shape = boxShape;
         fixtureDef.restitution = 0.4f;
 
+        fixtureDef.isSensor = isSensor;
         body.createFixture(fixtureDef);
         boxShape.dispose();
 

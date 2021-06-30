@@ -11,6 +11,7 @@ public class Enums {
     public enum ENTITYTYPE {
         TILE,
         PLAYER,
+        ENEMY,
         ROCKET,
         STONE,
         FUEL,

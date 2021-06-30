@@ -1,6 +1,7 @@
 package com.spacey.backtospace.Entity.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,6 +30,8 @@ public class Button extends UIElement {
         button2 = new TextButton(text,mySkin,"small");
         button2.setSize(width, height);
         button2.setPosition(x, y);
+        Label style = button2.getLabel();
+        style.setColor(Color.PURPLE);
         button2.addListener(listen);
         stage.addActor(button2);
     }

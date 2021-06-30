@@ -37,6 +37,8 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean B;
     public boolean E;
     public boolean X;
+    public boolean C;
+    public boolean H;
     public boolean Space;
 
     // DEBUG
@@ -65,6 +67,8 @@ public class Control extends InputAdapter implements InputProcessor {
         right = false;
         E = false;
         X = false;
+        C = false;
+        H = false;
         Space = false;
     }
 
@@ -88,6 +92,12 @@ public class Control extends InputAdapter implements InputProcessor {
                 break;
             case Keys.Q:
                 Q = true;
+                break;
+            case Keys.C:
+                C = true;
+                break;
+            case Keys.H:
+                H = true;
                 break;
             case Keys.B:
                 B = true;
@@ -139,8 +149,14 @@ public class Control extends InputAdapter implements InputProcessor {
             case Keys.Q:
                 Q = false;
                 break;
-            case Keys.B:
+                case Keys.B:
                 B = false;
+                break;
+                case Keys.C:
+                C = false;
+                break;
+                case Keys.H:
+                H = false;
                 break;
             case Keys.NUM_1:
                 slot1 = false;

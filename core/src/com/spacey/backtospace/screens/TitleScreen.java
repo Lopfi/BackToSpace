@@ -48,16 +48,15 @@ public class TitleScreen extends ScreenAdapter {
         batch = game.batch;
 
         screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-
         control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.camera);
+        int buttonx = Gdx.graphics.getWidth()/2-200;
 
-        startBtn = new Button(game, control, game.assets.manager.get("ui/buttons/start.png", Texture.class), true, 100, 420);
-        tutorialBtn = new Button(game, control, game.assets.manager.get("ui/buttons/help.png", Texture.class), true, 100, 340);
-        settingsBtn = new Button(game, control, game.assets.manager.get("ui/buttons/settings.png", Texture.class), true, 100, 260);
-        creditsBtn = new Button(game, control, game.assets.manager.get("ui/buttons/credits.png", Texture.class), true, 100, 180);
-        quitBtn = new Button(game, control, game.assets.manager.get("ui/buttons/quit.png", Texture.class), true, 100, 100);
-        shopBtn = new Button(game, control, game.assets.manager.get("ui/buttons/shop.png", Texture.class), true, 1200, 20);
+        startBtn = new Button(game, control, game.assets.manager.get("ui/buttons/start.png", Texture.class), true, buttonx, 370);
+        tutorialBtn = new Button(game, control, game.assets.manager.get("ui/buttons/help.png", Texture.class), true, buttonx, 290);
+        settingsBtn = new Button(game, control, game.assets.manager.get("ui/buttons/settings.png", Texture.class), true, buttonx, 210);
+        creditsBtn = new Button(game, control, game.assets.manager.get("ui/buttons/credits.png", Texture.class), true, buttonx, 130);
+        quitBtn = new Button(game, control, game.assets.manager.get("ui/buttons/quit.png", Texture.class), true, buttonx, 50);
+        shopBtn = new Button(game, control, game.assets.manager.get("ui/buttons/shop.png", Texture.class), true, buttonx*2+100, 50);
     }
 
     @Override
@@ -70,28 +69,6 @@ public class TitleScreen extends ScreenAdapter {
             //mp3Sound.stop(id);
         }  THIS NEED TO BE REMOVE IN NEAR FUTURE*/
 
-        /*
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keyCode) {
-                if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(game.gameScreen);
-                }
-                if (keyCode == Input.Keys.C) {
-                    game.setScreen(new CreditScreen(game));
-                }
-                if (keyCode == Input.Keys.S) {
-                    game.setScreen(new SettingsScreen(game));
-                }
-                if (keyCode == Input.Keys.H) {
-                    game.setScreen(new HelpScreen(game));
-                }
-                if (keyCode == Input.Keys.D) {
-                    game.setScreen(new ShopScreen(game));
-                }
-                return true;
-            }
-        }); */
         Gdx.input.setInputProcessor(control);
     }
 
@@ -100,6 +77,21 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (control.Space) {
+            game.setScreen(game.gameScreen);
+        }
+        if (control.C) {
+            game.setScreen(new CreditScreen(game));
+        }
+        if (control.E) {
+            game.setScreen(new SettingsScreen(game));
+        }
+        if (control.H) {
+            game.setScreen(new HelpScreen(game));
+        }
+        if (control.down) {
+            game.setScreen(new ShopScreen(game));
+        }
         startBtn.update();
         tutorialBtn.update();
         settingsBtn.update();
@@ -119,11 +111,12 @@ public class TitleScreen extends ScreenAdapter {
         batch.draw(game.assets.manager.get("screens/backtospace.png", Texture.class), Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .77f, 400, 140);
         game.font.draw(batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .71f);
         game.font.draw(batch, "Task:  " + Tasks[game.safe.level], Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .65f);
-        game.font.draw(batch, "[H] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .36f);
+        
+        /*game.font.draw(batch, "[H] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .36f);
         game.font.draw(batch, "[D] Design/Shop", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .32f);
         game.font.draw(batch, "[S] Settings", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .44f);
         game.font.draw(batch, "[C] Credits", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .4f);
-        game.font.draw(batch, "->  [SPACE] PLAY  <-", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .25f);
+        game.font.draw(batch, "->  [SPACE] PLAY  <-", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .25f);*/
 
         batch.setProjectionMatrix(screenMatrix);
         startBtn.draw(batch);

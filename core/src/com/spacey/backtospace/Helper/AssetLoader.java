@@ -50,10 +50,12 @@ public class AssetLoader {
     private void loadFromPath(String path, boolean music) {
         String type = path.split("\\.")[1];
         String name = path.split("assets\\\\")[1];
-        if (type.equals("png")) {
+        if (String.valueOf(path.split("assets\\\\")[1]).split("\\\\")[0] == "ignore"){
+            //ignore the ignore folder
+            return;
+        } else if (type.equals("png")) {
             manager.load(name, Texture.class);
-        }
-        else if (type.equals("mp3") && music) {
+        } else if (type.equals("mp3") && music) {
             manager.load(name, Sound.class);
         }
     }

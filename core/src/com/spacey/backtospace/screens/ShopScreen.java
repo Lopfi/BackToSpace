@@ -150,20 +150,20 @@ public class ShopScreen extends ScreenAdapter {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if (!game.safe.music1){
                     Label style = music1.getLabel();
-                    style.setColor(Color.BLACK);
-                    style.setText("[B] Buy 20 coins");
-                    music1.setLabel(style);
+                    //style.setColor(Color.BLACK);
+                    //style.setText("[B] Buy 20 coins");
+                    //music1.setLabel(style);
 
-                            if(game.safe.coins >= 20){
+                            if(game.safe.coins >= 25){
                                 game.safe.music1 = true;
                                 game.safe.write("music1", true);
                                 game.safe.currentMusic = game.safe.music1Path;
-                                game.safe.coins = game.safe.coins - 20;
+                                game.safe.coins = game.safe.coins - 25;
                                 game.safe.save();
-                                style.setText("[B] Special Music");
+                                style.setText("[B] Gangster");
                                 music1.setLabel(style);
                             } else {
-                                style.setText("poor boi");
+                                style.setText("Poor Boi");
                                 music1.setLabel(style);
                             }
                 } else {
@@ -174,7 +174,8 @@ public class ShopScreen extends ScreenAdapter {
                 return true;
             }
         };
-        if (game.safe.playMusic) music1 = new Button(game, stage, "[B] Special Music", m1, 150, 50, Gdx.graphics.getWidth()/2+100, 35);
+        if (game.safe.playMusic && game.safe.music1) music1 = new Button(game, stage, "[B] Gangster", m1, 150, 50, Gdx.graphics.getWidth()/2+100, 35);
+        if (game.safe.playMusic && !game.safe.music1) music1 = new Button(game, stage, "[B] 25 Coins", m1, 150, 50, Gdx.graphics.getWidth()/2+100, 35);
         stage.addListener(new InputListener() 
         {
             @Override

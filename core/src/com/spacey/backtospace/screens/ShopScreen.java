@@ -160,7 +160,7 @@ public class ShopScreen extends ScreenAdapter {
                                 game.safe.currentMusic = game.safe.music1Path;
                                 game.safe.coins = game.safe.coins - 20;
                                 game.safe.save();
-                                style.setText("[B] SeeMeRollin");
+                                style.setText("[B] Special Music");
                                 music1.setLabel(style);
                             } else {
                                 style.setText("poor boi");
@@ -174,7 +174,7 @@ public class ShopScreen extends ScreenAdapter {
                 return true;
             }
         };
-        if (game.safe.playMusic) music1 = new Button(game, stage, "[B] SeeMeRollin", m1, 150, 50, Gdx.graphics.getWidth()/2+100, 35);
+        if (game.safe.playMusic) music1 = new Button(game, stage, "[B] Special Music", m1, 150, 50, Gdx.graphics.getWidth()/2+100, 35);
         stage.addListener(new InputListener() 
         {
             @Override

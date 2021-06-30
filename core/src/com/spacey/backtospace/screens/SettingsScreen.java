@@ -75,8 +75,8 @@ public class SettingsScreen extends ScreenAdapter {
                                 game.assets.loadMusic();
                             } else {
                                 game.safe.write("music", true);
-                                game.introSound.play();
-                                long SoundId = game.introSound.loop();
+                                //game.introSound.play(); if music not loaded
+                                SoundId = game.introSound.loop();
                                 game.introSound.setVolume(SoundId,game.safe.playVolume);
                             }
                         }

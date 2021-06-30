@@ -94,15 +94,31 @@ public class GameScreen extends ScreenAdapter {
                     if (currentEntity.getFixture() == touchedFixture) {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
-                            Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[] {Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
-                            if (player.inventory.has(required)) {
-                                player.inventory.remove(required);
-                                game.safe.level++;
-                                game.setScreen(new EndScreen(game, true));
+
+
+                            if (game.safe.level == 1) {
+                                Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[]{Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
+                                if (player.inventory.has(required)) {
+                                    player.inventory.remove(required);
+                                    game.safe.level++;
+                                    game.setScreen(new EndScreen(game, true));
+                                }
+                                //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
+                                else PopUpMessage = "You forgot: " + player.inventory.missing(required);
+                                break;
+                            } else
+                            {
+                                Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[]{Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
+                                if (player.inventory.has(required)) {
+                                    player.inventory.remove(required);
+                                    game.safe.level++;
+                                    game.setScreen(new EndScreen(game, true));
+                                }
+                                //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
+                                else PopUpMessage = "You forgot: " + player.inventory.missing(required);
+                                break;
                             }
-                            //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
-                            else PopUpMessage = "You forgot: " + player.inventory.missing(required);
-                            break;
+
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
                         else if (!player.inventory.add(new Item(currentEntity.type, game))) break;

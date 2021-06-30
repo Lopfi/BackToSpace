@@ -41,6 +41,9 @@ public class SettingsScreen extends ScreenAdapter {
                 if (!deleteMode && !musicMode) {
                     if (keyCode == Input.Keys.ENTER) {
                         game.setScreen(new TitleScreen(game));
+                    } else if (keyCode == Input.Keys.C) {
+                        game.safe.cutSzeneFinished = false;
+                        game.setScreen(new CutSzeneScreen(game));
                     } else if (keyCode == Input.Keys.SPACE ||keyCode == Input.Keys.ESCAPE) {
                         game.setScreen(game.gameScreen);
 
@@ -148,6 +151,7 @@ public class SettingsScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Music:        <" + game.safe.playMusic + "> [M] to toggle", textX, Gdx.graphics.getHeight() * .7f);
         game.font.draw(game.batch, "Volume:     <" + Math.round(game.safe.playVolume*10) + "> [UP][DOWN] to change", textX, Gdx.graphics.getHeight() * .66f);
         game.font.draw(game.batch, "GameTask: <" + game.safe.showTask + "> [T] to toggle", textX, Gdx.graphics.getHeight() * .62f);
+        game.font.draw(game.batch, "Press [C] to play the Cutszene again", textX, Gdx.graphics.getHeight() * .58f);
         if (Control.debug) game.font.draw(game.batch, "Money:    <" + game.safe.coins + "> [A][O] All or zerO", textX, Gdx.graphics.getHeight() * .45f);
         game.font.draw(game.batch, "[R] Reset game data", textX, Gdx.graphics.getHeight() * .35f);
         game.font.draw(game.batch, "[SPACE/ESC] Play Game", textX, Gdx.graphics.getHeight() * .28f);

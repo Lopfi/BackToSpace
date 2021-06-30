@@ -234,15 +234,15 @@ public class ShopScreen extends ScreenAdapter {
             }
         });
 
-        playershop1 = new Player(new Vector3(swidth/4*1, 420, 0), game, game.assets.manager.get("player/Spaceman_walk0.png", Texture.class));
+        playershop1 = new Player(new Vector3(swidth/4*1, 420, 0), game, game.assets.manager.get("player/spaceman_walk0.png", Texture.class));
         playershop1.height = playershop1.height*4;
         playershop1.width = playershop1.width*4;
 
-        playershop2 = new Player(new Vector3(swidth/4*2, 420, 0), game, game.assets.manager.get("player/Spaceman_walk1.png", Texture.class));
+        playershop2 = new Player(new Vector3(swidth/4*2, 420, 0), game, game.assets.manager.get("player/spaceman_walk1.png", Texture.class));
         playershop2.height = playershop2.height*4;
         playershop2.width = playershop2.width*4;
 
-        playershop3 = new Player(new Vector3(swidth/4*3, 420, 0), game, game.assets.manager.get("player/Spaceman_walk2.png", Texture.class));
+        playershop3 = new Player(new Vector3(swidth/4*3, 420, 0), game, game.assets.manager.get("player/spaceman_walk2.png", Texture.class));
         playershop3.height = playershop3.height*4;
         playershop3.width = playershop3.width*4;
     }

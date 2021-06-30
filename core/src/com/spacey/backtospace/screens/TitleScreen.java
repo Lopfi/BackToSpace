@@ -12,6 +12,8 @@ import com.spacey.backtospace.Entity.UI.Button;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 
+import java.util.Set;
+
 public class TitleScreen extends ScreenAdapter {
 
     GameClass game;
@@ -68,6 +70,7 @@ public class TitleScreen extends ScreenAdapter {
             //mp3Sound.stop(id);
         }  THIS NEED TO BE REMOVE IN NEAR FUTURE*/
 
+        /*
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
@@ -88,7 +91,8 @@ public class TitleScreen extends ScreenAdapter {
                 }
                 return true;
             }
-        });
+        }); */
+        Gdx.input.setInputProcessor(control);
     }
 
     @Override
@@ -103,14 +107,12 @@ public class TitleScreen extends ScreenAdapter {
         creditsBtn.update();
         quitBtn.update();
 
-        if (startBtn.pressed) Gdx.app.log("Button", "start");
-        if (tutorialBtn.pressed)
-        if (settingsBtn.pressed)
-        if (shopBtn.pressed)
-        if (creditsBtn.pressed)
-        if (quitBtn.pressed){
-
-        }
+        if (startBtn.pressed) game.setScreen(game.gameScreen);
+        if (tutorialBtn.pressed) game.setScreen(new HelpScreen(game));
+        if (settingsBtn.pressed) game.setScreen(new SettingsScreen(game));
+        if (shopBtn.pressed) game.setScreen(new ShopScreen(game));
+        if (creditsBtn.pressed) game.setScreen(new CreditScreen(game));
+        if (quitBtn.pressed) Gdx.app.exit();
 
         batch.begin();
         batch.draw(game.assets.manager.get("screens/background.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

@@ -9,43 +9,41 @@ import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
-import com.spacey.backtospace.Helper.DataSafe;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.box2d.Box2DHelper;
 
 // the player with a controller to handle movement inputs
 public class Player extends Entity {
 
-    private final int speed;
+    private int speed;
     public Inventory inventory;
     private boolean flipped;
     GameClass game;
     public Player(Vector3 pos, GameClass game) {
-        super();
+        super(game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class));
         this.game = game;
+        this.pos = pos;
         type = Enums.ENTITYTYPE.PLAYER;
-        texture = initTexture(game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class));
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3, game);
         width = width/2f;
         speed = 60;
-        this.pos = pos;
         body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);
     }
+
     public Player(Vector3 pos, GameClass game, Texture texture) {
-        super();
+        super(texture);
         this.game = game;
+        this.pos = pos;
         type = Enums.ENTITYTYPE.PLAYER;
-        this.texture = initTexture(texture);
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         width = width/2f;
-        speed = 60;
-        this.pos = pos;
     }
 
     public void drawAnimation(SpriteBatch batch, float stateTime) {
         super.drawAnimation(batch, stateTime, flipped);
     }
+
     public void createBox(Vector3 pos){
         game.box2d.world.destroyBody(body);
         body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody);

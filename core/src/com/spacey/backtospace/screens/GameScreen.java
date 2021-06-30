@@ -35,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
     public gameMap gameMap;
     public Player player;
     public UI ui;
+    private Texture background;
 
     private float stateTime;
     String PopUpMessage; //if its empty nothing will be shown, else it shows it
@@ -52,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
         ui = new UI(game, control);
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
+        background = game.assets.manager.get("tiles/background.png", Texture.class);
     }
 
     @Override
@@ -159,6 +161,8 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batch.begin();
+
+        batch.draw(background, -200,-200);
 
         gameMap.draw(batch, (Control.debug && !game.isPaused));
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause

@@ -22,6 +22,11 @@ public class Entity {
         pos = new Vector3();
     }
 
+    public Entity(Texture texture){
+        pos = new Vector3();
+        this.texture = initTexture(texture);
+    }
+
     public Texture initTexture(Texture texture) {
         height = texture.getHeight();
         width = texture.getWidth();

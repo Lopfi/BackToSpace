@@ -30,6 +30,7 @@ public class Control extends InputAdapter implements InputProcessor {
     public boolean  processed_click;
     public Vector2  mouse_click_pos = new Vector2();
     public Vector2  map_click_pos = new Vector2();
+    public Vector2  mouse_pos = new Vector2();
     
     //PAUSE SCREEN KEYS
     public boolean Q;
@@ -220,6 +221,8 @@ public class Control extends InputAdapter implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        mouse_pos.x = screenX;
+        mouse_pos.y = screenY;
         return false;
     }
 

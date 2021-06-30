@@ -19,11 +19,10 @@ import com.spacey.backtospace.box2d.Box2DWorld;
 public class gameMap {
     // TILES
     Texture ground0, ground1, ground2, ground3, ground4;
-    Texture border0, border1, border2, border3, border4, border5, border6, border7;
+    Texture border;
     Texture devGrid;
 
     Texture[] ground;
-    Texture[] border;
 
     int height;
     int width;
@@ -40,7 +39,7 @@ public class gameMap {
         this.game = game;
         height = 50;
         width = 50;
-        borderWidth = 5;
+        borderWidth = 1;
         tiles = new ArrayList<>();
         entities = new ArrayList<>();
         getImages(game.assets.manager);
@@ -88,7 +87,7 @@ public class gameMap {
         thingsToSpawn.put(Enums.ENTITYTYPE.COIN, 4);
         thingsToSpawn.put(Enums.ENTITYTYPE.STONE, 30);
 
-        Set set = thingsToSpawn.entrySet();
+        Set<Map.Entry<Enums.ENTITYTYPE, Integer>> set = thingsToSpawn.entrySet();
         for (Object o : set) {
             Map.Entry entry = (Map.Entry) o;
             for (int i = 0; i < (int) entry.getValue(); i++) {
@@ -117,7 +116,7 @@ public class gameMap {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Tile tile;
-                if (is_border(x,y)) tile = new Tile(x, y, TILETYPE.BORDER, random_border());
+                if (is_border(x,y)) tile = new Tile(x, y, TILETYPE.BORDER, border);
                 else tile = new Tile(x, y, TILETYPE.GROUND, random_ground());
                 tiles.add(tile);
             }
@@ -132,14 +131,8 @@ public class gameMap {
         return ground4;
     }
 
-    private Texture random_border(){
-        int random = MathUtils.random(20);
-        if (random >= border.length) return border[0];
-        return border[random];
-    }
-
     private boolean is_border(int x, int y) {
-        return y <= borderWidth || x <= borderWidth || x >= width - borderWidth+1 || y >= height - borderWidth+1;
+        return y < borderWidth || x < borderWidth || x >= width - borderWidth || y >= height - borderWidth;
     }
 
     private boolean is_borderCoordinates(int x, int y) {
@@ -155,19 +148,10 @@ public class gameMap {
         ground3 = manager.get("tiles/ground/ground3.png", Texture.class);
         ground4 = manager.get("tiles/ground/ground4.png", Texture.class);
 
-        border0 = manager.get("tiles/space/space0.png", Texture.class);
-        border1 = manager.get("tiles/space/space1.png", Texture.class);
-        border2 = manager.get("tiles/space/space2.png", Texture.class);
-        border3 = manager.get("tiles/space/space3.png", Texture.class);
-        border4 = manager.get("tiles/space/space4.png", Texture.class);
-        border5 = manager.get("tiles/space/space5.png", Texture.class);
-        border6 = manager.get("tiles/space/space6.png", Texture.class);
-        border7 = manager.get("tiles/space/space7.png", Texture.class);
-
+        border = manager.get("tiles/empty.png", Texture.class);
         devGrid = manager.get("tiles/dev_grid.png", Texture.class);
 
         ground = new Texture[]{ground0, ground1, ground2, ground3};
-        border = new Texture[]{border0, border1, border2, border3, border4, border5, border6, border7};
     }
 
     private void generateHitboxes(Box2DWorld box2D) {
@@ -176,10 +160,5 @@ public class gameMap {
                     Box2DHelper.createBody(box2D.world, tile.width, tile.height, tile.pos, BodyDef.BodyType.StaticBody);
                 }
         }
-    }
-
-    public void dispose() {
-        for (Texture texture : ground) texture.dispose();
-        for (Texture texture : border) texture.dispose();
     }
 }

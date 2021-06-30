@@ -9,9 +9,8 @@ public class Tile extends Entity {
     private TILETYPE tileType;
     
     public Tile(float x, float y, TILETYPE tileType, Texture texture){
-        super();
+        super(texture);
         type = Enums.ENTITYTYPE.TILE;
-        this.texture = initTexture(texture);
         this.tileType = tileType;
         pos.x = x * width;
         pos.y = y * height;

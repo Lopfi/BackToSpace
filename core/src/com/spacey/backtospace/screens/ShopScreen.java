@@ -150,6 +150,7 @@ public class ShopScreen extends ScreenAdapter {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if (!game.safe.music1){
                     Label style = music1.getLabel();
+                    style.setColor(Color.BLACK);
                     style.setText("[B] Buy 20 coins");
                     music1.setLabel(style);
 

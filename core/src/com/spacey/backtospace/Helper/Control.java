@@ -1,5 +1,7 @@
 package com.spacey.backtospace.Helper;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
@@ -11,12 +13,6 @@ import com.badlogic.gdx.math.Vector3;
 public class Control extends InputAdapter implements InputProcessor {
     // CAMERA
     OrthographicCamera camera;
-
-    //INVENTORY
-    public boolean slot1;
-    public boolean slot2;
-    public boolean slot3;
-    public boolean esc;
 
     // DIRECTIONS
     public boolean up;
@@ -32,14 +28,8 @@ public class Control extends InputAdapter implements InputProcessor {
     public Vector2  map_click_pos = new Vector2();
     public Vector2  mouse_pos = new Vector2();
     
-    //PAUSE SCREEN KEYS
-    public boolean Q;
-    public boolean B;
-    public boolean E;
-    public boolean X;
-    public boolean C;
-    public boolean H;
-    public boolean Space;
+    //ArrayList
+    ArrayList<Integer> pressedKeys = new ArrayList<>();
 
     // DEBUG
     public static boolean debug;
@@ -55,21 +45,11 @@ public class Control extends InputAdapter implements InputProcessor {
     }
 
     public void reset() {
-        esc = false;
-        Q = false;
-        B = false;
-        slot1 = false;
-        slot2 = false;
-        slot3 = false;
+        pressedKeys = new ArrayList<>(); 
         down = false;
         up = false;
         left = false;
         right = false;
-        E = false;
-        X = false;
-        C = false;
-        H = false;
-        Space = false;
     }
 
     private void setMouseClickedPos(int screenX, int screenY){
@@ -86,31 +66,8 @@ public class Control extends InputAdapter implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (!pressedKeys.contains(keycode)) pressedKeys.add(keycode);
         switch (keycode) {
-            case Keys.ESCAPE:
-                esc = true;
-                break;
-            case Keys.Q:
-                Q = true;
-                break;
-            case Keys.C:
-                C = true;
-                break;
-            case Keys.H:
-                H = true;
-                break;
-            case Keys.B:
-                B = true;
-                break;
-            case Keys.NUM_1:
-                slot1 = true;
-                break;
-            case Keys.NUM_2:
-                slot2 = true;
-                break;
-            case Keys.NUM_3:
-                slot3 = true;
-                break;
             case Keys.DOWN:
             case Keys.S:
                 down = true;
@@ -127,46 +84,18 @@ public class Control extends InputAdapter implements InputProcessor {
             case Keys.D:
                 right = true;
                 break;
-            case Keys.E:
-                E = true;
-                break;
-            case Keys.X:
-                X = true;
-                break;
-            case Keys.SPACE:
-                Space = true;
-                break;
         }
         return false;
     }
 
+    public boolean isPressed(int keycode){
+        return pressedKeys.contains(keycode);
+    }
+
     @Override
     public boolean keyUp(int keycode) {
+        if (pressedKeys.contains(keycode)) pressedKeys.remove(Integer.valueOf(keycode));
         switch (keycode) {
-            case Keys.ESCAPE:
-                esc = false;
-                break;
-            case Keys.Q:
-                Q = false;
-                break;
-                case Keys.B:
-                B = false;
-                break;
-                case Keys.C:
-                C = false;
-                break;
-                case Keys.H:
-                H = false;
-                break;
-            case Keys.NUM_1:
-                slot1 = false;
-                break;
-            case Keys.NUM_2:
-                slot2 = false;
-                break;
-            case Keys.NUM_3:
-                slot3 = false;
-                break;
             case Keys.DOWN:
             case Keys.S:
                 down = false;
@@ -183,24 +112,10 @@ public class Control extends InputAdapter implements InputProcessor {
             case Keys.D:
                 right = false;
                 break;
-            case Keys.E:
-                E = false;
-                break;
-            case Keys.X:
-                X = false;
-                break;
-            case Keys.SPACE:
-                Space = false;
-                break;
             case Keys.BACKSPACE:
                 debug = !debug;
                 break;
         }
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
         return false;
     }
 

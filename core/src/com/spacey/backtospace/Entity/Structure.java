@@ -2,7 +2,10 @@ package com.spacey.backtospace.Entity;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.GameClass;
@@ -11,13 +14,25 @@ import com.spacey.backtospace.box2d.Box2DHelper;
 
 public class Structure extends Entity{
 
+    public TextureRegion[] region;
+    private GameClass game;
 
     public Structure(Enums.ENTITYTYPE type, GameClass game, float x, float y) {
         super();
-
         this.type = type;
+        this.game = game;
+        pos = new Vector3(x, y,0);
 
         switch (type) {
+            case PLATE:
+                texture = initTexture(game.assets.manager.get("structures/plate.png", Texture.class));
+                break;
+            case NOSECONE:
+                texture = initTexture(game.assets.manager.get("structures/nosecone.png", Texture.class));
+                break;
+            case FIN:
+                texture = initTexture(game.assets.manager.get("structures/fin.png", Texture.class));
+                break;
             case STONE:
                 String[] options = {
                     "structures/stone1_small.png",
@@ -27,9 +42,23 @@ public class Structure extends Entity{
                 };
                 int random = new Random().nextInt(options.length);
                 texture = initTexture(game.assets.manager.get(options[random], Texture.class));
+                body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false); //idk why u want to walk behind but ok
                 break;
             case ROCKET:
-                texture = initTexture(game.assets.manager.get("structures/rocket.png", Texture.class));
+                texture = game.assets.manager.get("structures/rocket_sheet.png", Texture.class);
+                int cols = 5;
+                int rows = 1;
+                TextureRegion[][] tmp = TextureRegion.split(texture,texture.getWidth() / cols,texture.getHeight() / rows);
+
+                region = new TextureRegion[cols * rows];
+                int index = 0;
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        region[index++] = tmp[i][j];
+                    }
+                }
+
+                body = Box2DHelper.createBody(game.box2d.world, region[0].getRegionWidth(), 36, pos, BodyDef.BodyType.StaticBody, false); // make it possible to walk behind rocket
                 break;
             case FUEL:
                 texture = initTexture(game.assets.manager.get("structures/fuel.png", Texture.class));
@@ -50,9 +79,18 @@ public class Structure extends Entity{
                 break;
         }
 
-        pos = new Vector3(x, y,0);
-        if (type == Enums.ENTITYTYPE.ROCKET) body = Box2DHelper.createBody(game.box2d.world, width, 36, pos, BodyDef.BodyType.StaticBody, false); // make it possible to walk behind rocket
-        else if (type == Enums.ENTITYTYPE.STONE) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false); //idk why u want to walk behind but ok
-        else body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, true);
+        if (type != Enums.ENTITYTYPE.ROCKET && type != Enums.ENTITYTYPE.STONE) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, true);
+    }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+        if (type != Enums.ENTITYTYPE.ROCKET) super.draw(batch);
+        else {
+            int index = game.safe.level-1;
+            if (index >= region.length)  index = region.length-1;
+            height = region[index].getRegionHeight();
+            width = region[index].getRegionWidth();
+            batch.draw(region[index], pos.x, pos.y, width, height);
+        }
     }
 }

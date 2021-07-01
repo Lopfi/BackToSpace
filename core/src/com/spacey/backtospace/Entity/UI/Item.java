@@ -14,6 +14,15 @@ public class Item extends UIElement {
         super(game);
         this.type = type;
         switch (type) {
+            case PLATE:
+                texture = initTexture(game.assets.manager.get("items/plate.png", Texture.class));
+                break;
+            case NOSECONE:
+                texture = initTexture(game.assets.manager.get("items/nosecone.png", Texture.class));
+                break;
+            case FIN:
+                texture = initTexture(game.assets.manager.get("items/fin.png", Texture.class));
+                break;
             case FUEL:
                 texture = initTexture(game.assets.manager.get("items/fuel.png", Texture.class));
                 break;

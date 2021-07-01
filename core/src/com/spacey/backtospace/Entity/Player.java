@@ -27,7 +27,7 @@ public class Player extends Entity {
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         inventory = new Inventory(3, game);
         width = width/2f;
-        speed = 600;
+        speed = 60;
         body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody, false);
     }
 

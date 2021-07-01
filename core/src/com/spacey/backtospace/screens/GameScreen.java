@@ -96,6 +96,10 @@ public class GameScreen extends ScreenAdapter {
                     Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
+                            PopUpMessage = "Yo man this is a chest be nice and let it alone";
+                            break;
+                        }
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
 
 

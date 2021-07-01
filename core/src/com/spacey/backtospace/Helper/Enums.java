@@ -19,6 +19,7 @@ public class Enums {
         SCREW,
         KEY,
         COIN,
-        LIFE
+        LIFE,
+        CHEST
     }
 }

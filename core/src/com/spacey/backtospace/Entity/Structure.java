@@ -46,13 +46,16 @@ public class Structure extends Entity{
             case COIN:
                 texture = initTexture(game.assets.manager.get("ui/coin.png", Texture.class));
                 break;
+            case CHEST:
+                texture = initTexture(game.assets.manager.get("structures/chest.png", Texture.class));
+                break;
             default:
                 break;
         }
 
         pos = new Vector3(x, y,0);
         if (type == Enums.ENTITYTYPE.ROCKET) body = Box2DHelper.createBody(game.box2d.world, width, 36, pos, BodyDef.BodyType.StaticBody, false); // make it possible to walk behind rocket
-        else if (type == Enums.ENTITYTYPE.STONE) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false); //idk why u want to walk behind but ok
+        else if (type == Enums.ENTITYTYPE.STONE || type == Enums.ENTITYTYPE.CHEST) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false); //idk why u want to walk behind but ok
         else body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, true);
     }
 }

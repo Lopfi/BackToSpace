@@ -24,7 +24,8 @@ public class Enums {
         LIFE,
         PLATE,
         FIN,
-        NOSECONE
+        NOSECONE,
+        CHEST
     }
 
     public static String[] tasks = {

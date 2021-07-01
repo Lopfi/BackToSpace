@@ -2,6 +2,7 @@ package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -63,19 +64,22 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (control.Space) {
+        if (control.isPressed(Keys.SPACE)) {
             game.setScreen(game.gameScreen);
         }
-        if (control.C) {
+        if (control.isPressed(Keys.C)) {
             game.setScreen(new CreditScreen(game));
         }
-        if (control.E) {
+        if (control.isPressed(Keys.E)) {
             game.setScreen(new SettingsScreen(game));
         }
-        if (control.H) {
+        if (control.isPressed(Keys.H)) {
             game.setScreen(new HelpScreen(game));
         }
-        if (control.down) {
+        if (control.isPressed(Keys.Q)) {
+            Gdx.app.exit();
+        }
+        if (control.isPressed(Keys.S)) {
             game.setScreen(new ShopScreen(game));
         }
         startBtn.update();

@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Input.Keys;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
@@ -90,11 +91,15 @@ public class GameScreen extends ScreenAdapter {
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         if (touchedFixture != null) { // check if the player is currently touching something
-            if (control.E) { // only continue if player is trying to pick something up
+            if (control.isPressed(Keys.E)) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
                     Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
+                            PopUpMessage = "Yo man this is a chest be nice and let it alone";
+                            break;
+                        }
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
                             if (player.inventory.has(Enums.requiredItems[game.safe.level])) {
                                 player.inventory.remove(Enums.requiredItems[game.safe.level]);
@@ -129,13 +134,12 @@ public class GameScreen extends ScreenAdapter {
 
         if (ui.pauseBtn.pressed) {
             game.isPaused = !game.isPaused;
-            //TODO make pause logic nicer --- ArE yOu SuRe AbOuT tHat ?
             game.safe.playerX = player.body.getPosition().x;
             game.safe.playerY = player.body.getPosition().y -.1f;
             game.safe.save();
         }
 
-        if (control.Q || control.esc) {
+        if (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE)) {
             if (!game.isPaused) {
                 game.safe.playerX = player.pos.x;
                 game.safe.playerY = player.pos.y;
@@ -145,8 +149,8 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (game.isPaused) {
-            if (control.Space) game.isPaused = false;
-            if (control.B) {
+            if (control.isPressed(Keys.SPACE)) game.isPaused = false;
+            if (control.isPressed(Keys.B)) {
                 if (game.safe.playMusic) {
                     game.introSound.pause();
                     game.gameSound.pause();
@@ -156,10 +160,10 @@ public class GameScreen extends ScreenAdapter {
                 }
                 game.setScreen(new TitleScreen(game));
             }
-            if (control.E) game.setScreen(new SettingsScreen(game));
-            if (control.X) Gdx.app.exit();
+            if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
+            if (control.isPressed(Keys.X)) Gdx.app.exit();
         } else if (!PopUpMessage.isEmpty()){
-            if (control.X) PopUpMessage = "";
+            if (control.isPressed(Keys.X)) PopUpMessage = "";
         }
 
         batch.setProjectionMatrix(camera.combined);

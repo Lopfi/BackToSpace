@@ -75,11 +75,15 @@ public class Structure extends Entity{
             case COIN:
                 texture = initTexture(game.assets.manager.get("ui/coin.png", Texture.class));
                 break;
+            case CHEST:
+                texture = initTexture(game.assets.manager.get("structures/chest.png", Texture.class));
+                body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false);
+                break;
             default:
                 break;
         }
 
-        if (type != Enums.ENTITYTYPE.ROCKET && type != Enums.ENTITYTYPE.STONE) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, true);
+        if (type != Enums.ENTITYTYPE.ROCKET && type != Enums.ENTITYTYPE.STONE && type != Enums.ENTITYTYPE.CHEST) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, true);
     }
 
     @Override

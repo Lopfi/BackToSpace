@@ -84,6 +84,7 @@ public class gameMap {
         thingsToSpawn.put(Enums.ENTITYTYPE.SCREWDRIVER, 1);
         thingsToSpawn.put(Enums.ENTITYTYPE.ROCKET, 1);
         thingsToSpawn.put(Enums.ENTITYTYPE.KEY, 1);
+        thingsToSpawn.put(Enums.ENTITYTYPE.CHEST, 1);
         thingsToSpawn.put(Enums.ENTITYTYPE.COIN, 4);
         thingsToSpawn.put(Enums.ENTITYTYPE.PLATE, 4);
         thingsToSpawn.put(Enums.ENTITYTYPE.NOSECONE, 1);

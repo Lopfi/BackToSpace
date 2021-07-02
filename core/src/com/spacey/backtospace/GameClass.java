@@ -25,6 +25,7 @@ public class GameClass extends Game {
     public DataSafe safe;
 
     public Boolean isPaused;
+    public boolean chestmode;
     public Sound introSound;
     public Sound gameSound;
 

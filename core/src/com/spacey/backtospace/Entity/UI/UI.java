@@ -15,6 +15,7 @@ public class UI extends UIElement{
     private GameClass game;
     private Control control;
     private UIElement pauseScreen;
+    private UIElement chestScreen;
     private UIElement lives;
     private UIElement coins;
     public String textFieldText;
@@ -32,6 +33,10 @@ public class UI extends UIElement{
         pauseScreen.pos.y = control.screenHeight / 5f;
         pauseScreen.width = (control.screenWidth / 4f) * 2;
         pauseScreen.height = (control.screenHeight / 5f) * 3;
+        chestScreen = new UIElement(game, game.assets.manager.get("ui/insidechest.png", Texture.class));
+        chestScreen.pos = pauseScreen.pos;
+        chestScreen.width = (control.screenWidth / 4f) * 2;
+        chestScreen.height = (control.screenHeight / 5f) * 3;
         pauseBtn = new Button(game, control, game.assets.manager.get("ui/buttons/pauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height - 10, 0);
 
@@ -53,11 +58,10 @@ public class UI extends UIElement{
         game.font.draw(batch, String.valueOf(game.safe.coins) , coins.width + 20, control.screenHeight - lives.height - (coins.height/2) +3);
         game.font.getData().setScale(1);
 
-        //draw text field
-            //draw textField texture
-            //draw font
-
+        //draw extra Gameclass screens
         if (game.isPaused) pauseScreen.draw(batch);
+        if (game.chestmode) chestScreen.draw(batch);
+
         // draw coordinates for dev mode
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
         if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 2, 20);

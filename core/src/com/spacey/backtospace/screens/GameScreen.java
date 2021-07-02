@@ -65,9 +65,9 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(control);
         if (player.texture != game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
             Inventory temp = player.inventory;
-            Vector3 temppos = player.pos;
+            Vector3 tempPos = player.pos;
             game.box2d.world.destroyBody(player.body);
-            player = new Player(temppos, game);
+            player = new Player(tempPos, game);
             player.inventory = temp;
         }
         //load the music and play
@@ -103,31 +103,18 @@ public class GameScreen extends ScreenAdapter {
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
-
-
-                            if (game.safe.level == 1) {
-                                Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[]{Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
-                                if (player.inventory.has(required)) {
-                                    player.inventory.remove(required);
-                                    game.safe.level++;
+                            if (player.inventory.has(Enums.requiredItems[game.safe.level])) {
+                                player.inventory.remove(Enums.requiredItems[game.safe.level]);
+                                game.safe.level++;
+                                if (game.safe.level >= Enums.tasks.length-1) {
+                                    game.safe.level = 1;
                                     game.setScreen(new EndScreen(game, true));
                                 }
-                                //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
-                                else PopUpMessage = "You forgot: " + player.inventory.missing(required);
-                                break;
-                            } else
-                            {
-                                Enums.ENTITYTYPE[] required = new Enums.ENTITYTYPE[]{Enums.ENTITYTYPE.FUEL, Enums.ENTITYTYPE.SCREW, Enums.ENTITYTYPE.SCREWDRIVER};
-                                if (player.inventory.has(required)) {
-                                    player.inventory.remove(required);
-                                    game.safe.level++;
-                                    game.setScreen(new EndScreen(game, true));
-                                }
-                                //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
-                                else PopUpMessage = "You forgot: " + player.inventory.missing(required);
-                                break;
+                                touchedFixture = null;
                             }
-
+                            //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
+                            else PopUpMessage = "You need: " + player.inventory.missing(Enums.requiredItems[game.safe.level]);
+                            break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
                         else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
@@ -137,7 +124,6 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
             }
-            touchedFixture = null; // reset the touched fixture
         }
 
         ui.update();

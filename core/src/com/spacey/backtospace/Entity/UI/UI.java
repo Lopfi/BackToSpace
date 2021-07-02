@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.screens.TitleScreen;
 
 // display different elements of the ui in the game-screen
@@ -64,7 +65,7 @@ public class UI extends UIElement{
 
         // draw coordinates for dev mode
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
-        if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + TitleScreen.Tasks[game.safe.level], 2, 20);
+        if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + Enums.tasks[game.safe.level], 4, 20);
     }
     public void showMessage(SpriteBatch batch, String text) {
         batch.draw(game.assets.manager.get("ui/textbox.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/8f);

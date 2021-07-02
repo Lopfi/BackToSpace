@@ -26,9 +26,13 @@ public class Inventory extends UIElement{
 
     public boolean add(Item item) {
         if (itemCount < items.length){
-            items[itemCount] = item;
-            itemCount++;
-            return true;
+            for (int i = 0; i < items.length; i++) {
+                if (items[i] == null) {
+                    items[i] = item;
+                    itemCount++;
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -77,17 +81,17 @@ public class Inventory extends UIElement{
         return false;
     }
 
-    public Boolean remove(Enums.ENTITYTYPE[] items) {
-        for(Enums.ENTITYTYPE i: items) {
-            if (!remove(i)) return false;
+    public Boolean remove(Enums.ENTITYTYPE[] types) {
+        for(Enums.ENTITYTYPE i: types) {
+            if (i != Enums.ENTITYTYPE.SCREWDRIVER) if (!remove(i)) return false;
         }
         return true;
     }
 
     private Enums.ENTITYTYPE[] types() {
-        Enums.ENTITYTYPE[] itemTypes = new Enums.ENTITYTYPE[itemCount];
-        for (int i = 0; i < itemCount; i++) {
-            itemTypes[i] = items[i].type;
+        Enums.ENTITYTYPE[] itemTypes = new Enums.ENTITYTYPE[items.length];
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null) itemTypes[i] = items[i].type;
         }
         return itemTypes;
     }
@@ -106,6 +110,7 @@ public class Inventory extends UIElement{
             itemCount = 0;
         }
     }
+
     public String missing(Enums.ENTITYTYPE[] required) {
         ArrayList<Enums.ENTITYTYPE> missing = new ArrayList<>();
         for (Enums.ENTITYTYPE type : required) if (!has(type)) missing.add(type);

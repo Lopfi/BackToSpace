@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.screens.TitleScreen;
@@ -16,12 +17,13 @@ public class UI extends UIElement{
     private GameClass game;
     private Control control;
     private UIElement pauseScreen;
-    private UIElement chestScreen;
     private UIElement lives;
     private UIElement coins;
     public String textFieldText;
-
-    public UI(GameClass game, Control control) {
+    Chest chest;
+    Player player;
+    
+    public UI(GameClass game, Control control, Player player) {
         super(game);
         this.game = game;
         this.control = control;
@@ -34,13 +36,10 @@ public class UI extends UIElement{
         pauseScreen.pos.y = control.screenHeight / 5f;
         pauseScreen.width = (control.screenWidth / 4f) * 2;
         pauseScreen.height = (control.screenHeight / 5f) * 3;
-        chestScreen = new UIElement(game, game.assets.manager.get("ui/insidechest.png", Texture.class));
-        chestScreen.pos = pauseScreen.pos;
-        chestScreen.width = (control.screenWidth / 4f) * 2;
-        chestScreen.height = (control.screenHeight / 5f) * 3;
         pauseBtn = new Button(game, control, game.assets.manager.get("ui/buttons/pauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height - 10, 0);
-
+        chest = new Chest(game, control);
+        this.player = player;
     }
 
     @Override
@@ -60,8 +59,8 @@ public class UI extends UIElement{
         game.font.getData().setScale(1);
 
         //draw extra Gameclass screens
-        if (game.isPaused) pauseScreen.draw(batch);
-        if (game.chestmode) chestScreen.draw(batch);
+        if (game.isPaused && !game.chestmode) pauseScreen.draw(batch);
+        if (game.chestmode) chest.act(batch, player);
 
         // draw coordinates for dev mode
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);

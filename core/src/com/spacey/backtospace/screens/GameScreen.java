@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Enemy;
 import com.spacey.backtospace.Entity.Entity;
+import com.spacey.backtospace.Entity.UI.Chest;
 import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
@@ -53,7 +54,7 @@ public class GameScreen extends ScreenAdapter {
         gameMap = new gameMap(game);
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         enemy1 = new Enemy(new Vector3(300, 100, 0), game);
-        ui = new UI(game, control);
+        ui = new UI(game, control, player);
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
         background = game.assets.manager.get("tiles/background.png", Texture.class);
@@ -146,13 +147,6 @@ public class GameScreen extends ScreenAdapter {
                 game.safe.playerY = player.pos.y;
                 game.safe.save();
                 game.isPaused = true;
-            }
-        }
-
-        if (game.isPaused && game.chestmode) {
-            if (control.isPressed(Keys.C)) {
-                game.isPaused = false;
-                game.chestmode = false;
             }
         }
         if (game.isPaused && !game.chestmode) {

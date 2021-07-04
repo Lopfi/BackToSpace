@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
@@ -90,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         if (touchedFixture != null && !game.isPaused) { // check if the player is currently touching something
-            if (control.isPressed(Keys.E)) { // only continue if player is trying to pick something up
+            if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
                     Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {

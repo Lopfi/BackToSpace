@@ -90,7 +90,28 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+        
+        if (enemy1.untilActive > 1){//Logic to make the enemy inactive shortly
+            enemy1.untilActive--;
+        } else if (enemy1.untilActive == 1){
+            enemy1.body.setActive(true);
+            enemy1.untilActive = 0;
+        }
+
         if (touchedFixture != null && !game.isPaused) { // check if the player is currently touching something
+            if (touchedFixture == enemy1.getFixture()){
+                game.safe.life--;
+                enemy1.update(0, 0, false);
+                enemy1.body.setActive(false);
+                enemy1.untilActive = 70;
+                if(game.safe.life == 0){
+                    game.safe.initialize();
+                    game.safe.load();
+                    game.safe.save();
+                    game.setScreen(new EndScreen(game, false));
+                }
+                game.safe.save();
+            }
             if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
                     Entity currentEntity = gameMap.entities.get(i);
@@ -178,7 +199,7 @@ public class GameScreen extends ScreenAdapter {
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
         gameMap.drawEntities(batch); // draw entities over player //sounds dumb but idk
         if (!game.isPaused) {
-            //enemy1.moveRandom();
+            enemy1.moveRandom();
         }
         if (!game.isPaused) enemy1.drawAnimation(batch, stateTime);
 

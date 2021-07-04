@@ -25,7 +25,8 @@ public class EndScreen extends ScreenAdapter {
             public boolean keyDown(int keyCode) {
 
                 if (keyCode == Input.Keys.ENTER) {
-                    game.setScreen(new TitleScreen(game));
+                    if (won) game.setScreen(new TitleScreen(game));
+                    else Gdx.app.exit();
                 }
 
                 return true;

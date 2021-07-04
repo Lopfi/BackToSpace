@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.spacey.backtospace.GameClass;
-import com.spacey.backtospace.Helper.DataSafe;
 
 public class LoadingScreen extends ScreenAdapter {
 

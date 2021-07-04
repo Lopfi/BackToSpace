@@ -1,7 +1,4 @@
 package com.spacey.backtospace.Helper;
-
-import java.util.ArrayList;
-
 // defines different types to be used elsewhere
 public class Enums {
     

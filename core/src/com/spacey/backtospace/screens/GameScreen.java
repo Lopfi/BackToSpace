@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Enemy;
 import com.spacey.backtospace.Entity.Entity;
-import com.spacey.backtospace.Entity.UI.Chest;
 import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
@@ -22,8 +21,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
-import java.util.Arrays;
-
 
 public class GameScreen extends ScreenAdapter {
 
@@ -47,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(GameClass game) {
         this.game = game;
+        game.safe.loadChestInventory();
         camera = game.camera;
         batch = new SpriteBatch();
         screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -139,13 +137,15 @@ public class GameScreen extends ScreenAdapter {
             game.safe.playerX = player.body.getPosition().x;
             game.safe.playerY = player.body.getPosition().y -.1f;
             game.safe.save();
+            game.safe.saveInventory(player.inventory);
         }
 
         if (!game.chestmode && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
             if (!game.isPaused) {
-                game.safe.playerX = player.pos.x;
-                game.safe.playerY = player.pos.y;
+                game.safe.playerX = player.body.getPosition().x;
+                game.safe.playerY = player.body.getPosition().y -.1f;
                 game.safe.save();
+                game.safe.saveInventory(player.inventory);
                 game.isPaused = true;
             }
         }

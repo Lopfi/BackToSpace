@@ -1,6 +1,4 @@
 package com.spacey.backtospace.Entity;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
-import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.box2d.Box2DHelper;
 

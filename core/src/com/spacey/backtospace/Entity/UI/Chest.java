@@ -1,35 +1,26 @@
 package com.spacey.backtospace.Entity.UI;
-
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Entity.Player;
-import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Helper.Control;
-import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.Helper.Enums.ENTITYTYPE;
 import com.badlogic.gdx.Input.Keys;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class Chest extends UIElement{
+    Integer wait = 0;
+    Boolean toChest = null;
     Integer[] transfer = {
         Integer.valueOf(0), //modus
         null,//chestslot
         null, //inventarslot
     };
     Object[][] chestitems = {
-        {
-            //Enums.ENTITYTYPE, Integer
-            ENTITYTYPE.SCREW, 1
-        },
+        //Enums.ENTITYTYPE, Integer
+        {null, null},
         {null, null},
         {null, null},
         {null, null},
@@ -53,6 +44,7 @@ public class Chest extends UIElement{
         this.game = game;
         font = new BitmapFont();
         font.setColor(Color.PURPLE);
+        if(game.safe.chest != null) chestitems = game.safe.chest;
     }
 
     public ENTITYTYPE getchestItem(int cslot){
@@ -81,6 +73,7 @@ public class Chest extends UIElement{
     }
 
     public void transact(Player player){
+        if(wait != 0) return; //if still wait then dont do action
         ENTITYTYPE slotitem;
         if (player.inventory.items[transfer[2]] != null) slotitem = (ENTITYTYPE) player.inventory.items[transfer[2]].type;
         else slotitem = null;
@@ -99,7 +92,7 @@ public class Chest extends UIElement{
             if (chestcount > 1){
                 player.inventory.add(new Item(chestitem, game), transfer[2]);
                 chestitems[transfer[1]][1] = ((Integer)(chestitems[transfer[1]][1]))-1;
-                if (((Integer)(chestitems[transfer[1]][1]))-1 == 0) chestitems[transfer[1]][0] = null;
+                if (((Integer)(chestitems[transfer[1]][1])) == 0) chestitems[transfer[1]][0] = null;
             } else {
                 player.inventory.add(new Item(chestitem, game), transfer[2]);
                 chestitems[transfer[1]][1] = null;
@@ -107,34 +100,49 @@ public class Chest extends UIElement{
             }
         } else if (slotitem != null && chestitem != null) {
                 if (chestitem == slotitem){
+                    if (chestcount > 1){
+                        if (toChest) player.inventory.remove(transfer[2]);
+                        if (toChest) chestitems[transfer[1]][1] = ((Integer)(chestitems[transfer[1]][1]))+1;
+                        //else //Info why would you exchange the same item with the same item
+                    } else {
                     player.inventory.remove(transfer[2]);
                     chestitems[transfer[1]][1] = ((Integer)(chestitems[transfer[1]][1]))+1;
+                    }
                 } else {
-                    player.inventory.remove(transfer[2]);
-                    chestitems[transfer[1]][0] = slotitem;
-                    player.inventory.add(new Item(chestitem, game), transfer[2]);
+                    if (chestcount > 1){
+                        //you cant exchange multiple items for a single item. LOL
+                    } else {
+                        player.inventory.remove(transfer[2]);
+                        chestitems[transfer[1]][0] = slotitem;
+                        player.inventory.add(new Item(chestitem, game), transfer[2]);
+                    }
                 }
         }
-        Gdx.app.log("tag", slotitem +"//"+ chestitem + " - " + chestcount);
         transferReset();
+        wait = 20;
     }
 
     public void transferReset(){
         transfer[0] = Integer.valueOf(0);
         transfer[1] = null;
         transfer[2] = null;
+        toChest = null;
     }
     public void setTransfer(int cslot, int islot, int modus){
-        transfer[0] = modus;
-        transfer[1] = cslot;
-        transfer[2] = islot;
+        if (wait == 0){
+            transfer[0] = modus;
+            transfer[1] = cslot;
+            transfer[2] = islot;
+        }
     }
     public void editTransfer(int slot, int transfernum, int modus){
-        transfer[0] = modus;
-        transfer[transfernum] = slot;
+        if (wait == 0){
+            transfer[0] = modus;
+            transfer[transfernum] = slot;
+        }
     }
 
-    public void act(SpriteBatch batch, Player player){
+    public void act(SpriteBatch batch, Player player) {
         draw(batch);
         Integer Mode = (Integer) transfer[0];
         String[] text = getDirection(Mode);
@@ -144,7 +152,10 @@ public class Chest extends UIElement{
         font.draw(batch, text[1], this.pos.x + (49*(this.width/57)), this.pos.y + (4*(this.height/36)));
 
         font.getData().setScale(1.4f);
-        //font.draw(batch, "This is a Information", pos.x, pos.y);
+        if(wait > 0){
+            font.draw(batch, "WAIT ...", pos.x, pos.y);
+            wait--;
+        }
         for (int i = 0; i < chestitems.length; i++) {
             Object OOitems[] = chestitems[i];
             Object Oitem = OOitems[0];
@@ -191,27 +202,43 @@ public class Chest extends UIElement{
                 if (control.isPressed(Keys.H)) editTransfer(5, 1, 3);
                 if (control.isPressed(Keys.J)) editTransfer(6, 1, 3);
                 if (control.isPressed(Keys.K)) editTransfer(7, 1, 3);
+                toChest = true;
 
             } else if (Mode == 2){
                 if (control.isPressed(Keys.NUM_1)) editTransfer(0, 2, 3);
                 if (control.isPressed(Keys.NUM_2)) editTransfer(1, 2, 3);
                 if (control.isPressed(Keys.NUM_3)) editTransfer(2, 2, 3);
+                toChest = false;
 
             } else if (Mode == 3){
                 transact(player);
             } else {
                 transferReset();
             }
-
-            System.out.println(transfer[0] +"-"+ transfer[1] +"-"+ transfer[2]);
-
-            if (control.isPressed(Keys.R)) transferReset();
+            if (control.isPressed(Keys.R) && wait == 0) {
+                wait = 30;
+                for (int x = 0; x < player.inventory.items.length; x++) {
+                    if (player.inventory.items[x] != null && player.inventory.items[x].type != null){
+                        for (int i = 0; i < chestitems.length; i++) {
+                            if (chestitems[i][0] != null){
+                                if ( chestitems[i][0] == player.inventory.items[x].type ){
+                                        player.inventory.remove(x);
+                                        chestitems[i][1] = ((int)chestitems[i][1]) + 1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             if (control.isPressed(Keys.C)) {
                 game.isPaused = false;
                 game.chestmode = false;
-                transfer[0] = 0;
-                transfer[1] = null;
-                transfer[2] = null;
+                transferReset();
+                
+                //Save Operation
+                game.safe.saveInventory(player.inventory);
+                game.safe.saveChest(chestitems);
             }
 
     }

@@ -12,8 +12,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
 
-import java.util.Set;
-
 public class TitleScreen extends ScreenAdapter {
 
     GameClass game;

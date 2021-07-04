@@ -1,7 +1,6 @@
 package com.spacey.backtospace.Entity.UI;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -9,7 +8,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
-import com.spacey.backtospace.screens.TitleScreen;
 
 // display different elements of the ui in the game-screen
 public class UI extends UIElement{

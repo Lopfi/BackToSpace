@@ -37,6 +37,8 @@ public class GameScreen extends ScreenAdapter {
     public Enemy enemy1;
     public UI ui;
     private Texture background;
+    public boolean paused;
+    public boolean chest;
 
     private float stateTime;
     String PopUpMessage; //if its empty nothing will be shown, else it shows it
@@ -57,7 +59,9 @@ public class GameScreen extends ScreenAdapter {
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
         background = game.assets.manager.get("tiles/background.png", Texture.class);
-        game.chestMode = false;
+        chest = false;
+        paused = false;
+        chest = false;
     }
 
     @Override
@@ -71,8 +75,8 @@ public class GameScreen extends ScreenAdapter {
             long SoundId = game.gameSound.loop();
             game.gameSound.setVolume(SoundId, game.safe.playVolume);
         }
-        game.isPaused = false;
-        game.chestMode = false;
+        paused = false;
+        chest = false;
         control.reset();
         player.createBox(player.pos);
     }
@@ -83,6 +87,41 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
+        if (ui.pauseBtn.pressed && !chest) {
+            paused = !paused;
+            game.safe.playerX = player.body.getPosition().x;
+            game.safe.playerY = player.body.getPosition().y -.1f;
+            game.safe.save();
+            game.safe.saveInventory(player.inventory);
+        }
+
+        if (paused) {
+            if (!chest) {
+                if (control.isPressed(Keys.SPACE)) paused = false;
+                if (control.isPressed(Keys.B)) game.setScreen(new TitleScreen(game));
+                if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
+                if (control.isPressed(Keys.X)) Gdx.app.exit();
+            } else if (!PopUpMessage.isEmpty()){
+                if (control.isPressed(Keys.X)) PopUpMessage = "";
+            }
+        }
+        else {
+            if (!ui.pauseBtn.pressed && !chest) {
+                player.update(control);
+                enemy1.moveRandom();
+                camera.position.lerp(player.pos, .1f);
+                camera.update();
+            }
+            if (!chest && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
+                game.safe.playerX = player.body.getPosition().x;
+                game.safe.playerY = player.body.getPosition().y -.1f;
+                game.safe.save();
+                game.safe.saveInventory(player.inventory);
+                paused = true;
+            }
+            if (!ui.pauseBtn.pressed) game.box2d.tick(camera, control);
+        }
         
         if (enemy1.untilActive > 1){//Logic to make the enemy inactive shortly
             enemy1.untilActive--;
@@ -91,20 +130,22 @@ public class GameScreen extends ScreenAdapter {
             enemy1.untilActive = 0;
         }
 
-        if (touchedFixture != null && !game.isPaused) { // check if the player is currently touching something
+        ui.update();
+
+        if (touchedFixture != null && !paused) { // check if the player is currently touching something
             if (touchedFixture == enemy1.getFixture()){
                 game.safe.life--;
                 enemy1.update(0, 0, false);
                 enemy1.body.setActive(false);
                 enemy1.untilActive = 70;
-                if(game.safe.life == 0){
+                if(game.safe.life == 0) {
                     game.safe.initialize();
                     game.safe.load();
                     game.safe.save();
                     game.setScreen(new EndScreen(game, false));
                 }
-                game.safe.save();
             }
+
             if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
                     Entity currentEntity = gameMap.entities.get(i);
@@ -112,8 +153,8 @@ public class GameScreen extends ScreenAdapter {
                         if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
                         else if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
                             PopUpMessage = ""; //make sure its not displayed
-                            game.isPaused = true;
-                            game.chestMode = true;
+                            paused = true;
+                            chest = true;
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
@@ -140,65 +181,28 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-        ui.update();
-        if (!game.isPaused && !ui.pauseBtn.pressed && !game.chestMode) {
-            player.update(control);
-            camera.position.lerp(player.pos, .1f);
-            camera.update();
-        }
-
-        if (ui.pauseBtn.pressed && !game.chestMode) {
-            game.isPaused = !game.isPaused;
-            game.safe.playerX = player.body.getPosition().x;
-            game.safe.playerY = player.body.getPosition().y -.1f;
-            game.safe.save();
-            game.safe.saveInventory(player.inventory);
-        }
-
-        if (!game.chestMode && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
-            if (!game.isPaused) {
-                game.safe.playerX = player.body.getPosition().x;
-                game.safe.playerY = player.body.getPosition().y -.1f;
-                game.safe.save();
-                game.safe.saveInventory(player.inventory);
-                game.isPaused = true;
-            }
-        }
-        if (game.isPaused && !game.chestMode) {
-            if (control.isPressed(Keys.SPACE)) game.isPaused = false;
-            if (control.isPressed(Keys.B)) game.setScreen(new TitleScreen(game));
-            if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
-            if (control.isPressed(Keys.X)) Gdx.app.exit();
-        } else if (!PopUpMessage.isEmpty()){
-            if (control.isPressed(Keys.X)) PopUpMessage = "";
-        }
-
         batch.setProjectionMatrix(camera.combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
         batch.begin();
 
         batch.draw(background, -200,-200);
 
-        gameMap.draw(batch, (Control.debug && !game.isPaused));
-        if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
-        gameMap.drawEntities(batch); // draw entities over player //sounds dumb but idk
-        if (!game.isPaused) {
-            enemy1.moveRandom();
+        gameMap.draw(batch, (Control.debug && !paused));
+        if (!paused) {
+            player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
+            enemy1.drawAnimation(batch, stateTime);
         }
-        if (!game.isPaused) enemy1.drawAnimation(batch, stateTime);
+        gameMap.drawEntities(batch); // draw entities over player //sounds dumb but idk
 
         //BELOW USES SCREEN COORDINATES INSTEAD OF MAP
         batch.setProjectionMatrix(screenMatrix);
 
         ui.draw(batch);
         player.inventory.draw(batch);
-        if (!PopUpMessage.isEmpty()){
-            ui.showMessage(batch, PopUpMessage + " [X] Close");
-        }
+        if (!PopUpMessage.isEmpty()) ui.showMessage(batch, PopUpMessage + " [X] Close");
 
         batch.end();
-
-        if (!game.isPaused && !ui.pauseBtn.pressed) game.box2d.tick(camera, control);
     }
 
     @Override

@@ -17,8 +17,7 @@ public class Player extends Entity {
 
     private int speed;
     public Inventory inventory;
-    private boolean flipped;
-    GameClass game;
+
     public Player(Vector3 pos, GameClass game) {
         super(game.assets.manager.get("player/spaceman_walk" + game.safe.currentSkin + ".png", Texture.class));
         this.game = game;
@@ -46,14 +45,6 @@ public class Player extends Entity {
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
     }
 
-    public void drawAnimation(SpriteBatch batch, float stateTime) {
-        super.drawAnimation(batch, stateTime, flipped);
-    }
-
-    public void createBox(Vector3 pos){
-        game.box2d.world.destroyBody(body);
-        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody, false);
-    }
     public void update(Control control) {
         int dirX = 0;
         int dirY = 0;

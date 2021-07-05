@@ -26,8 +26,6 @@ public class GameClass extends Game {
 
     public DataSafe safe;
 
-    public Boolean isPaused;
-    public boolean chestMode;
     public Sound introSound;
     public Sound gameSound;
 
@@ -47,8 +45,6 @@ public class GameClass extends Game {
         font = new BitmapFont();
         box2d = new Box2DWorld();
         safe = new DataSafe(this);
-
-        isPaused = false;
 
         // Display Size
         displayW = Gdx.graphics.getWidth();

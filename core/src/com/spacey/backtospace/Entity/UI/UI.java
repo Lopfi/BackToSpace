@@ -25,6 +25,7 @@ public class UI extends UIElement{
         super(game);
         this.game = game;
         this.control = control;
+        this.player = player;
         lives = new UIElement(game, game.assets.manager.get("ui/heart.png", Texture.class));
         coins = new UIElement(game, game.assets.manager.get("ui/coin.png", Texture.class));
         coins.height = ((coins.height/scale)/2) * scale;
@@ -37,7 +38,6 @@ public class UI extends UIElement{
         pauseBtn = new Button(game, control, game.assets.manager.get("ui/buttons/pauseBtn.png", Texture.class), true, 100, 100);
         pauseBtn.pos = new Vector3(control.screenWidth - pauseBtn.width - 10, control.screenHeight - pauseBtn.height - 10, 0);
         chest = new Chest(game, control);
-        this.player = player;
     }
 
     @Override
@@ -56,18 +56,20 @@ public class UI extends UIElement{
         game.font.draw(batch, String.valueOf(game.safe.coins) , coins.width + 20, control.screenHeight - lives.height - (coins.height/2) +3);
         game.font.getData().setScale(1);
 
-        //draw extra Gameclass screens
-        if (game.isPaused && !game.chestMode) pauseScreen.draw(batch);
-        if (game.chestMode) chest.act(batch, player);
+        //draw extra GameClass screens
+        if (game.gameScreen.paused && !game.gameScreen.chest) pauseScreen.draw(batch);
+        if (game.gameScreen.chest) chest.act(batch, player);
 
         // draw coordinates for dev mode
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);
         if (game.safe.showTask) game.font.draw(batch, "Lv " + game.safe.level + ": " + Enums.tasks[game.safe.level], 4, 20);
     }
+
     public void showMessage(SpriteBatch batch, String text) {
         batch.draw(game.assets.manager.get("ui/textbox.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/8f);
         game.font.draw(batch, text, Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/8f/2);
     }
+
     public void update() {
         pauseBtn.update();
         //handle updates for textFields

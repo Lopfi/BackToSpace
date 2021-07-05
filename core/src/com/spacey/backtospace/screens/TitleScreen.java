@@ -29,7 +29,6 @@ public class TitleScreen extends ScreenAdapter {
 
     public TitleScreen(GameClass game) {
         this.game = game;
-        game.isPaused = false;
         batch = game.batch;
 
         screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));

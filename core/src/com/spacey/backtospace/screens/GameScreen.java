@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
@@ -44,6 +45,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(GameClass game) {
         this.game = game;
+        game.safe.loadChestInventory();
         camera = game.camera;
         batch = new SpriteBatch();
         screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -51,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
         gameMap = new gameMap(game);
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
         enemy1 = new Enemy(new Vector3(300, 100, 0), game);
-        ui = new UI(game, control);
+        ui = new UI(game, control, player);
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
         background = game.assets.manager.get("tiles/background.png", Texture.class);
@@ -80,11 +82,30 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        enemy1.update(0,0, false);
-
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+        
+        if (enemy1.untilActive > 1){//Logic to make the enemy inactive shortly
+            enemy1.untilActive--;
+        } else if (enemy1.untilActive == 1){
+            enemy1.body.setActive(true);
+            enemy1.untilActive = 0;
+        }
+
         if (touchedFixture != null && !game.isPaused) { // check if the player is currently touching something
-            if (control.isPressed(Keys.E) || control.RMB) { // only continue if player is trying to pick something up
+            if (touchedFixture == enemy1.getFixture()){
+                game.safe.life--;
+                enemy1.update(0, 0, false);
+                enemy1.body.setActive(false);
+                enemy1.untilActive = 70;
+                if(game.safe.life == 0){
+                    game.safe.initialize();
+                    game.safe.load();
+                    game.safe.save();
+                    game.setScreen(new EndScreen(game, false));
+                }
+                game.safe.save();
+            }
+            if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
                     Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
@@ -131,21 +152,16 @@ public class GameScreen extends ScreenAdapter {
             game.safe.playerX = player.body.getPosition().x;
             game.safe.playerY = player.body.getPosition().y -.1f;
             game.safe.save();
+            game.safe.saveInventory(player.inventory);
         }
 
         if (!game.chestMode && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
             if (!game.isPaused) {
-                game.safe.playerX = player.pos.x;
-                game.safe.playerY = player.pos.y;
+                game.safe.playerX = player.body.getPosition().x;
+                game.safe.playerY = player.body.getPosition().y -.1f;
                 game.safe.save();
+                game.safe.saveInventory(player.inventory);
                 game.isPaused = true;
-            }
-        }
-
-        if (game.isPaused && game.chestMode) {
-            if (control.isPressed(Keys.C)) {
-                game.isPaused = false;
-                game.chestMode = false;
             }
         }
         if (game.isPaused && !game.chestMode) {
@@ -167,7 +183,7 @@ public class GameScreen extends ScreenAdapter {
         if (!game.isPaused) player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
         gameMap.drawEntities(batch); // draw entities over player //sounds dumb but idk
         if (!game.isPaused) {
-            //enemy1.moveRandom();
+            enemy1.moveRandom();
         }
         if (!game.isPaused) enemy1.drawAnimation(batch, stateTime);
 

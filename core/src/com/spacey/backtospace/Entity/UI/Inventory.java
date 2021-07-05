@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 // store and display items
 public class Inventory extends UIElement{
@@ -19,7 +17,8 @@ public class Inventory extends UIElement{
     public Inventory(int slots, GameClass game) {
         super(game, game.assets.manager.get("ui/inventory.png", Texture.class));
         items = new Item[slots];
-        itemCount = 0;
+        if (game.safe.items != null) items = game.safe.items;//prevent nullpointerexeption
+        itemCount = ((int)game.safe.itemCount);
         pos.x = (Gdx.graphics.getWidth() / 2f) - (width / 2); // divide by two because animated sprite sheet
         pos.y = 15;
     }

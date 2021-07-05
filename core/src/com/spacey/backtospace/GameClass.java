@@ -46,7 +46,7 @@ public class GameClass extends Game {
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
         box2d = new Box2DWorld();
-        safe = new DataSafe();
+        safe = new DataSafe(this);
 
         isPaused = false;
 
@@ -78,9 +78,9 @@ public class GameClass extends Game {
     public void startMusic() {
         if (safe.playMusic){
             introSound = assets.manager.get("music/IntroMusic.mp3", Sound.class);
-            String soundpath = new DataSafe().standardmusicPath;
-            if (new DataSafe().readString("currentMusic") != "") {
-                soundpath = new DataSafe().readString("currentMusic"); // we cant access datasafe here cuz its requested in loadingscreen lmao
+            String soundpath = safe.standardmusicPath;
+            if (safe.readString("currentMusic") != "") {
+                soundpath = safe.readString("currentMusic"); // we cant access datasafe here cuz its requested in loadingscreen lmao
             }
             gameSound = assets.manager.get(soundpath, Sound.class);
             introSound.play();

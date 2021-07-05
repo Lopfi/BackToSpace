@@ -1,26 +1,37 @@
 package com.spacey.backtospace.Helper;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Base64;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Entity.UI.Inventory;
+import com.spacey.backtospace.Entity.UI.Item;
+import com.spacey.backtospace.Helper.Enums.ENTITYTYPE;
 
 // used to store game data locally
 public class DataSafe {
-
+    GameClass game;
     private Preferences prefs;
 
     public Boolean playMusic;
     public Float playVolume;
-
     public int coins;
     public int life;
+    
+    public int itemCount;
+    public Item[] items;
+    public Object[][] chest;
 
     public Boolean showTask;
     public Boolean cutSzeneFinished;
     public int level;
-    public int slot1;
-    public int slot2;
-    public int slot3;
     public Float playerX;
     public Float playerY;
     public String currentMusic;
@@ -33,10 +44,40 @@ public class DataSafe {
     public String music2Path = "music/?.mp3";
     public String standardmusicPath = "music/Standard.mp3";
 
-    public DataSafe() {
+    public DataSafe(GameClass game) {
+        this.game = game;
         prefs = Gdx.app.getPreferences("GameData");
         if (!exists("Initialized")) initialize();
         load();
+    }
+
+    //String Save Operations on Objects
+    public Object string2obj( String s ) {
+        byte [] data = Base64.getDecoder().decode( s );
+        ObjectInputStream ois;
+        Object o;
+        try {
+            ois = new ObjectInputStream(new ByteArrayInputStream(data));
+            o  = ois.readObject();
+            ois.close();
+        } catch (IOException | ClassNotFoundException e) {
+            //e.printStackTrace();
+            return null;
+        }
+        return o;
+    }
+    public String obj2string( Serializable o ) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
+        try {
+            oos = new ObjectOutputStream( baos );
+            oos.writeObject(o);
+            oos.close();
+        } catch (IOException e) {
+            //e.printStackTrace();
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(baos.toByteArray()); 
     }
 
     public void write(String key, String data) {
@@ -87,7 +128,6 @@ public class DataSafe {
     public void initialize() {
         Gdx.app.log("INFO", "Save not found creating new.");
         write("Initialized", true);
-        write("cutszeneloaded", false);
         write("music", true);
         write("volume", .8f);
         write("coins", 0);
@@ -103,19 +143,12 @@ public class DataSafe {
         write("skin2", false);
         write("playerX", 100f);
         write("playerY", 100f);
-
-        write("slot1", 0);
-        write("slot2", 0);
-        write("slot3", 0);
     }
 
     public void load() {
         playMusic = readBoolean("music");
         playVolume = readFloat("volume");
         coins = readInteger("coins");
-        slot1 = readInteger("slot1");
-        slot2 = readInteger("slot2");
-        slot3 = readInteger("slot3");
         level = readInteger("level");
         showTask = readBoolean("showtask");
         cutSzeneFinished = readBoolean("cutSzeneFinished");
@@ -136,9 +169,48 @@ public class DataSafe {
         write("life", life);
         write("playerX", playerX);
         write("playerY", playerY);
-        write("slot1", slot1);
-        write("slot2", slot2);
-        write("slot3", slot3);
+    }
+    public void saveInventory(Inventory inv){
+        //Integer itemCount = inv.itemCount;
+        Object[] oinv = new Object[inv.items.length];
+
+        for (int i = 0; i < inv.items.length; i++) {
+            if (inv.items[i] == null){
+                oinv[i] = ((ENTITYTYPE)null);
+            } else {
+                oinv[i] = ((ENTITYTYPE)inv.items[i].type);
+            }
+        }
+        String iobj = obj2string(oinv);
+        write("invitems", iobj);
+    }
+    public void saveChest(Object[][] chest){
+        String cobj = obj2string(chest);
+        write("chestitems", cobj);
+    }
+    public void loadChestInventory(){
+        Object oobj = string2obj(readString("chestitems"));
+        Object[][] cobj = ((Object[][]) oobj);
+
+        if (exists("invitems")){
+            itemCount = 0;
+            Object iitems = string2obj(readString("invitems"));
+            Object[] oiitems = ((Object[]) iitems);
+            Item[] fitems = new Item[3];
+            for (int i = 0; i < oiitems.length; i++) {
+                if (((ENTITYTYPE)oiitems[i]) != null){
+                    fitems[i] = ((Item) new Item(((ENTITYTYPE)oiitems[i]), game));
+                    itemCount++;
+                } else {
+                    fitems[i] = null;
+                }
+            }
+            items = fitems;
+        } else {
+            items = null;
+            itemCount = 0;
+        }
+        chest = cobj;
     }
 
 }

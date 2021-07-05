@@ -1,23 +1,18 @@
 package com.spacey.backtospace.Entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
-import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.box2d.Box2DHelper;
 
-// the ENEMY? with a controller to handle movement inputs
 public class Enemy extends Entity {
 
     private int speed;
-    public Inventory inventory;
     private boolean flipped;
     GameClass game;
     public Enemy(Vector3 pos, GameClass game) {
@@ -26,8 +21,8 @@ public class Enemy extends Entity {
         this.pos = pos;
         type = Enums.ENTITYTYPE.ENEMY;
         animation = Animations.createAnimation(texture, 2, 2, 0.2f);
-        width = width/2f;
-        height = height/4;
+        width = width/2;
+        height = height/2;
         speed = 80;
         body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody, false);
     }
@@ -38,16 +33,21 @@ public class Enemy extends Entity {
 
     public void createBox(Vector3 pos){
         game.box2d.world.destroyBody(body);
-        body = Box2DHelper.createBody(game.box2d.world, width, height + 4, pos, BodyDef.BodyType.DynamicBody, false);
+        body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.DynamicBody, false);
     }
+
     public void setPos(float x, float y) {
         pos.x = x - width/2;
-        pos.y = y - (height)/4;
+        pos.y = y - (height)/2;
     }
-    public void update(float velocityX, float velocityy, boolean flip) {
+
+    public void update(float velocityX, float velocityY, boolean flip) {
         flipped = flip;
-        body.setLinearVelocity(velocityX* speed, velocityy * speed);
+        body.setLinearVelocity(velocityX* speed, velocityY * speed);
+        pos.x = body.getPosition().x - width/2;
+        pos.y = body.getPosition().y - height/2;
     }
+
     public void moveRandom() {
         float speedy = (MathUtils.random(10)/10f);
         if(MathUtils.random(1) == 0){
@@ -62,4 +62,5 @@ public class Enemy extends Entity {
             update(0, speedy*dir, (dir == -1));
         }
     }
+
 }

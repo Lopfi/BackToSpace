@@ -1,8 +1,6 @@
 package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
@@ -13,7 +11,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Entity.UI.Button;
 import com.spacey.backtospace.Helper.Control;
-import com.spacey.backtospace.Helper.DataSafe;
 
 public class SettingsScreen extends ScreenAdapter {
     GameClass game;
@@ -45,14 +42,6 @@ public class SettingsScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        //load the music and play
-        if (game.safe.playMusic){
-            game.introSound.pause();
-            game.gameSound.pause();
-            SoundId = game.introSound.loop();
-            game.introSound.setVolume(SoundId,game.safe.playVolume);
-            //mp3Sound.stop(id);
-        }
 
         Gdx.input.setInputProcessor(control);
     }
@@ -61,6 +50,74 @@ public class SettingsScreen extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(.5f, .6f, .44f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (!deleteMode && !musicMode) {
+            if (control.isPressed(Keys.ENTER)) {
+                game.setScreen(new TitleScreen(game));
+            } else if (control.isPressed(Keys.C)) {
+                game.safe.cutSzeneFinished = false;
+                game.setScreen(new CutSceneScreen(game));
+            } else if (control.isPressed(Keys.SPACE) ||control.isPressed(Keys.ESCAPE)) {
+                game.setScreen(game.gameScreen);
+
+            } else if (control.isPressed(Keys.UP)) {
+                if(game.safe.playVolume < 1) game.safe.playVolume = ((int)(game.safe.playVolume*10) + (int)(.1f*10)) / 10f;
+                if (game.safe.playMusic){
+                    game.introSound.setVolume(SoundId,game.safe.playVolume);
+                }
+                game.safe.write("volume", game.safe.playVolume);
+
+            } else if (control.isPressed(Keys.DOWN)) {
+                if(game.safe.playVolume > 0) game.safe.playVolume = ((int)(game.safe.playVolume*10) - (int)(.1f*10)) / 10f;
+                if (game.safe.playMusic){
+                    game.introSound.setVolume(SoundId,game.safe.playVolume);
+                }
+                game.safe.write("volume", game.safe.playVolume);
+
+            } else if (control.isPressed(Keys.T)) {
+                game.safe.showTask = !game.safe.showTask;
+                game.safe.write("showtask", game.safe.showTask);
+            } else if (control.isPressed(Keys.M)) {
+                if (game.safe.playMusic){
+                    game.safe.write("music", false);
+                    game.introSound.pause();
+                    game.gameSound.pause();
+                } else {
+                    if (game.gameSound == null){
+                        musicMode = true;
+                        game.assets.loadMusic();
+                    } else {
+                        game.safe.write("music", true);
+                        //game.introSound.play(); if music not loaded
+                        SoundId = game.introSound.loop();
+                        game.introSound.setVolume(SoundId,game.safe.playVolume);
+                    }
+                }
+                game.safe.playMusic = !game.safe.playMusic;
+
+            }  else if (control.isPressed(Keys.A)) {
+                game.safe.coins = 999999;
+                game.safe.life = 1;
+                game.safe.save();
+
+            } else if (control.isPressed(Keys.NUM_0) || control.isPressed(Keys.O)) {
+                game.safe.coins = 0;
+                game.safe.save();
+            }
+        }
+        if (control.isPressed(Keys.R) && !musicMode) {
+            deleteMode = true;
+
+        }
+        if (control.isPressed(Keys.N) && !musicMode) {
+            deleteMode = false;
+
+        }
+        if (control.isPressed(Keys.Y) && !musicMode && deleteMode) {
+            game.safe.clear();
+            Gdx.app.exit();
+            //close game cuz else we get value errors to play the standard values need to be set on start
+        }
 
         batch.begin();
         batch.draw(game.assets.manager.get("screens/gears.png", Texture.class), Gdx.graphics.getWidth() -200, Gdx.graphics.getHeight() -200, 150, 150);

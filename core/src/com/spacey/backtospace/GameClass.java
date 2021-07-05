@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.spacey.backtospace.Helper.AssetLoader;
+import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.DataSafe;
 import com.spacey.backtospace.box2d.Box2DWorld;
 import com.spacey.backtospace.screens.GameScreen;
@@ -21,11 +22,12 @@ public class GameClass extends Game {
     public Box2DWorld box2d;
     public AssetLoader assets;
     public OrthographicCamera camera;
+    public Control control;
 
     public DataSafe safe;
 
     public Boolean isPaused;
-    public boolean chestmode;
+    public boolean chestMode;
     public Sound introSound;
     public Sound gameSound;
 
@@ -58,6 +60,10 @@ public class GameClass extends Game {
 
         camera = new OrthographicCamera(w, h);
         camera.zoom = 1.2f; //1.2f
+
+        control = new Control(displayW, displayH, camera);
+
+        Gdx.input.setInputProcessor(control);
 
         setScreen(new LoadingScreen(this));
     }

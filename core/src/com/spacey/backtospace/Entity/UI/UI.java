@@ -1,14 +1,12 @@
 package com.spacey.backtospace.Entity.UI;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
-import com.spacey.backtospace.screens.TitleScreen;
 
 // display different elements of the ui in the game-screen
 public class UI extends UIElement{
@@ -61,7 +59,7 @@ public class UI extends UIElement{
 
         //draw extra Gameclass screens
         if (game.isPaused) pauseScreen.draw(batch);
-        if (game.chestmode) chestScreen.draw(batch);
+        if (game.chestMode) chestScreen.draw(batch);
 
         // draw coordinates for dev mode
         if (Control.debug) game.font.draw(batch, "x:" + Math.round(game.camera.position.x) + " y:" + Math.round(game.camera.position.y), control.screenWidth/2f, control.screenHeight- 20);

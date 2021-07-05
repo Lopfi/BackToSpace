@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Enemy;
 import com.spacey.backtospace.Entity.Entity;
-import com.spacey.backtospace.Entity.UI.Inventory;
 import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
 import com.spacey.backtospace.Entity.UI.UI;
@@ -21,7 +20,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
 import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
-import java.util.Arrays;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -57,29 +55,22 @@ public class GameScreen extends ScreenAdapter {
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
         background = game.assets.manager.get("tiles/background.png", Texture.class);
-        game.chestmode = false;
+        game.chestMode = false;
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(control);
-        if (player.texture != game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class)){
-            Inventory temp = player.inventory;
-            Vector3 tempPos = player.pos;
-            game.box2d.world.destroyBody(player.body);
-            player = new Player(tempPos, game);
-            player.inventory = temp;
-        }
+        player.updateSkin();
         //load the music and play
         if (game.safe.playMusic) {
             game.introSound.pause();
             game.gameSound.pause();
             long SoundId = game.gameSound.loop();
             game.gameSound.setVolume(SoundId, game.safe.playVolume);
-            //mp3Sound.stop(id);
         }
         game.isPaused = false;
-        game.chestmode = false;
+        game.chestMode = false;
         control.reset();
         player.createBox(player.pos);
     }
@@ -89,9 +80,11 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        enemy1.update(0,0, false);
+
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         if (touchedFixture != null && !game.isPaused) { // check if the player is currently touching something
-            if (control.isPressed(Keys.E)) { // only continue if player is trying to pick something up
+            if (control.isPressed(Keys.E) || control.RMB) { // only continue if player is trying to pick something up
                 for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
                     Entity currentEntity = gameMap.entities.get(i);
                     if (currentEntity.getFixture() == touchedFixture) {
@@ -99,7 +92,7 @@ public class GameScreen extends ScreenAdapter {
                         else if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
                             PopUpMessage = ""; //make sure its not displayed
                             game.isPaused = true;
-                            game.chestmode = true;
+                            game.chestMode = true;
                             break;
                         }
                         else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
@@ -127,20 +120,20 @@ public class GameScreen extends ScreenAdapter {
         }
 
         ui.update();
-        if (!game.isPaused && !ui.pauseBtn.pressed && !game.chestmode) {
+        if (!game.isPaused && !ui.pauseBtn.pressed && !game.chestMode) {
             player.update(control);
             camera.position.lerp(player.pos, .1f);
             camera.update();
         }
 
-        if (ui.pauseBtn.pressed && !game.chestmode) {
+        if (ui.pauseBtn.pressed && !game.chestMode) {
             game.isPaused = !game.isPaused;
             game.safe.playerX = player.body.getPosition().x;
             game.safe.playerY = player.body.getPosition().y -.1f;
             game.safe.save();
         }
 
-        if (!game.chestmode && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
+        if (!game.chestMode && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
             if (!game.isPaused) {
                 game.safe.playerX = player.pos.x;
                 game.safe.playerY = player.pos.y;
@@ -149,24 +142,15 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-        if (game.isPaused && game.chestmode) {
+        if (game.isPaused && game.chestMode) {
             if (control.isPressed(Keys.C)) {
                 game.isPaused = false;
-                game.chestmode = false;
+                game.chestMode = false;
             }
         }
-        if (game.isPaused && !game.chestmode) {
+        if (game.isPaused && !game.chestMode) {
             if (control.isPressed(Keys.SPACE)) game.isPaused = false;
-            if (control.isPressed(Keys.B)) {
-                if (game.safe.playMusic) {
-                    game.introSound.pause();
-                    game.gameSound.pause();
-                    long SoundId = game.introSound.loop();
-                    game.introSound.setVolume(SoundId, game.safe.playVolume);
-                    //mp3Sound.stop(id);
-                }
-                game.setScreen(new TitleScreen(game));
-            }
+            if (control.isPressed(Keys.B)) game.setScreen(new TitleScreen(game));
             if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
             if (control.isPressed(Keys.X)) Gdx.app.exit();
         } else if (!PopUpMessage.isEmpty()){
@@ -203,7 +187,12 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-        Gdx.input.setInputProcessor(null);
         game.box2d.world.destroyBody(player.body);
+        if (game.safe.playMusic) {
+            game.introSound.pause();
+            game.gameSound.pause();
+            long SoundId = game.gameSound.loop();
+            game.gameSound.setVolume(SoundId, game.safe.playVolume);
+        }
     }
 }

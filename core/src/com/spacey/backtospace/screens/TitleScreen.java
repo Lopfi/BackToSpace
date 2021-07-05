@@ -12,8 +12,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
 
-import java.util.Set;
-
 public class TitleScreen extends ScreenAdapter {
 
     GameClass game;
@@ -44,18 +42,11 @@ public class TitleScreen extends ScreenAdapter {
         creditsBtn = new Button(game, control, game.assets.manager.get("ui/buttons/credits.png", Texture.class), true, buttonX, 130);
         quitBtn = new Button(game, control, game.assets.manager.get("ui/buttons/quit.png", Texture.class), true, buttonX, 50);
         shopBtn = new Button(game, control, game.assets.manager.get("ui/buttons/shop.png", Texture.class), true, buttonX*2+100, 50);
+
     }
 
     @Override
     public void show(){
-        /*if (game.safe.playMusic) {
-            game.introSound.pause();
-            game.gameSound.pause();
-            long SoundId = game.gameSound.loop();
-            game.gameSound.setVolume(SoundId, game.safe.playVolume);
-            //mp3Sound.stop(id);
-        }  THIS NEED TO BE REMOVE IN NEAR FUTURE*/
-
         Gdx.input.setInputProcessor(control);
     }
 
@@ -64,24 +55,6 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (control.isPressed(Keys.SPACE)) {
-            game.setScreen(game.gameScreen);
-        }
-        if (control.isPressed(Keys.C)) {
-            game.setScreen(new CreditScreen(game));
-        }
-        if (control.isPressed(Keys.E)) {
-            game.setScreen(new SettingsScreen(game));
-        }
-        if (control.isPressed(Keys.H)) {
-            game.setScreen(new HelpScreen(game));
-        }
-        if (control.isPressed(Keys.Q)) {
-            Gdx.app.exit();
-        }
-        if (control.isPressed(Keys.S)) {
-            game.setScreen(new ShopScreen(game));
-        }
         startBtn.update();
         tutorialBtn.update();
         settingsBtn.update();
@@ -89,24 +62,18 @@ public class TitleScreen extends ScreenAdapter {
         creditsBtn.update();
         quitBtn.update();
 
-        if (startBtn.pressed) game.setScreen(game.gameScreen);
-        if (tutorialBtn.pressed) game.setScreen(new HelpScreen(game));
-        if (settingsBtn.pressed) game.setScreen(new SettingsScreen(game));
-        if (shopBtn.pressed) game.setScreen(new ShopScreen(game));
-        if (creditsBtn.pressed) game.setScreen(new CreditScreen(game));
-        if (quitBtn.pressed) Gdx.app.exit();
+        if (control.isPressed(Keys.SPACE) || startBtn.pressed) game.setScreen(game.gameScreen);
+        if (control.isPressed(Keys.C) || creditsBtn.pressed) game.setScreen(new CreditScreen(game));
+        if (control.isPressed(Keys.E) || settingsBtn.pressed) game.setScreen(new SettingsScreen(game));
+        if (control.isPressed(Keys.H) || tutorialBtn.pressed) game.setScreen(new HelpScreen(game));
+        if (control.isPressed(Keys.Q) || quitBtn.pressed) Gdx.app.exit();
+        if (control.isPressed(Keys.S) || shopBtn.pressed) game.setScreen(new ShopScreen(game));
 
         batch.begin();
         batch.draw(game.assets.manager.get("screens/background.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(game.assets.manager.get("screens/backtospace.png", Texture.class), Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .77f, 400, 140);
         game.font.draw(batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .71f);
         game.font.draw(batch, "Task:  " + Enums.tasks[game.safe.level], Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .65f);
-        
-        /*game.font.draw(batch, "[H] Tutorial/Help", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .36f);
-        game.font.draw(batch, "[D] Design/Shop", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .32f);
-        game.font.draw(batch, "[S] Settings", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .44f);
-        game.font.draw(batch, "[C] Credits", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .4f);
-        game.font.draw(batch, "->  [SPACE] PLAY  <-", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .25f);*/
 
         batch.setProjectionMatrix(screenMatrix);
         startBtn.draw(batch);

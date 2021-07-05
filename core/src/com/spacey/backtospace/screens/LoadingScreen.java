@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.spacey.backtospace.GameClass;
-import com.spacey.backtospace.Helper.DataSafe;
 
 public class LoadingScreen extends ScreenAdapter {
 
@@ -43,7 +42,7 @@ public class LoadingScreen extends ScreenAdapter {
             game.startMusic();
             Gdx.app.log("INFO", "Finished Loading");
             game.gameScreen = new GameScreen(game);
-            game.setScreen(new CutSzeneScreen(game));
+            game.setScreen(new CutSceneScreen(game));
         }
         // display loading information
         Gdx.gl.glClearColor(.05f, .15f, .35f, 1);

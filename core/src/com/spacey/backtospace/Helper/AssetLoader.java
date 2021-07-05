@@ -50,7 +50,7 @@ public class AssetLoader {
     private void loadFromPath(String path, boolean music) {
         String type = path.split("\\.")[1];
         String name = path.split("assets\\\\")[1];
-        if (String.valueOf(path.split("assets\\\\")[1]).split("\\\\")[0] == "ignore"){
+        if (path.contains("ignore")) {
             //ignore the ignore folder
             return;
         } else if (type.equals("png")) {

@@ -20,7 +20,7 @@ public class Player extends Entity {
     private boolean flipped;
     GameClass game;
     public Player(Vector3 pos, GameClass game) {
-        super(game.assets.manager.get("player/spaceman_walk" + String.valueOf(game.safe.currentSkin) + ".png", Texture.class));
+        super(game.assets.manager.get("player/spaceman_walk" + game.safe.currentSkin + ".png", Texture.class));
         this.game = game;
         this.pos = pos;
         type = Enums.ENTITYTYPE.PLAYER;
@@ -38,6 +38,12 @@ public class Player extends Entity {
         type = Enums.ENTITYTYPE.PLAYER;
         animation = Animations.createAnimation(texture, 2, 1, 0.5f);
         width = width/2f;
+    }
+
+    public void updateSkin() {
+        texture = initTexture(game.assets.manager.get("player/spaceman_walk" + game.safe.currentSkin + ".png", Texture.class));
+        width = width/2f;
+        animation = Animations.createAnimation(texture, 2, 1, 0.5f);
     }
 
     public void drawAnimation(SpriteBatch batch, float stateTime) {

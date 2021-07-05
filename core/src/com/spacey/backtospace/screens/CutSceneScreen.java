@@ -12,12 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Entity.UI.Button;
 
-public class CutSzeneScreen extends ScreenAdapter {
+public class CutSceneScreen extends ScreenAdapter {
 
     GameClass game;
     Button back;
     Stage stage;
-    public CutSzeneScreen(GameClass game) {
+    public CutSceneScreen(GameClass game) {
         this.game = game;
         stage = new Stage();
     }

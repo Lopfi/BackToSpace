@@ -91,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
         if (ui.pauseBtn.pressed && !chest) {
             paused = !paused;
             game.safe.playerX = player.body.getPosition().x;
-            game.safe.playerY = player.body.getPosition().y -.1f;
+            game.safe.playerY = player.body.getPosition().y - .1f;
             game.safe.save();
             game.safe.saveInventory(player.inventory);
         }
@@ -102,81 +102,76 @@ public class GameScreen extends ScreenAdapter {
                 if (control.isPressed(Keys.B)) game.setScreen(new TitleScreen(game));
                 if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
                 if (control.isPressed(Keys.X)) Gdx.app.exit();
-            } else if (!PopUpMessage.isEmpty()){
+            } else if (!PopUpMessage.isEmpty()) {
                 if (control.isPressed(Keys.X)) PopUpMessage = "";
             }
-        }
-        else {
+        } else {
             if (!ui.pauseBtn.pressed && !chest) {
                 player.update(control);
                 enemy1.moveRandom();
                 camera.position.lerp(player.pos, .1f);
                 camera.update();
             }
+
             if (!chest && (control.isPressed(Keys.Q) || control.isPressed(Keys.ESCAPE))) {
                 game.safe.playerX = player.body.getPosition().x;
-                game.safe.playerY = player.body.getPosition().y -.1f;
+                game.safe.playerY = player.body.getPosition().y - .1f;
                 game.safe.save();
                 game.safe.saveInventory(player.inventory);
                 paused = true;
             }
-            if (!ui.pauseBtn.pressed) game.box2d.tick(camera, control);
-        }
-        
-        if (enemy1.untilActive > 1){//Logic to make the enemy inactive shortly
-            enemy1.untilActive--;
-        } else if (enemy1.untilActive == 1){
-            enemy1.body.setActive(true);
-            enemy1.untilActive = 0;
+
+            if (enemy1.untilActive > 1) {//Logic to make the enemy inactive shortly
+                enemy1.untilActive--;
+            } else if (enemy1.untilActive == 1) {
+                enemy1.body.setActive(true);
+                enemy1.untilActive = 0;
+            }
         }
 
         ui.update();
 
         if (touchedFixture != null && !paused) { // check if the player is currently touching something
-            if (touchedFixture == enemy1.getFixture()){
+            if (touchedFixture == enemy1.getFixture()) {
                 game.safe.life--;
                 enemy1.update(0, 0, false);
                 enemy1.body.setActive(false);
                 enemy1.untilActive = 70;
-                if(game.safe.life == 0) {
+                if (game.safe.life == 0) {
                     game.safe.initialize();
                     game.safe.load();
                     game.safe.save();
                     game.setScreen(new EndScreen(game, false));
                 }
             }
-
-            if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
-                for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
-                    Entity currentEntity = gameMap.entities.get(i);
-                    if (currentEntity.getFixture() == touchedFixture) {
-                        if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
-                        else if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
+            for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
+                Entity currentEntity = gameMap.entities.get(i);
+                if (currentEntity.getFixture() == touchedFixture) {
+                    if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins++;
+                    else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life++;
+                    if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
+                        if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
                             PopUpMessage = ""; //make sure its not displayed
                             paused = true;
                             chest = true;
                             break;
-                        }
-                        else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
+                        } else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
                             if (player.inventory.has(Enums.requiredItems[game.safe.level])) {
                                 player.inventory.remove(Enums.requiredItems[game.safe.level]);
                                 game.safe.level++;
-                                if (game.safe.level >= Enums.tasks.length-1) {
+                                if (game.safe.level >= Enums.tasks.length - 1) {
                                     game.safe.level = 1;
                                     game.setScreen(new EndScreen(game, true));
                                 }
                                 touchedFixture = null;
                             }
-                            //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
                             else PopUpMessage = "You need: " + player.inventory.missing(Enums.requiredItems[game.safe.level]);
                             break;
-                        }
-                        else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
-                        else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
+                        } else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
                         else if (currentEntity.type == Enums.ENTITYTYPE.TILE) break;
-                        gameMap.deleteEntity(currentEntity); // delete the collider of the entity
-                        break;
                     }
+                    gameMap.deleteEntity(currentEntity); // delete the collider of the entity
+                    break;
                 }
             }
         }
@@ -186,7 +181,7 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
 
-        batch.draw(background, -200,-200);
+        batch.draw(background, -200, -200);
 
         gameMap.draw(batch, (Control.debug && !paused));
         if (!paused) {
@@ -203,6 +198,8 @@ public class GameScreen extends ScreenAdapter {
         if (!PopUpMessage.isEmpty()) ui.showMessage(batch, PopUpMessage + " [X] Close");
 
         batch.end();
+
+        if (!paused) game.box2d.tick(camera, control);
     }
 
     @Override

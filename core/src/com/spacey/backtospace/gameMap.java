@@ -78,7 +78,10 @@ public class gameMap {
     }
 
     private void spawnEntities() {
+        // Speichert den Typ und die Anzahl der Entities die wir spawnen wollen in einem Array das an jeder Stelle einen Key mit einer Value hat
         HashMap<Enums.ENTITYTYPE, Integer> thingsToSpawn = new HashMap<>();
+
+        // thingsToSpawn mit Werten füllen
         thingsToSpawn.put(Enums.ENTITYTYPE.FUEL, 2);
         thingsToSpawn.put(Enums.ENTITYTYPE.SCREW, 4);
         thingsToSpawn.put(Enums.ENTITYTYPE.SCREWDRIVER, 1);
@@ -91,18 +94,19 @@ public class gameMap {
         thingsToSpawn.put(Enums.ENTITYTYPE.FIN, 1);
         thingsToSpawn.put(Enums.ENTITYTYPE.STONE, 30);
 
+        // umwandeln der Hashmap in ein Set um besser durchloopen zu können
         Set<Map.Entry<Enums.ENTITYTYPE, Integer>> set = thingsToSpawn.entrySet();
-        for (Object o : set) {
-            Map.Entry entry = (Map.Entry) o;
-            for (int i = 0; i < (int) entry.getValue(); i++) {
-                Vector2 pos;
-                Entity newEntity = null;
+
+        for (Object o : set) { // mache für jedes Objekt o in set
+            Map.Entry entry = (Map.Entry) o; // in ein besser verarbeitbares Objekt umwandeln
+            for (int i = 0; i < (int) entry.getValue(); i++) { // spawne so viele Entities wie in thingsToSpawn als value definiert
+                Vector2 pos; // erstellen eines Objekts um unsere Position abzuspeichern
+                Entity newEntity = null; // Objekt in dem die neue Entity zwischengespeichert wird
                 do {
-                    if (newEntity != null) deleteEntity(newEntity);
-                    pos = randomPos();
-                    newEntity = new Structure((Enums.ENTITYTYPE) entry.getKey(), game, pos.x, pos.y);
-                    addEntity(newEntity);
-                } while (is_borderCoordinates( (int) (pos.x + newEntity.width), (int) (pos.y - newEntity.height)));
+                    pos = randomPos(); // generiere eine Zufällige Koordinate die nicht auf dem Rand liegt
+                    newEntity = new Structure((Enums.ENTITYTYPE) entry.getKey(), game, pos); // erstelle eine Struktur von dem festgelegten typ
+                } while (is_borderCoordinates( (int) (pos.x + newEntity.width), (int) (pos.y + newEntity.height))); // checke die obere linke Ecke
+                addEntity(newEntity); // füge die Entity zur Map hinzu
             }
         }
     }

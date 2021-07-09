@@ -102,8 +102,6 @@ public class GameScreen extends ScreenAdapter {
                 if (control.isPressed(Keys.B)) game.setScreen(new TitleScreen(game));
                 if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
                 if (control.isPressed(Keys.X)) Gdx.app.exit();
-            } else if (!PopUpMessage.isEmpty()) {
-                if (control.isPressed(Keys.X)) PopUpMessage = "";
             }
         } else {
             if (!ui.pauseBtn.pressed && !chest) {
@@ -127,6 +125,8 @@ public class GameScreen extends ScreenAdapter {
                 enemy1.body.setActive(true);
                 enemy1.untilActive = 0;
             }
+
+            if (!PopUpMessage.isEmpty() && control.isPressed(Keys.X)) PopUpMessage = "";
         }
 
         ui.update();
@@ -144,34 +144,37 @@ public class GameScreen extends ScreenAdapter {
                     game.setScreen(new EndScreen(game, false));
                 }
             }
-            for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
-                Entity currentEntity = gameMap.entities.get(i);
-                if (currentEntity.getFixture() == touchedFixture) {
-                    if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins++;
-                    else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life++;
-                    if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
-                        if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
+            if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
+                for (int i = 0; i < gameMap.entities.size(); i++) { // find the entity of the touched fixture
+                    Entity currentEntity = gameMap.entities.get(i);
+                    if (currentEntity.getFixture() == touchedFixture) {
+                        if (currentEntity.type == Enums.ENTITYTYPE.COIN) game.safe.coins ++;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.CHEST) {
                             PopUpMessage = ""; //make sure its not displayed
                             paused = true;
                             chest = true;
                             break;
-                        } else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
+                        }
+                        else if (currentEntity.type == Enums.ENTITYTYPE.ROCKET) {
                             if (player.inventory.has(Enums.requiredItems[game.safe.level])) {
                                 player.inventory.remove(Enums.requiredItems[game.safe.level]);
                                 game.safe.level++;
-                                if (game.safe.level >= Enums.tasks.length - 1) {
+                                if (game.safe.level >= Enums.tasks.length-1) {
                                     game.safe.level = 1;
                                     game.setScreen(new EndScreen(game, true));
                                 }
                                 touchedFixture = null;
                             }
+                            //if you lost the game do this: else game.setScreen(new EndScreen(game, false));
                             else PopUpMessage = "You need: " + player.inventory.missing(Enums.requiredItems[game.safe.level]);
                             break;
-                        } else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
+                        }
+                        else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
+                        else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
                         else if (currentEntity.type == Enums.ENTITYTYPE.TILE) break;
+                        gameMap.deleteEntity(currentEntity); // delete the collider of the entity
+                        break;
                     }
-                    gameMap.deleteEntity(currentEntity); // delete the collider of the entity
-                    break;
                 }
             }
         }

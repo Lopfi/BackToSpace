@@ -128,11 +128,11 @@ public class DataSafe {
     public void initialize() {
         Gdx.app.log("INFO", "Save not found creating new.");
         write("Initialized", true);
-        write("music", true);
+        write("music", false);
         write("volume", .8f);
         write("coins", 0);
         write("level", 1);
-        write("showtask", false);
+        write("showtask", true);
         write("cutSzeneFinished", false);
         write("life", 2);
         write("currentMusic", standardmusicPath);

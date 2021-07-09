@@ -5,10 +5,15 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
+import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.UI.Button;
+import com.spacey.backtospace.Entity.UI.UIElement;
 import com.spacey.backtospace.GameClass;
+import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
 import com.spacey.backtospace.Helper.Enums;
 
@@ -27,13 +32,21 @@ public class TitleScreen extends ScreenAdapter {
     Button creditsBtn;
     Button quitBtn;
 
+    private float stateTime;
+
+    UIElement background;
+
     public TitleScreen(GameClass game) {
         this.game = game;
         batch = game.batch;
 
         screenMatrix = new Matrix4(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.camera);
-        int buttonX = Gdx.graphics.getWidth()/2-200;
+        int buttonX = Gdx.graphics.getWidth()/2-400;
+
+        background = new UIElement(game, game.assets.manager.get("screens/titlescreen-Sheet.png", Texture.class));
+        background.animation = Animations.createAnimation(background.texture, 2, 1, 0.5f);
+        background.width = background.width/2f;
 
         startBtn = new Button(game, control, game.assets.manager.get("ui/buttons/start.png", Texture.class), true, buttonX, 370);
         tutorialBtn = new Button(game, control, game.assets.manager.get("ui/buttons/help.png", Texture.class), true, buttonX, 290);
@@ -54,6 +67,8 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
         startBtn.update();
         tutorialBtn.update();
         settingsBtn.update();
@@ -69,10 +84,8 @@ public class TitleScreen extends ScreenAdapter {
         if (control.isPressed(Keys.S) || shopBtn.pressed) game.setScreen(new ShopScreen(game));
 
         batch.begin();
-        batch.draw(game.assets.manager.get("screens/background.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(game.assets.manager.get("screens/backtospace.png", Texture.class), Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .77f, 400, 140);
-        game.font.draw(batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .71f);
-        game.font.draw(batch, "Task:  " + Enums.tasks[game.safe.level], Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .65f);
+        background.drawAnimation(batch, stateTime);
+        game.font.draw(batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .88f, Gdx.graphics.getHeight() * .99f);
 
         batch.setProjectionMatrix(screenMatrix);
         startBtn.draw(batch);

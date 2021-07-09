@@ -105,14 +105,8 @@ public class SettingsScreen extends ScreenAdapter {
                 game.safe.save();
             }
         }
-        if (control.isPressed(Keys.R) && !musicMode) {
-            deleteMode = true;
-
-        }
-        if (control.isPressed(Keys.N) && !musicMode) {
-            deleteMode = false;
-
-        }
+        if (control.isPressed(Keys.R) && !musicMode) deleteMode = true;
+        if (control.isPressed(Keys.N) && !musicMode) deleteMode = false;
         if (control.isPressed(Keys.Y) && !musicMode && deleteMode) {
             game.safe.clear();
             Gdx.app.exit();

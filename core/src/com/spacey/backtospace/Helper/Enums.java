@@ -35,7 +35,6 @@ public class Enums {
             "Find 2x fuel canisters to fill up your rocket",
             "Move the chest to the alien or take it with your rocket ",
             "Use the key to enter and start your rocket",
-            "Say Goodbye and get back home, Safely."
     };
 
     public static ENTITYTYPE[][] requiredItems = {

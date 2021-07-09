@@ -4,6 +4,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.spacey.backtospace.GameClass;
@@ -15,11 +16,11 @@ public class Structure extends Entity{
     public TextureRegion[] region;
     private GameClass game;
 
-    public Structure(Enums.ENTITYTYPE type, GameClass game, float x, float y) {
+    public Structure(Enums.ENTITYTYPE type, GameClass game, Vector2 pos) {
         super();
         this.type = type;
         this.game = game;
-        pos = new Vector3(x, y,0);
+        this.pos = new Vector3(pos, 0);
 
         switch (type) {
             case PLATE:
@@ -40,7 +41,7 @@ public class Structure extends Entity{
                 };
                 int random = new Random().nextInt(options.length);
                 texture = initTexture(game.assets.manager.get(options[random], Texture.class));
-                body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false); //idk why u want to walk behind but ok
+                body = Box2DHelper.createBody(game.box2d.world, width, height, this.pos, BodyDef.BodyType.StaticBody, false); //idk why u want to walk behind but ok
                 break;
             case ROCKET:
                 texture = game.assets.manager.get("structures/rocket_sheet.png", Texture.class);
@@ -56,7 +57,7 @@ public class Structure extends Entity{
                     }
                 }
 
-                body = Box2DHelper.createBody(game.box2d.world, region[0].getRegionWidth(), 36, pos, BodyDef.BodyType.StaticBody, false); // make it possible to walk behind rocket
+                body = Box2DHelper.createBody(game.box2d.world, region[0].getRegionWidth(), 36, this.pos, BodyDef.BodyType.StaticBody, false); // make it possible to walk behind rocket
                 break;
             case FUEL:
                 texture = initTexture(game.assets.manager.get("structures/fuel.png", Texture.class));
@@ -75,13 +76,13 @@ public class Structure extends Entity{
                 break;
             case CHEST:
                 texture = initTexture(game.assets.manager.get("structures/chest.png", Texture.class));
-                body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, false);
+                body = Box2DHelper.createBody(game.box2d.world, width, height, this.pos, BodyDef.BodyType.StaticBody, false);
                 break;
             default:
                 break;
         }
 
-        if (type != Enums.ENTITYTYPE.ROCKET && type != Enums.ENTITYTYPE.STONE && type != Enums.ENTITYTYPE.CHEST) body = Box2DHelper.createBody(game.box2d.world, width, height, pos, BodyDef.BodyType.StaticBody, true);
+        if (type != Enums.ENTITYTYPE.ROCKET && type != Enums.ENTITYTYPE.STONE && type != Enums.ENTITYTYPE.CHEST) body = Box2DHelper.createBody(game.box2d.world, width, height, this.pos, BodyDef.BodyType.StaticBody, true);
     }
 
     @Override

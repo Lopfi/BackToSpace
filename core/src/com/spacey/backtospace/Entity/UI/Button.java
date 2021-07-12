@@ -21,21 +21,34 @@ public class Button extends UIElement {
 
     private boolean clicked;
     public boolean pressed;
-    TextButton button2;
+    TextButton scene2dButton;
+    //scene2d button (needs to be deprecated)
     public Button(GameClass game, Stage stage, String text, InputListener listen, float width, float height, float x, float y){
         super(game);
         clicked = false;
         pressed = false;
         Gdx.input.setInputProcessor(stage);
-        button2 = new TextButton(text,mySkin,"small");
-        button2.setSize(width, height);
-        button2.setPosition(x, y);
-        Label style = button2.getLabel();
+        scene2dButton = new TextButton(text,mySkin,"small");
+        scene2dButton.setSize(width, height);
+        scene2dButton.setPosition(x, y);
+        Label style = scene2dButton.getLabel();
         style.setColor(new Color(.49f, 0f, .49f, 1f));
         //style.setFontScale(style.getFontScaleX()*1.5f, style.getFontScaleY()*1.5f);
         style.sizeBy(3);
-        button2.addListener(listen);
-        stage.addActor(button2);
+        scene2dButton.addListener(listen);
+        stage.addActor(scene2dButton);
+    }
+
+    public void remove() {
+        scene2dButton.remove();
+    }
+
+    public void setLabel(Label label) {
+        scene2dButton.setLabel(label);
+    }
+
+    public Label getLabel() {
+        return scene2dButton.getLabel();
     }
 
     public Button(GameClass game, Control control, Texture texture, boolean visible, float x, float y){
@@ -46,15 +59,6 @@ public class Button extends UIElement {
         this.visible = visible;
         pos.x = x;
         pos.y = y;
-    }
-    public void remove() {
-        button2.remove();
-    }
-    public void setLabel(Label label) {
-        button2.setLabel(label);
-    }
-    public Label getLabel() {
-        return button2.getLabel();
     }
 
     public void update() {

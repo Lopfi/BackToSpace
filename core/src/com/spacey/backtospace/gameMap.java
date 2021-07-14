@@ -2,6 +2,7 @@ package com.spacey.backtospace;
 
 import java.util.*;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -77,22 +78,28 @@ public class gameMap {
         }
     }
 
+    private Integer getFinalCount(Enums.ENTITYTYPE type, int count){
+        if (0 > ( count - (int)(game.safe.getInGame().get(type)) )) return 0;
+        else return count - (int)(game.safe.getInGame().get(type));
+    }
+
     private void spawnEntities() {
         // Speichert den Typ und die Anzahl der Entities die wir spawnen wollen in einem Array das an jeder Stelle einen Key mit einer Value hat
         HashMap<Enums.ENTITYTYPE, Integer> thingsToSpawn = new HashMap<>();
 
         // thingsToSpawn mit Werten füllen
-        thingsToSpawn.put(Enums.ENTITYTYPE.FUEL, 2);
-        thingsToSpawn.put(Enums.ENTITYTYPE.SCREW, 4);
-        thingsToSpawn.put(Enums.ENTITYTYPE.SCREWDRIVER, 1);
+        Gdx.app.log("tag", ""+getFinalCount(Enums.ENTITYTYPE.FUEL, 2));
+        thingsToSpawn.put(Enums.ENTITYTYPE.FUEL, getFinalCount(Enums.ENTITYTYPE.FUEL, 2));
+        thingsToSpawn.put(Enums.ENTITYTYPE.SCREW, getFinalCount(Enums.ENTITYTYPE.SCREW, 5));
+        thingsToSpawn.put(Enums.ENTITYTYPE.SCREWDRIVER, getFinalCount(Enums.ENTITYTYPE.SCREWDRIVER, 1));
         thingsToSpawn.put(Enums.ENTITYTYPE.ROCKET, 1);
-        thingsToSpawn.put(Enums.ENTITYTYPE.KEY, 1);
+        thingsToSpawn.put(Enums.ENTITYTYPE.KEY, getFinalCount(Enums.ENTITYTYPE.KEY, 1));
         thingsToSpawn.put(Enums.ENTITYTYPE.CHEST, 1);
-        thingsToSpawn.put(Enums.ENTITYTYPE.COIN, 4);
-        thingsToSpawn.put(Enums.ENTITYTYPE.PLATE, 2);
-        thingsToSpawn.put(Enums.ENTITYTYPE.NOSECONE, 1);
-        thingsToSpawn.put(Enums.ENTITYTYPE.FIN, 1);
-        thingsToSpawn.put(Enums.ENTITYTYPE.STONE, 30);
+        thingsToSpawn.put(Enums.ENTITYTYPE.COIN, 5);
+        thingsToSpawn.put(Enums.ENTITYTYPE.PLATE, getFinalCount(Enums.ENTITYTYPE.PLATE, 3));
+        thingsToSpawn.put(Enums.ENTITYTYPE.NOSECONE, getFinalCount(Enums.ENTITYTYPE.NOSECONE, 1));
+        thingsToSpawn.put(Enums.ENTITYTYPE.FIN, getFinalCount(Enums.ENTITYTYPE.FIN, 1));
+        thingsToSpawn.put(Enums.ENTITYTYPE.STONE, getFinalCount(Enums.ENTITYTYPE.STONE, 33));
 
         // umwandeln der Hashmap in ein Set um besser durchloopen zu können
         Set<Map.Entry<Enums.ENTITYTYPE, Integer>> set = thingsToSpawn.entrySet();

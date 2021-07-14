@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -213,6 +216,37 @@ public class DataSafe {
             itemCount = 0;
         }
         chest = cobj;
+    }
+    public HashMap getInGame(){
+        HashMap<Enums.ENTITYTYPE, Integer> hmap = new HashMap<Enums.ENTITYTYPE, Integer>();
+        hmap.put(Enums.ENTITYTYPE.FUEL, 0);
+        hmap.put(Enums.ENTITYTYPE.FUEL, 0);
+        hmap.put(Enums.ENTITYTYPE.SCREW, 0);
+        hmap.put(Enums.ENTITYTYPE.SCREWDRIVER, 0);
+        hmap.put(Enums.ENTITYTYPE.KEY, 0);
+        hmap.put(Enums.ENTITYTYPE.PLATE, 0);
+        hmap.put(Enums.ENTITYTYPE.NOSECONE, 0);
+        hmap.put(Enums.ENTITYTYPE.FIN, 0);
+        hmap.put(Enums.ENTITYTYPE.STONE, 0);
+
+        for (int i = 0; i < chest.length; i++) {
+            if(chest[i][0] == null) continue;
+            //Gdx.app.log((Enums.ENTITYTYPE)(chest[i][0]) + ":", ""+(Integer)(chest[i][1]));
+            hmap.put((Enums.ENTITYTYPE)(chest[i][0]), hmap.get((Enums.ENTITYTYPE)(chest[i][0])) + (Integer)(chest[i][1]));
+        }
+
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == null) continue;
+            //Gdx.app.log(items[i].type + ":", "1");
+            hmap.put(items[i].type, hmap.get(items[i].type) + 1);
+        }
+
+        /*Iterator iterator = hmap.entrySet().iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            Gdx.app.log("=>", "key is: "+ mentry.getKey() + " & Value is: "+mentry.getValue());
+        }   THIS IS JUST TO PRINT OUT THE KEYS AND NUMBERS OF THE ALREADY SPAWNED ENTITIES*/
+        return hmap;
     }
 
 }

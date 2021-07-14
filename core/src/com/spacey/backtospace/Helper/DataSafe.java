@@ -143,6 +143,8 @@ public class DataSafe {
         write("skin2", false);
         write("playerX", 100f);
         write("playerY", 100f);
+        if (exists("invitems")) prefs.remove("invitems");
+        if (exists("chestitems")) prefs.remove("chestitems");
     }
 
     public void load() {

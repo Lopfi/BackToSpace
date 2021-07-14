@@ -1,15 +1,19 @@
 package com.spacey.backtospace.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.spacey.backtospace.Entity.Enemy;
 import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.UI.Item;
 import com.spacey.backtospace.Entity.Player;
+import com.spacey.backtospace.Entity.Structure;
 import com.spacey.backtospace.Entity.UI.UI;
 import com.spacey.backtospace.Helper.Control;
+import com.spacey.backtospace.gameMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
 
     public gameMap gameMap;
     public Player player;
-    public Enemy enemy1;
+    public Enemy[] enemys = new Enemy[5-MathUtils.random(1)];//random 4 or 5 enemys
     public UI ui;
     private Texture background;
     public boolean paused;
@@ -54,7 +58,11 @@ public class GameScreen extends ScreenAdapter {
         control = new Control(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         gameMap = new gameMap(game);
         player = new Player(new Vector3(game.safe.playerX, game.safe.playerY, 0), game);
-        enemy1 = new Enemy(new Vector3(300, 100, 0), game);
+
+        for (int i = 0; i < enemys.length; i++) { // create 4 little cute friends who are playings with your life
+            Vector2 pos = gameMap.randomPos();
+            enemys[i] = new Enemy(new Vector3(pos.x, pos.y, 0), game);
+        }
         ui = new UI(game, control, player);
         game.box2d.world.setContactListener(new ContactListener(this));
         PopUpMessage = "";
@@ -100,13 +108,15 @@ public class GameScreen extends ScreenAdapter {
             if (!chest) {
                 if (control.isPressed(Keys.SPACE)) paused = false;
                 if (control.isPressed(Keys.B)) game.setScreen(new TitleScreen(game));
-                if (control.isPressed(Keys.E)) game.setScreen(new SettingsScreen(game));
+                if (control.isPressed(Keys.S)) game.setScreen(new SettingsScreen(game));
                 if (control.isPressed(Keys.X)) Gdx.app.exit();
             }
         } else {
             if (!ui.pauseBtn.pressed && !chest) {
                 player.update(control);
-                enemy1.moveRandom();
+                for (int i = 0; i < enemys.length; i++) {
+                    enemys[i].moveRandom();
+                }
                 camera.position.lerp(player.pos, .1f);
                 camera.update();
             }
@@ -119,29 +129,53 @@ public class GameScreen extends ScreenAdapter {
                 paused = true;
             }
 
-            if (enemy1.untilActive > 1) {//Logic to make the enemy inactive shortly
-                enemy1.untilActive--;
-            } else if (enemy1.untilActive == 1) {
-                enemy1.body.setActive(true);
-                enemy1.untilActive = 0;
+            for (int i = 0; i < enemys.length; i++) {
+                if (enemys[i].untilActive > 1) {//Logic to make the enemy inactive shortly
+                    enemys[i].untilActive--;
+                } else if (enemys[i].untilActive == 1) {
+                    enemys[i].body.setActive(true);
+                    enemys[i].untilActive = 0;
+                }
             }
 
             if (!PopUpMessage.isEmpty() && control.isPressed(Keys.X)) PopUpMessage = "";
         }
 
         ui.update();
+        if (!paused && !game.gameScreen.chest){
+            if (control.isPressed(Keys.NUMPAD_1) || control.isPressed(Keys.NUM_1)) {
+                Entity newEntity = null;
+                if (player.inventory.items[0] != null) newEntity = new Structure((Enums.ENTITYTYPE) player.inventory.items[0].type, game, new Vector2(player.pos.x, player.pos.y));
+                if (player.inventory.items[0] != null) gameMap.addEntity(newEntity); // füge die Entity zur Map hinzu
+                if (player.inventory.items[0] != null) player.inventory.remove(0); //remove in inventory
+                //I know its ugly wtf
+            } else if (control.isPressed(Keys.NUMPAD_2) || control.isPressed(Keys.NUM_2)) {
+                Entity newEntity = null;
+                if (player.inventory.items[1] != null) newEntity = new Structure((Enums.ENTITYTYPE) player.inventory.items[1].type, game, new Vector2(player.pos.x, player.pos.y));
+                if (player.inventory.items[1] != null) gameMap.addEntity(newEntity); // füge die Entity zur Map hinzu
+                if (player.inventory.items[1] != null) player.inventory.remove(1); //remove in inventory
 
+            } else if (control.isPressed(Keys.NUMPAD_3) || control.isPressed(Keys.NUM_3)) {
+                Entity newEntity = null;
+                if (player.inventory.items[2] != null) newEntity = new Structure((Enums.ENTITYTYPE) player.inventory.items[2].type, game, new Vector2(player.pos.x, player.pos.y));
+                if (player.inventory.items[2] != null) gameMap.addEntity(newEntity); // füge die Entity zur Map hinzu
+                if (player.inventory.items[2] != null) player.inventory.remove(2); //remove in inventory
+
+            }   
+        }
         if (touchedFixture != null && !paused) { // check if the player is currently touching something
-            if (touchedFixture == enemy1.getFixture()) {
-                game.safe.life--;
-                enemy1.update(0, 0, false);
-                enemy1.body.setActive(false);
-                enemy1.untilActive = 70;
-                if (game.safe.life == 0) {
-                    game.safe.initialize();
-                    game.safe.load();
-                    game.safe.save();
-                    game.setScreen(new EndScreen(game, false));
+            for (int i = 0; i < enemys.length; i++) {
+                if (touchedFixture == enemys[i].getFixture()) {
+                    game.safe.life--;
+                    enemys[i].update(0, 0, false);
+                    enemys[i].body.setActive(false);
+                    enemys[i].untilActive = 70;
+                    if (game.safe.life == 0) {
+                        game.safe.initialize();
+                        game.safe.load();
+                        game.safe.save();
+                        game.setScreen(new EndScreen(game, false));
+                    }
                 }
             }
             if (control.isPressed(Keys.E) || Gdx.input.isButtonPressed(Buttons.RIGHT)) { // only continue if player is trying to pick something up
@@ -189,7 +223,9 @@ public class GameScreen extends ScreenAdapter {
         gameMap.draw(batch, (Control.debug && !paused));
         if (!paused) {
             player.drawAnimation(batch, stateTime); //idk if we want to hide the player but i think it should not animate in pause
-            enemy1.drawAnimation(batch, stateTime);
+            for (int i = 0; i < enemys.length; i++) {
+                enemys[i].drawAnimation(batch, stateTime);
+            }
         }
         gameMap.drawEntities(batch); // draw entities over player //sounds dumb but idk
 

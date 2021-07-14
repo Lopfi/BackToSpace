@@ -20,7 +20,7 @@ public class Enemy extends Entity {
     private int dirY;
 
     public Enemy(Vector3 pos, GameClass game) {
-        super(game.assets.manager.get("enemys/slimeKing.png", Texture.class));
+        super(game.assets.manager.get("enemys/slimeKing" + MathUtils.random(2)+ ".png", Texture.class));
         this.game = game;
         this.pos = pos;
         type = Enums.ENTITYTYPE.ENEMY;
@@ -58,7 +58,7 @@ public class Enemy extends Entity {
 
     private void move(float stateTime) {
         lastMove = stateTime;
-        int dir = MathUtils.random(3);
+        //int dir = MathUtils.random(3);
         body.setLinearVelocity(dirX*speed, dirY*speed);
         pos.x = body.getPosition().x - width/2;
         pos.y = body.getPosition().y - (height-4)/2;

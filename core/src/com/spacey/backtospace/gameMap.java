@@ -111,11 +111,11 @@ public class gameMap {
         }
     }
 
-    private Vector2 randomPos() {
+    public Vector2 randomPos() {
         int x, y;
         do {
             x = MathUtils.random((height * 16));
-            y = MathUtils.random((height * 16));
+            y = MathUtils.random((width * 16));
         } while(is_borderCoordinates(x, y));
         return  new Vector2(x, y);
     }
@@ -143,7 +143,7 @@ public class gameMap {
         return y < borderWidth || x < borderWidth || x >= width - borderWidth || y >= height - borderWidth;
     }
 
-    private boolean is_borderCoordinates(int x, int y) {
+    public boolean is_borderCoordinates(int x, int y) {
         int borderWidth = this.borderWidth * 16;
         return y <= borderWidth || x <= borderWidth || x >= width * 16 - borderWidth+1 || y >= height * 16- borderWidth+1;
     }

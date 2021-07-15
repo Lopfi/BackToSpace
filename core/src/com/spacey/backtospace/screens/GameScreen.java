@@ -23,7 +23,6 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Enums;
-import com.spacey.backtospace.gameMap;
 import com.spacey.backtospace.box2d.ContactListener;
 
 
@@ -170,6 +169,12 @@ public class GameScreen extends ScreenAdapter {
                     enemys[i].update(0, 0, false);
                     enemys[i].body.setActive(false);
                     enemys[i].untilActive = 70;
+                    if (MathUtils.random(100) >= 95){//5% chance
+                        gameMap.addEntity(new Structure(Enums.ENTITYTYPE.LIFE, game, new Vector2(player.pos.x, player.pos.y)));
+                        gameMap.deleteEntity(enemys[i]);
+                        Vector2 pos = gameMap.randomPos();
+                        enemys[i] = new Enemy(new Vector3(pos.x, pos.y, 0), game);
+                    }
                     if (game.safe.life == 0) {
                         game.safe.initialize();
                         game.safe.load();
@@ -203,8 +208,10 @@ public class GameScreen extends ScreenAdapter {
                             else PopUpMessage = "You need: " + player.inventory.missing(Enums.requiredItems[game.safe.level]);
                             break;
                         }
-                        else if (currentEntity.type == Enums.ENTITYTYPE.LIFE) game.safe.life ++;
-                        else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
+                        else if (currentEntity.type == Enums.ENTITYTYPE.LIFE){
+                            if (game.safe.life >= 5) game.safe.coins += 8;
+                            else game.safe.life ++;
+                        } else if (!player.inventory.add(new Item(currentEntity.type, game))) break;
                         else if (currentEntity.type == Enums.ENTITYTYPE.TILE) break;
                         gameMap.deleteEntity(currentEntity); // delete the collider of the entity
                         break;

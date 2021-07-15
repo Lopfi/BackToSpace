@@ -8,9 +8,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.spacey.backtospace.GameClass;
@@ -229,16 +226,19 @@ public class DataSafe {
         hmap.put(Enums.ENTITYTYPE.FIN, 0);
         hmap.put(Enums.ENTITYTYPE.STONE, 0);
 
-        for (int i = 0; i < chest.length; i++) {
-            if(chest[i][0] == null) continue;
-            //Gdx.app.log((Enums.ENTITYTYPE)(chest[i][0]) + ":", ""+(Integer)(chest[i][1]));
-            hmap.put((Enums.ENTITYTYPE)(chest[i][0]), hmap.get((Enums.ENTITYTYPE)(chest[i][0])) + (Integer)(chest[i][1]));
+        if (chest != null && chest.length > 0){
+            for (int i = 0; i < chest.length; i++) {
+                if(chest[i][0] == null) continue;
+                //Gdx.app.log((Enums.ENTITYTYPE)(chest[i][0]) + ":", ""+(Integer)(chest[i][1]));
+                hmap.put((Enums.ENTITYTYPE)(chest[i][0]), hmap.get((Enums.ENTITYTYPE)(chest[i][0])) + (Integer)(chest[i][1]));
+            }
         }
-
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) continue;
-            //Gdx.app.log(items[i].type + ":", "1");
-            hmap.put(items[i].type, hmap.get(items[i].type) + 1);
+        if (items != null && items.length > 0){
+            for (int i = 0; i < items.length; i++) {
+                if (items[i] == null) continue;
+                //Gdx.app.log(items[i].type + ":", "1");
+                hmap.put(items[i].type, hmap.get(items[i].type) + 1);
+            }
         }
 
         /*Iterator iterator = hmap.entrySet().iterator();

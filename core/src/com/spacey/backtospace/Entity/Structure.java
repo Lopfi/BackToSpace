@@ -74,6 +74,9 @@ public class Structure extends Entity{
             case COIN:
                 texture = initTexture(game.assets.manager.get("ui/coin.png", Texture.class));
                 break;
+            case LIFE:
+                texture = initTexture(game.assets.manager.get("ui/heart.png", Texture.class));
+                break;
             case CHEST:
                 texture = initTexture(game.assets.manager.get("structures/chest.png", Texture.class));
                 body = Box2DHelper.createBody(game.box2d.world, width, height, this.pos, BodyDef.BodyType.StaticBody, false);

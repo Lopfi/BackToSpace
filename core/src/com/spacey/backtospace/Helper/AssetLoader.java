@@ -1,4 +1,5 @@
 package com.spacey.backtospace.Helper;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,17 +13,15 @@ public class AssetLoader {
     private String extendedPath = checkPath();
 
     public String checkPath(){ // Automatic Check if the Visualstudio asset Directory exists, if not use intelliJ ones
-        if (new File(System.getProperty("user.dir") + "\\core\\assets").exists()) {
-            return "\\core\\assets";
-        } else {
-            return "";
-        }
+        if (new File(System.getProperty("user.dir") + "\\core\\assets").exists()) return "\\core\\assets";
+        else return "";
         //For VisualStudio = "\\core\\assets" 
-        //For IntelliJ = ""
+        //For IntelliJ = "" For production = "\\assets"
     }
     
     // loads all assets from the standard location
     public void loadAssets(boolean music){
+        Gdx.app.log("INFO", "Loading from:" + System.getProperty("user.dir") + extendedPath);
         File dir = new File(System.getProperty("user.dir") + extendedPath);
         loadFromDir(dir, music);
     }

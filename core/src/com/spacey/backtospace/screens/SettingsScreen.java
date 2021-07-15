@@ -144,8 +144,7 @@ public class SettingsScreen extends ScreenAdapter {
         }
         game.font.draw(batch, "LOADING MUSIC FILES..", textX, getLineY(3));
         game.font.draw(batch, "Please wait a second (" + Math.round(game.assets.manager.getProgress()*100) + "%)", textX, getLineY(5));
-        }
-        else {// TODO: ADD BUTTON SUPPORT HERE @robin i can do that if u want
+        } else {// TODO: ADD BUTTON SUPPORT HERE its no fun
         play.update();
         home.update();
     

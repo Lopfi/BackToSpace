@@ -12,7 +12,6 @@ import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Control;
 
 // clickable button with a texture
-// TODO: deprecate all scene2d buttons
 public class Button extends UIElement {
 
     Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));

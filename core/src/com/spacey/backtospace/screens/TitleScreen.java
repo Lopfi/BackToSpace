@@ -5,17 +5,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
-import com.spacey.backtospace.Entity.Entity;
 import com.spacey.backtospace.Entity.UI.Button;
 import com.spacey.backtospace.Entity.UI.UIElement;
 import com.spacey.backtospace.GameClass;
 import com.spacey.backtospace.Helper.Animations;
 import com.spacey.backtospace.Helper.Control;
-import com.spacey.backtospace.Helper.Enums;
 
 public class TitleScreen extends ScreenAdapter {
 
@@ -78,14 +74,14 @@ public class TitleScreen extends ScreenAdapter {
 
         if (control.isPressed(Keys.SPACE) || startBtn.pressed) game.setScreen(game.gameScreen);
         if (control.isPressed(Keys.C) || creditsBtn.pressed) game.setScreen(new CreditScreen(game));
-        if (control.isPressed(Keys.E) || settingsBtn.pressed) game.setScreen(new SettingsScreen(game));
+        if (control.isPressed(Keys.S) || settingsBtn.pressed) game.setScreen(new SettingsScreen(game));
         if (control.isPressed(Keys.H) || tutorialBtn.pressed) game.setScreen(new HelpScreen(game));
         if (control.isPressed(Keys.Q) || quitBtn.pressed) Gdx.app.exit();
-        if (control.isPressed(Keys.S) || shopBtn.pressed) game.setScreen(new ShopScreen(game));
+        if (control.isPressed(Keys.P) || shopBtn.pressed) game.setScreen(new ShopScreen(game));
 
         batch.begin();
         background.drawAnimation(batch, stateTime);
-        game.font.draw(batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .88f, Gdx.graphics.getHeight() * .99f);
+        game.font.draw(batch, "Level: ["+game.safe.level+"]     Coins: ["+game.safe.coins+"]", Gdx.graphics.getWidth() * .77f, Gdx.graphics.getHeight() * .88f);
 
         batch.setProjectionMatrix(screenMatrix);
         startBtn.draw(batch);

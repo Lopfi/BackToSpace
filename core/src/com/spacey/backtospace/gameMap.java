@@ -79,8 +79,7 @@ public class gameMap {
     }
 
     private Integer getFinalCount(Enums.ENTITYTYPE type, int count){
-        if (0 > ( count - (int)(game.safe.getInGame().get(type)) )) return 0;
-        else return count - (int)(game.safe.getInGame().get(type));
+        return Math.max(0, (count - (int) (game.safe.getInGame().get(type))));
     }
 
     private void spawnEntities() {
